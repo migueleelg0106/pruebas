@@ -16,7 +16,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="{x:Static language:Lang.globalTextoClasificacion}" FontFamily="Comic Sans MS" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
-                <DataGrid x:Name="TablaClasificacion" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" FontFamily="Comic Sans MS" FontSize="14" HeadersVisibility="Column" CanUserAddRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="False" Margin="0,0,0,10">
+                <DataGrid x:Name="TablaClasificacion" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" FontFamily="Comic Sans MS" FontSize="14" HeadersVisibility="Column" CanUserAddRows="False" CanUserResizeRows="False" CanUserSortColumns="False" Margin="0,0,0,10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static language:Lang.globalTextoUsuario}" Binding="{Binding Usuario}" Width="165"/>
                         <DataGridTextColumn Header="{x:Static language:Lang.clasificacionTextoTotalRondas}" Binding="{Binding RondasGanadas}" Width="*"/>

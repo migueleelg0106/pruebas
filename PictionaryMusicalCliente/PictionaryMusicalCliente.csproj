@@ -102,6 +102,7 @@
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
     <Compile Include="Servicios\DialogService.cs" />
     <Compile Include="Servicios\ServidorProxy.cs" />
+    <Compile Include="Servicios\ServidorProxy.Contracts.cs" />
     <Compile Include="Sesiones\SesionUsuarioActual.cs" />
     <Compile Include="VistaModelo\CrearCuenta.cs" />
     <Compile Include="Vista\AjustesPartida.xaml.cs">
