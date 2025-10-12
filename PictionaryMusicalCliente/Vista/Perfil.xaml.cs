@@ -97,20 +97,18 @@ namespace PictionaryMusicalCliente
 
         private void ActualizarVistaAvatares()
         {
-            imagenAvatarActual.ImageSource = AvatarImagenHelper.CrearImagen(_avatarActual);
-            textoNombreAvatarActual.Text = _avatarActual?.Nombre ?? string.Empty;
-
             ObjetoAvatar avatarNuevo = _avatarSeleccionado ?? _avatarActual;
             imagenAvatarNuevo.ImageSource = AvatarImagenHelper.CrearImagen(avatarNuevo);
             textoNombreAvatarNuevo.Text = avatarNuevo?.Nombre ?? string.Empty;
         }
+
 
         private ObjetoAvatar ObtenerAvatarPorId(int avatarId)
         {
             return _catalogoAvatares?.FirstOrDefault(a => a.Id == avatarId);
         }
 
-        private bool ValidarTexto(string valor, string descripcionCampo)
+        private static bool ValidarTexto(string valor, string descripcionCampo)
         {
             if (string.IsNullOrWhiteSpace(valor))
             {
@@ -129,7 +127,7 @@ namespace PictionaryMusicalCliente
 
         private async void BotonCambiarContraseña(object sender, RoutedEventArgs e)
         {
-            _usuarioSesion ??= SesionUsuarioActual.Instancia.Usuario;
+            _usuarioSesion = _usuarioSesion ?? SesionUsuarioActual.Instancia.Usuario;
 
             if (_usuarioSesion == null)
             {

@@ -348,12 +348,6 @@
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>SAVE CHANGES</value>
   </data>
-  <data name="perfilTextoAvatarActual" xml:space="preserve">
-    <value>Current avatar</value>
-  </data>
-  <data name="perfilTextoAvatarNuevo" xml:space="preserve">
-    <value>New avatar</value>
-  </data>
   <data name="cambiarContraseñaTextoIngresaNuevaContraseña" xml:space="preserve">
     <value>Enter your new password:
 </value>
@@ -419,6 +413,5 @@
   </data>
   <data name="alertaAviso" xml:space="preserve">
     <value>Warning</value>
-  </data>
   </data>
 </root>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="f48a5c39-4b28-4ac5-b7bd-0747eb4de687" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8086/Pictionary/Jugadores" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Jugadores.disco" MetadataType="Disco" ID="f0867cde-0608-497e-870e-15f94c8184e7" SourceId="1" SourceUrl="http://localhost:8086/Pictionary/Jugadores?disco" />
+    <MetadataFile FileName="JugadoresManejador.wsdl" MetadataType="Wsdl" ID="8a04776b-dea0-428c-a648-fc357c50aab2" SourceId="1" SourceUrl="http://localhost:8086/Pictionary/Jugadores?wsdl" />
+    <MetadataFile FileName="Jugadores.xsd" MetadataType="Schema" ID="4cf003f9-6533-49ea-b3ed-36b5702a91ef" SourceId="1" SourceUrl="http://localhost:8086/Pictionary/Jugadores?xsd=xsd1" />
+    <MetadataFile FileName="Jugadores1.xsd" MetadataType="Schema" ID="4bd0df5c-8ade-4372-b3db-4f8c05cd7ddd" SourceId="1" SourceUrl="http://localhost:8086/Pictionary/Jugadores?xsd=xsd0" />
+    <MetadataFile FileName="Jugadores2.xsd" MetadataType="Schema" ID="968c255f-ffbe-4ec6-ba3b-beda521bfbb2" SourceId="1" SourceUrl="http://localhost:8086/Pictionary/Jugadores?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

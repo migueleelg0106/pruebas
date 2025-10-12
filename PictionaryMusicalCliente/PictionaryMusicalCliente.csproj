@@ -77,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\PictionaryServidorServicioJugadores\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -297,7 +302,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Langs\Lang.en-US.resx" />
+    <EmbeddedResource Include="Properties\Langs\Lang.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Langs\Lang.es-MX.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -393,6 +400,22 @@
     <None Include="Connected Services\PictionaryServidorServicioInicioSesion\PictionaryMusicalCliente.PictionaryServidorServicioInicioSesion.ResultadoInicioSesionDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\JugadoresManejador.wsdl" />
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\ReenviarCodigoVerificacionManejador.wsdl" />
     <None Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\ReenvioCodigoVerificacion.xsd">
       <SubType>Designer</SubType>
@@ -433,6 +456,7 @@
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioCodigoVerificacion\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioCuenta\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioInicioSesion\" />
+    <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioJugadores\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\" />
   </ItemGroup>
   <ItemGroup>
@@ -546,6 +570,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\PictionaryServidorServicioClasificacion\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PictionaryServidorServicioJugadores\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
