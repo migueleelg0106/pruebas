@@ -167,7 +167,25 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("clasificacionTextoTotalPuntos", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ordenar por puntos.
+        /// </summary>
+        public static string clasificacionTextoOrdenarPuntos {
+            get {
+                return ResourceManager.GetString("clasificacionTextoOrdenarPuntos", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ordenar por rondas.
+        /// </summary>
+        public static string clasificacionTextoOrdenarRondas {
+            get {
+                return ResourceManager.GetString("clasificacionTextoOrdenarRondas", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a Total de rondas ganadas.
         /// </summary>
