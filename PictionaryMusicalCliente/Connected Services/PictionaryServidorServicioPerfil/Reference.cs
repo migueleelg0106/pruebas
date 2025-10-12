@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
+namespace PictionaryMusicalCliente.PictionaryServidorServicioPerfil {
     using System.Runtime.Serialization;
     using System;
     
@@ -32,7 +32,16 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
         private string CorreoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DiscordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FacebookField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdUsuarioField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string InstagramField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int JugadorIdField;
@@ -42,6 +51,9 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NombreUsuarioField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string XField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -93,6 +105,32 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Discord {
+            get {
+                return this.DiscordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DiscordField, value) != true)) {
+                    this.DiscordField = value;
+                    this.RaisePropertyChanged("Discord");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Facebook {
+            get {
+                return this.FacebookField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FacebookField, value) != true)) {
+                    this.FacebookField = value;
+                    this.RaisePropertyChanged("Facebook");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int IdUsuario {
             get {
                 return this.IdUsuarioField;
@@ -101,6 +139,19 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
                 if ((this.IdUsuarioField.Equals(value) != true)) {
                     this.IdUsuarioField = value;
                     this.RaisePropertyChanged("IdUsuario");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Instagram {
+            get {
+                return this.InstagramField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InstagramField, value) != true)) {
+                    this.InstagramField = value;
+                    this.RaisePropertyChanged("Instagram");
                 }
             }
         }
@@ -144,6 +195,19 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string X {
+            get {
+                return this.XField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.XField, value) != true)) {
+                    this.XField = value;
+                    this.RaisePropertyChanged("X");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -170,10 +234,22 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
         private int AvatarIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DiscordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FacebookField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string InstagramField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NombreField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int UsuarioIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string XField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -212,6 +288,45 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Discord {
+            get {
+                return this.DiscordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DiscordField, value) != true)) {
+                    this.DiscordField = value;
+                    this.RaisePropertyChanged("Discord");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Facebook {
+            get {
+                return this.FacebookField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FacebookField, value) != true)) {
+                    this.FacebookField = value;
+                    this.RaisePropertyChanged("Facebook");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Instagram {
+            get {
+                return this.InstagramField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InstagramField, value) != true)) {
+                    this.InstagramField = value;
+                    this.RaisePropertyChanged("Instagram");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Nombre {
             get {
                 return this.NombreField;
@@ -233,6 +348,19 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
                 if ((this.UsuarioIdField.Equals(value) != true)) {
                     this.UsuarioIdField = value;
                     this.RaisePropertyChanged("UsuarioId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string X {
+            get {
+                return this.XField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.XField, value) != true)) {
+                    this.XField = value;
+                    this.RaisePropertyChanged("X");
                 }
             }
         }
@@ -309,62 +437,62 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioJugadores {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PictionaryServidorServicioJugadores.IJugadoresManejador")]
-    public interface IJugadoresManejador {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PictionaryServidorServicioPerfil.IPerfilManejador")]
+    public interface IPerfilManejador {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJugadoresManejador/ObtenerPerfil", ReplyAction="http://tempuri.org/IJugadoresManejador/ObtenerPerfilResponse")]
-        PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO ObtenerPerfil(int idUsuario);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPerfilManejador/ObtenerPerfil", ReplyAction="http://tempuri.org/IPerfilManejador/ObtenerPerfilResponse")]
+        PictionaryMusicalCliente.PictionaryServidorServicioPerfil.UsuarioDTO ObtenerPerfil(int idUsuario);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJugadoresManejador/ObtenerPerfil", ReplyAction="http://tempuri.org/IJugadoresManejador/ObtenerPerfilResponse")]
-        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO> ObtenerPerfilAsync(int idUsuario);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPerfilManejador/ObtenerPerfil", ReplyAction="http://tempuri.org/IPerfilManejador/ObtenerPerfilResponse")]
+        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioPerfil.UsuarioDTO> ObtenerPerfilAsync(int idUsuario);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJugadoresManejador/ActualizarPerfil", ReplyAction="http://tempuri.org/IJugadoresManejador/ActualizarPerfilResponse")]
-        PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO ActualizarPerfil(PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ActualizarPerfilDTO solicitud);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPerfilManejador/ActualizarPerfil", ReplyAction="http://tempuri.org/IPerfilManejador/ActualizarPerfilResponse")]
+        PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ResultadoOperacionDTO ActualizarPerfil(PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ActualizarPerfilDTO solicitud);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJugadoresManejador/ActualizarPerfil", ReplyAction="http://tempuri.org/IJugadoresManejador/ActualizarPerfilResponse")]
-        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO> ActualizarPerfilAsync(PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ActualizarPerfilDTO solicitud);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPerfilManejador/ActualizarPerfil", ReplyAction="http://tempuri.org/IPerfilManejador/ActualizarPerfilResponse")]
+        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ResultadoOperacionDTO> ActualizarPerfilAsync(PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ActualizarPerfilDTO solicitud);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IJugadoresManejadorChannel : PictionaryMusicalCliente.PictionaryServidorServicioJugadores.IJugadoresManejador, System.ServiceModel.IClientChannel {
+    public interface IPerfilManejadorChannel : PictionaryMusicalCliente.PictionaryServidorServicioPerfil.IPerfilManejador, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class JugadoresManejadorClient : System.ServiceModel.ClientBase<PictionaryMusicalCliente.PictionaryServidorServicioJugadores.IJugadoresManejador>, PictionaryMusicalCliente.PictionaryServidorServicioJugadores.IJugadoresManejador {
+    public partial class PerfilManejadorClient : System.ServiceModel.ClientBase<PictionaryMusicalCliente.PictionaryServidorServicioPerfil.IPerfilManejador>, PictionaryMusicalCliente.PictionaryServidorServicioPerfil.IPerfilManejador {
         
-        public JugadoresManejadorClient() {
+        public PerfilManejadorClient() {
         }
         
-        public JugadoresManejadorClient(string endpointConfigurationName) : 
+        public PerfilManejadorClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public JugadoresManejadorClient(string endpointConfigurationName, string remoteAddress) : 
+        public PerfilManejadorClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public JugadoresManejadorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public PerfilManejadorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public JugadoresManejadorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public PerfilManejadorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO ObtenerPerfil(int idUsuario) {
+        public PictionaryMusicalCliente.PictionaryServidorServicioPerfil.UsuarioDTO ObtenerPerfil(int idUsuario) {
             return base.Channel.ObtenerPerfil(idUsuario);
         }
         
-        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO> ObtenerPerfilAsync(int idUsuario) {
+        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioPerfil.UsuarioDTO> ObtenerPerfilAsync(int idUsuario) {
             return base.Channel.ObtenerPerfilAsync(idUsuario);
         }
         
-        public PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO ActualizarPerfil(PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ActualizarPerfilDTO solicitud) {
+        public PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ResultadoOperacionDTO ActualizarPerfil(PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ActualizarPerfilDTO solicitud) {
             return base.Channel.ActualizarPerfil(solicitud);
         }
         
-        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO> ActualizarPerfilAsync(PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ActualizarPerfilDTO solicitud) {
+        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ResultadoOperacionDTO> ActualizarPerfilAsync(PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ActualizarPerfilDTO solicitud) {
             return base.Channel.ActualizarPerfilAsync(solicitud);
         }
     }

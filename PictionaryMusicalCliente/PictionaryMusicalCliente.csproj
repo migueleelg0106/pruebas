@@ -77,7 +77,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\PictionaryServidorServicioJugadores\Reference.cs">
+    <Compile Include="Connected Services\PictionaryServidorServicioPerfil\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -402,20 +402,20 @@
     <None Include="Connected Services\PictionaryServidorServicioInicioSesion\PictionaryMusicalCliente.PictionaryServidorServicioInicioSesion.ResultadoInicioSesionDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores.xsd">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\Perfil.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores1.xsd">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\Perfil1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores2.xsd">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\Perfil2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\JugadoresManejador.wsdl" />
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\PictionaryMusicalCliente.PictionaryServidorServicioJugadores.ResultadoOperacionDTO.datasource">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\PerfilManejador.wsdl" />
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\PictionaryMusicalCliente.PictionaryServidorServicioPerfil.ResultadoOperacionDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\PictionaryMusicalCliente.PictionaryServidorServicioJugadores.UsuarioDTO.datasource">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\PictionaryMusicalCliente.PictionaryServidorServicioPerfil.UsuarioDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\ReenviarCodigoVerificacionManejador.wsdl" />
@@ -458,7 +458,7 @@
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioCodigoVerificacion\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioCuenta\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioInicioSesion\" />
-    <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioJugadores\" />
+    <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioPerfil\" />
     <WCFMetadataStorage Include="Connected Services\PictionaryServidorServicioReenvioCodigoVerificacion\" />
   </ItemGroup>
   <ItemGroup>
@@ -577,16 +577,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\Jugadores.disco" />
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\Perfil.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\configuration91.svcinfo" />
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\configuration.svcinfo" />
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\PictionaryServidorServicioJugadores\Reference.svcmap">
+    <None Include="Connected Services\PictionaryServidorServicioPerfil\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
