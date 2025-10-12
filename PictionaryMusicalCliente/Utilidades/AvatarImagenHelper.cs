@@ -60,7 +60,11 @@ namespace PictionaryMusicalCliente.Utilidades
                 imagen.UriSource = origen;
                 imagen.CacheOption = BitmapCacheOption.OnLoad;
                 imagen.EndInit();
-                imagen.Freeze();
+
+                if (imagen.CanFreeze)
+                {
+                    imagen.Freeze();
+                }
                 return imagen;
             }
             catch (IOException)
