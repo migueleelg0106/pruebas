@@ -1,4 +1,5 @@
 using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -112,9 +113,21 @@ namespace PictionaryMusicalCliente
 
                 new Avisos(mensajeError).ShowDialog();
             }
-            catch (Exception)
+            catch (EndpointNotFoundException)
             {
-                new Avisos("Ocurrió un problema al validar el código. Intente más tarde.").ShowDialog();
+                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+            }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+            }
+            catch (CommunicationException)
+            {
+                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente más tarde.").ShowDialog();
+            }
+            catch (InvalidOperationException)
+            {
+                new Avisos("La solicitud de verificación no es válida. Intente nuevamente.").ShowDialog();
             }
             finally
             {
@@ -218,9 +231,21 @@ namespace PictionaryMusicalCliente
 
                 new Avisos(mensajeError).ShowDialog();
             }
-            catch (Exception)
+            catch (EndpointNotFoundException)
             {
-                new Avisos("Ocurrió un problema al reenviar el código. Intente más tarde.").ShowDialog();
+                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+            }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+            }
+            catch (CommunicationException)
+            {
+                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente más tarde.").ShowDialog();
+            }
+            catch (InvalidOperationException)
+            {
+                new Avisos("No fue posible procesar la solicitud de reenvío. Intente nuevamente.").ShowDialog();
             }
             finally
             {
