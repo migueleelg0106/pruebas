@@ -336,6 +336,12 @@
   <data name="clasificacionTextoTotalPuntos" xml:space="preserve">
     <value>Total points</value>
   </data>
+  <data name="clasificacionTextoOrdenarRondas" xml:space="preserve">
+    <value>Sort by rounds</value>
+  </data>
+  <data name="clasificacionTextoOrdenarPuntos" xml:space="preserve">
+    <value>Sort by points</value>
+  </data>
   <data name="perfilTextoMiPerfil" xml:space="preserve">
     <value>MY PROFILE</value>
   </data>

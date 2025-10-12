@@ -330,6 +330,12 @@
   <data name="clasificacionTextoTotalPuntos" xml:space="preserve">
     <value>Total de puntos</value>
   </data>
+  <data name="clasificacionTextoOrdenarRondas" xml:space="preserve">
+    <value>Ordenar por rondas</value>
+  </data>
+  <data name="clasificacionTextoOrdenarPuntos" xml:space="preserve">
+    <value>Ordenar por puntos</value>
+  </data>
   <data name="perfilTextoMiPerfil" xml:space="preserve">
     <value>MI PERFIL</value>
   </data>

@@ -2,6 +2,7 @@ using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace PictionaryMusicalCliente
     public partial class Clasificacion : Window
     {
         private readonly IDialogService _dialogService;
+        private List<EntradaClasificacion> _clasificacionOriginal;
 
         public Clasificacion()
         {
@@ -37,8 +39,8 @@ namespace PictionaryMusicalCliente
             {
                 using (var proxy = new ServidorProxy())
                 {
-                    List<EntradaClasificacion> clasificacion = await proxy.ObtenerClasificacionAsync();
-                    TablaClasificacion.ItemsSource = clasificacion;
+                    _clasificacionOriginal = await proxy.ObtenerClasificacionAsync();
+                    TablaClasificacion.ItemsSource = _clasificacionOriginal;
                 }
             }
             catch (CommunicationException ex)
@@ -53,6 +55,32 @@ namespace PictionaryMusicalCliente
             {
                 _dialogService.Aviso(ex.Message);
             }
+        }
+
+        private void OrdenarPorRondas(object sender, RoutedEventArgs e)
+        {
+            if (_clasificacionOriginal == null)
+            {
+                return;
+            }
+
+            TablaClasificacion.ItemsSource = _clasificacionOriginal
+                .OrderByDescending(entrada => entrada.RondasGanadas)
+                .ThenByDescending(entrada => entrada.Puntos)
+                .ToList();
+        }
+
+        private void OrdenarPorPuntos(object sender, RoutedEventArgs e)
+        {
+            if (_clasificacionOriginal == null)
+            {
+                return;
+            }
+
+            TablaClasificacion.ItemsSource = _clasificacionOriginal
+                .OrderByDescending(entrada => entrada.Puntos)
+                .ThenByDescending(entrada => entrada.RondasGanadas)
+                .ToList();
         }
     }
 }
