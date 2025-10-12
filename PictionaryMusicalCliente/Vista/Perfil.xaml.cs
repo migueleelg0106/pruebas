@@ -97,36 +97,10 @@ namespace PictionaryMusicalCliente
             ActualizarCampos();
         }
 
-        private async Task CargarCatalogoAvataresAsync()
+        private Task CargarCatalogoAvataresAsync()
         {
-            try
-            {
-                using (var proxy = new ServidorProxy())
-                {
-                    List<ObjetoAvatar> avatares = await proxy.ObtenerAvataresAsync();
-
-                    if (avatares != null && avatares.Count > 0)
-                    {
-                        _catalogoAvatares = avatares;
-                        return;
-                    }
-                }
-            }
-            catch (EndpointNotFoundException)
-            {
-                // Se usará el catálogo local.
-            }
-            catch (TimeoutException)
-            {
-            }
-            catch (CommunicationException)
-            {
-            }
-            catch (InvalidOperationException)
-            {
-            }
-
             _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
+            return Task.CompletedTask;
         }
 
         private void InicializarRedesSociales()
