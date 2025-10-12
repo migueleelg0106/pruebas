@@ -10,5 +10,7 @@ namespace Datos.DAL.Interfaces
     public interface IAvatarRepositorio
     {
         IEnumerable<Avatar> ObtenerAvatares();
+
+        bool ExisteAvatar(int avatarId);
     }
 }

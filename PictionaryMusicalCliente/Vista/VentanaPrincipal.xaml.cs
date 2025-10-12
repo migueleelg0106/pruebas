@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
+using PictionaryMusicalCliente.Sesiones;
 
 namespace PictionaryMusicalCliente
 {
@@ -24,6 +25,32 @@ namespace PictionaryMusicalCliente
         public VentanaPrincipal()
         {
             InitializeComponent();
+            Loaded += VentanaPrincipal_Loaded;
+            SesionUsuarioActual.Instancia.SesionActualizada += SesionActualizada;
+        }
+
+        private void VentanaPrincipal_Loaded(object sender, RoutedEventArgs e)
+        {
+            ActualizarNombreUsuario();
+        }
+
+        private void SesionActualizada(object sender, EventArgs e)
+        {
+            ActualizarNombreUsuario();
+        }
+
+        private void ActualizarNombreUsuario()
+        {
+            string nombreUsuario = SesionUsuarioActual.Instancia.Usuario?.NombreUsuario;
+            botonPerfilUsuario.Content = string.IsNullOrWhiteSpace(nombreUsuario)
+                ? LangResources.Lang.globalTextoUsuario
+                : nombreUsuario;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            SesionUsuarioActual.Instancia.SesionActualizada -= SesionActualizada;
+            base.OnClosed(e);
         }
 
         private void BotonPerfil(object sender, RoutedEventArgs e)

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Sesiones;
 
 namespace PictionaryMusicalCliente
 {
@@ -84,7 +85,9 @@ namespace PictionaryMusicalCliente
 
                     if (resultado.InicioSesionExitoso)
                     {
+                        SesionUsuarioActual.Instancia.EstablecerUsuario(resultado.Usuario);
                         VentanaPrincipal ventana = new VentanaPrincipal();
+                        Application.Current.MainWindow = ventana;
                         ventana.Show();
                         this.Close();
                         return;
@@ -101,13 +104,17 @@ namespace PictionaryMusicalCliente
             {
                 new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
             }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+            }
             catch (CommunicationException)
             {
                 new Avisos("Ocurrió un problema de comunicación con el servidor. Intente de nuevo.").ShowDialog();
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                new Avisos("Ocurrió un error inesperado al iniciar sesión.").ShowDialog();
+                new Avisos("No fue posible preparar la solicitud de inicio de sesión.").ShowDialog();
             }
             finally
             {
@@ -244,13 +251,17 @@ namespace PictionaryMusicalCliente
             {
                 new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
             }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+            }
             catch (CommunicationException)
             {
                 new Avisos("Ocurrió un problema de comunicación con el servidor. Intente de nuevo.").ShowDialog();
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                new Avisos("Ocurrió un error al intentar recuperar la contraseña.").ShowDialog();
+                new Avisos("No fue posible procesar la solicitud de recuperación. Intente de nuevo.").ShowDialog();
             }
             finally
             {

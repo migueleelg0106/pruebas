@@ -1,12 +1,7 @@
-﻿using Datos.Modelo;
 using log4net;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HostServidor
 {
@@ -27,46 +22,86 @@ namespace HostServidor
             using (var hostAvatares = new ServiceHost(typeof(Servicios.Servicios.CatalogoAvatares)))
             using (var hostInicioSesion = new ServiceHost(typeof(Servicios.Servicios.InicioSesionManejador)))
             using (var hostCambioContrasena = new ServiceHost(typeof(Servicios.Servicios.CambiarContrasenaManejador)))
+            using (var hostClasificacion = new ServiceHost(typeof(Servicios.Servicios.ClasificacionManejador)))
+            using (var hostJugadores = new ServiceHost(typeof(Servicios.Servicios.JugadoresManejador)))
             {
                 try
                 {
                     hostCuenta.Open();
                     Bitacora.Info("Servicio Cuenta iniciado.");
                     foreach (var ep in hostCuenta.Description.Endpoints)
+                    {
                         Bitacora.Info($"Cuenta -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     hostCodigo.Open();
                     Bitacora.Info("Servicio Código de Verificación iniciado.");
                     foreach (var ep in hostCodigo.Description.Endpoints)
+                    {
                         Bitacora.Info($"Código -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     hostReenvio.Open();
                     Bitacora.Info("Servicio Reenvío Código iniciado.");
                     foreach (var ep in hostReenvio.Description.Endpoints)
+                    {
                         Bitacora.Info($"Reenvío -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     hostAvatares.Open();
                     Bitacora.Info("Servicio Avatares iniciado.");
                     foreach (var ep in hostAvatares.Description.Endpoints)
+                    {
                         Bitacora.Info($"Avatares -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     hostInicioSesion.Open();
                     Bitacora.Info("Servicio Inicio sesion.");
                     foreach (var ep in hostInicioSesion.Description.Endpoints)
-                        Bitacora.Info($"Avatares -> {ep.Address} ({ep.Binding.Name})");
+                    {
+                        Bitacora.Info($"InicioSesion -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     hostCambioContrasena.Open();
                     Bitacora.Info("Servicio Cambio contraseña iniciado.");
                     foreach (var ep in hostCambioContrasena.Description.Endpoints)
+                    {
                         Bitacora.Info($"CambioContraseña -> {ep.Address} ({ep.Binding.Name})");
+                    }
+
+                    hostClasificacion.Open();
+                    Bitacora.Info("Servicio Clasificación iniciado.");
+                    foreach (var ep in hostClasificacion.Description.Endpoints)
+                    {
+                        Bitacora.Info($"Clasificacion -> {ep.Address} ({ep.Binding.Name})");
+                    }
+
+                    hostJugadores.Open();
+                    Bitacora.Info("Servicio Jugadores iniciado.");
+                    foreach (var ep in hostJugadores.Description.Endpoints)
+                    {
+                        Bitacora.Info($"Jugadores -> {ep.Address} ({ep.Binding.Name})");
+                    }
 
                     Console.WriteLine("Servicios arriba. ENTER para salir.");
                     Console.ReadLine();
                 }
-                catch (AddressAccessDeniedException ex) { Bitacora.Error("Permisos insuficientes para abrir los puertos.", ex); }
-                catch (AddressAlreadyInUseException ex) { Bitacora.Error("Puerto en uso.", ex); }
-                catch (TimeoutException ex) { Bitacora.Error("Timeout al iniciar el host.", ex); }
-                catch (CommunicationException ex) { Bitacora.Error("Error de comunicación al iniciar el host.", ex); }
+                catch (AddressAccessDeniedException ex)
+                {
+                    Bitacora.Error("Permisos insuficientes para abrir los puertos.", ex);
+                }
+                catch (AddressAlreadyInUseException ex)
+                {
+                    Bitacora.Error("Puerto en uso.", ex);
+                }
+                catch (TimeoutException ex)
+                {
+                    Bitacora.Error("Timeout al iniciar el host.", ex);
+                }
+                catch (CommunicationException ex)
+                {
+                    Bitacora.Error("Error de comunicación al iniciar el host.", ex);
+                }
                 finally
                 {
                     CerrarFormaSegura(hostAvatares);
@@ -75,6 +110,8 @@ namespace HostServidor
                     CerrarFormaSegura(hostCuenta);
                     CerrarFormaSegura(hostInicioSesion);
                     CerrarFormaSegura(hostCambioContrasena);
+                    CerrarFormaSegura(hostClasificacion);
+                    CerrarFormaSegura(hostJugadores);
                     Bitacora.Info("Host detenido.");
                 }
             }
@@ -82,15 +119,26 @@ namespace HostServidor
 
         private static void CerrarFormaSegura(ServiceHost host)
         {
-            if (host == null) return;
+            if (host == null)
+            {
+                return;
+            }
+
             try
             {
                 if (host.State != CommunicationState.Closed)
+                {
                     host.Close();
+                }
             }
-            catch (Exception ex)
+            catch (CommunicationException ex)
             {
-                Bitacora.Warn("Cierre no limpio; abortando.", ex);
+                Bitacora.Warn("Cierre no limpio por error de comunicación; abortando.", ex);
+                host.Abort();
+            }
+            catch (TimeoutException ex)
+            {
+                Bitacora.Warn("Cierre no limpio por tiempo de espera; abortando.", ex);
                 host.Abort();
             }
         }

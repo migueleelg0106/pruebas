@@ -345,10 +345,16 @@ aciertan o cuando se acaba el tiempo.
     <value>Agrega alguna red social:</value>
   </data>
   <data name="perfilTextoCambiarContraseña" xml:space="preserve">
-    <value>CAMBIARCONTRASEÑA</value>
+    <value>CAMBIAR CONTRASEÑA</value>
   </data>
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>GUARDAR CAMBIOS</value>
+  </data>
+  <data name="perfilTextoAvatarActual" xml:space="preserve">
+    <value>Avatar actual</value>
+  </data>
+  <data name="perfilTextoAvatarNuevo" xml:space="preserve">
+    <value>Nuevo avatar</value>
   </data>
   <data name="cambiarContraseñaTextoIngresaNuevaContraseña" xml:space="preserve">
     <value>Ingrese la nueva contraseña: 
@@ -415,5 +421,6 @@ aciertan o cuando se acaba el tiempo.
   </data>
   <data name="alertaAviso" xml:space="preserve">
     <value>Aviso</value>
+  </data>
   </data>
 </root>

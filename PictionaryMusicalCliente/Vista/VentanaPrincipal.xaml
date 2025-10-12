@@ -33,7 +33,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Perfil de Usuario -->
-            <Button Content="{x:Static language:Lang.globalTextoUsuario}" Margin="10,28,820,28" Padding="5" Background="White" BorderBrush="Black" FontFamily="Comic Sans MS" Click="BotonPerfil" Grid.Column="1"/>
+            <Button x:Name="botonPerfilUsuario" Content="{x:Static language:Lang.globalTextoUsuario}" Margin="10,28,820,28" Padding="5" Background="White" BorderBrush="Black" FontFamily="Comic Sans MS" Click="BotonPerfil" Grid.Column="1"/>
 
             <!-- Título Principal -->
             <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="77" Width="198">

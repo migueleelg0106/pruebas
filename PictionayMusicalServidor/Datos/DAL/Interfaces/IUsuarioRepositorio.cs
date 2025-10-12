@@ -5,5 +5,7 @@ namespace Datos.DAL.Interfaces
     public interface IUsuarioRepositorio
     {
         Usuario ObtenerUsuarioPorIdentificador(string identificador);
+
+        Usuario ObtenerUsuarioPorId(int idUsuario);
     }
 }

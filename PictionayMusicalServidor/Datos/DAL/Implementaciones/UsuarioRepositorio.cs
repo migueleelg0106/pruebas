@@ -42,5 +42,20 @@ namespace Datos.DAL.Implementaciones
                 return null;
             }
         }
+
+        public Usuario ObtenerUsuarioPorId(int idUsuario)
+        {
+            if (idUsuario <= 0)
+            {
+                return null;
+            }
+
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                return contexto.Usuario
+                    .Include(u => u.Jugador)
+                    .FirstOrDefault(u => u.idUsuario == idUsuario);
+            }
+        }
     }
 }
