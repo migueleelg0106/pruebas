@@ -345,6 +345,11 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirUsuario(resultadoDto);
             }
+            catch (FaultException<DetalleErrorServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
             catch (CommunicationException)
             {
                 comunicacion?.Abort();
@@ -384,6 +389,11 @@ namespace PictionaryMusicalCliente.Servicios
                 ResultadoOperacionDto resultadoDto = await Task.Run(() => canal.ActualizarPerfil(dto));
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
+            }
+            catch (FaultException<DetalleErrorServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
             }
             catch (CommunicationException)
             {
