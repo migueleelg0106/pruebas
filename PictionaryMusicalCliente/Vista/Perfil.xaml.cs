@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using System.Text;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
@@ -99,22 +101,29 @@ namespace PictionaryMusicalCliente
 
         private async Task CargarCatalogoAvataresAsync()
         {
+            IReadOnlyList<ObjetoAvatar> avataresLocales = CatalogoAvataresLocales.ObtenerAvatares();
+
             try
             {
                 using (var proxy = new ServidorProxy())
                 {
-                    List<ObjetoAvatar> avatares = await proxy.ObtenerAvataresAsync();
+                    List<ObjetoAvatar> avataresServidor = await proxy.ObtenerAvataresAsync();
 
-                    if (avatares != null && avatares.Count > 0)
+                    if (avataresServidor != null && avataresServidor.Count > 0)
                     {
-                        _catalogoAvatares = avatares;
-                        return;
+                        IReadOnlyList<ObjetoAvatar> avataresSincronizados = SincronizarCatalogoLocal(avataresServidor, avataresLocales);
+
+                        if (avataresSincronizados != null && avataresSincronizados.Count > 0)
+                        {
+                            _catalogoAvatares = avataresSincronizados;
+                            return;
+                        }
                     }
                 }
             }
             catch (EndpointNotFoundException)
             {
-                // Se usará el catálogo local.
+                // Se utilizará el catálogo local.
             }
             catch (TimeoutException)
             {
@@ -126,7 +135,150 @@ namespace PictionaryMusicalCliente
             {
             }
 
-            _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
+            _catalogoAvatares = avataresLocales;
+        }
+
+        private static IReadOnlyList<ObjetoAvatar> SincronizarCatalogoLocal(
+            IEnumerable<ObjetoAvatar> avataresServidor,
+            IReadOnlyList<ObjetoAvatar> avataresLocales)
+        {
+            if (avataresServidor == null)
+            {
+                return avataresLocales;
+            }
+
+            if (avataresLocales == null || avataresLocales.Count == 0)
+            {
+                return avataresServidor.ToList();
+            }
+
+            var localesValidos = avataresLocales
+                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+                .ToList();
+
+            if (localesValidos.Count == 0)
+            {
+                return avataresLocales;
+            }
+
+            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado = localesValidos
+                .Where(avatar => !string.IsNullOrWhiteSpace(avatar.Nombre))
+                .GroupBy(avatar => NormalizarNombre(avatar.Nombre))
+                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
+
+            Dictionary<string, ObjetoAvatar> localesPorRuta = localesValidos
+                .GroupBy(avatar => NormalizarRuta(avatar.RutaRelativa))
+                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
+
+            var asignados = new HashSet<ObjetoAvatar>();
+            var resultado = new List<ObjetoAvatar>();
+
+            foreach (ObjetoAvatar avatarServidor in avataresServidor)
+            {
+                if (avatarServidor == null)
+                {
+                    continue;
+                }
+
+                ObjetoAvatar avatarLocal = BuscarCoincidenciaLocal(avatarServidor, localesValidos, localesPorNombreNormalizado, localesPorRuta, asignados);
+
+                if (avatarLocal == null)
+                {
+                    continue;
+                }
+
+                asignados.Add(avatarLocal);
+
+                resultado.Add(new ObjetoAvatar
+                {
+                    Id = avatarServidor.Id,
+                    Nombre = string.IsNullOrWhiteSpace(avatarServidor.Nombre) ? avatarLocal.Nombre : avatarServidor.Nombre,
+                    RutaRelativa = avatarLocal.RutaRelativa,
+                    ImagenUriAbsoluta = null
+                });
+            }
+
+            return resultado.Count > 0 ? resultado : avataresLocales;
+        }
+
+        private static ObjetoAvatar BuscarCoincidenciaLocal(
+            ObjetoAvatar avatarServidor,
+            List<ObjetoAvatar> localesValidos,
+            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado,
+            Dictionary<string, ObjetoAvatar> localesPorRuta,
+            HashSet<ObjetoAvatar> asignados)
+        {
+            ObjetoAvatar avatarLocal = null;
+
+            if (avatarServidor.Id > 0)
+            {
+                avatarLocal = localesValidos
+                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id && !asignados.Contains(avatar));
+            }
+
+            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.Nombre))
+            {
+                string nombreNormalizado = NormalizarNombre(avatarServidor.Nombre);
+
+                if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out ObjetoAvatar coincidenciaNombre)
+                    && !asignados.Contains(coincidenciaNombre))
+                {
+                    avatarLocal = coincidenciaNombre;
+                }
+            }
+
+            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.RutaRelativa))
+            {
+                string rutaNormalizada = NormalizarRuta(avatarServidor.RutaRelativa);
+
+                if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
+                    && !asignados.Contains(coincidenciaRuta))
+                {
+                    avatarLocal = coincidenciaRuta;
+                }
+            }
+
+            if (avatarLocal == null)
+            {
+                avatarLocal = localesValidos.FirstOrDefault(avatar => !asignados.Contains(avatar));
+            }
+
+            return avatarLocal;
+        }
+
+        private static string NormalizarNombre(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                return string.Empty;
+            }
+
+            string descompuesto = nombre.Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder(descompuesto.Length);
+
+            foreach (char caracter in descompuesto)
+            {
+                UnicodeCategory categoria = CharUnicodeInfo.GetUnicodeCategory(caracter);
+
+                if (categoria == UnicodeCategory.NonSpacingMark)
+                {
+                    continue;
+                }
+
+                if (char.IsLetterOrDigit(caracter))
+                {
+                    builder.Append(char.ToLowerInvariant(caracter));
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private static string NormalizarRuta(string ruta)
+        {
+            return string.IsNullOrWhiteSpace(ruta)
+                ? string.Empty
+                : ruta.Trim().Replace("\\", "/").ToLowerInvariant();
         }
 
         private void InicializarRedesSociales()
