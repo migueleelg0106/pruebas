@@ -97,7 +97,7 @@ namespace PictionaryMusicalCliente
             ActualizarCampos();
         }
 
-        private Task CargarCatalogoAvataresAsync()
+        private async Task CargarCatalogoAvataresAsync()
         {
             IReadOnlyList<ObjetoAvatar> avataresLocales = CatalogoAvataresLocales.ObtenerAvatares();
 
