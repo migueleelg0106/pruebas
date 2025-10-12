@@ -47,14 +47,24 @@ namespace PictionaryMusicalCliente.Modelo
                 return "@";
             }
 
-            string texto = valor.Trim();
+            string texto = valor.TrimStart();
 
-            if (!texto.StartsWith("@", StringComparison.Ordinal))
+            if (texto.Length == 0)
             {
-                texto = "@" + texto.TrimStart('@');
+                return "@";
             }
 
-            return texto.Length == 0 ? "@" : texto;
+            int indice = 0;
+
+            while (indice < texto.Length && texto[indice] == '@')
+            {
+                indice++;
+            }
+
+            string resto = texto.Substring(indice);
+            string normalizado = "@" + resto;
+
+            return normalizado.Length == 0 ? "@" : normalizado;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
