@@ -13,17 +13,20 @@ namespace PictionaryMusicalCliente
 {
     public partial class SeleccionarAvatar : Window
     {
+        private readonly IReadOnlyCollection<ObjetoAvatar> _avataresDisponibles;
+
         public ObjetoAvatar AvatarSeleccionado { get; private set; }
         public ImageSource AvatarSeleccionadoImagen { get; private set; }
 
-        public SeleccionarAvatar()
+        public SeleccionarAvatar(IReadOnlyCollection<ObjetoAvatar> avatares = null)
         {
             InitializeComponent();
+            _avataresDisponibles = avatares;
             Loaded += SeleccionarAvatar_Loaded;
         }
 
         private void SeleccionarAvatar_Loaded(object sender, RoutedEventArgs e) =>
-            MostrarAvataresEnLista(CatalogoAvataresLocales.ObtenerAvatares());
+            MostrarAvataresEnLista(_avataresDisponibles ?? CatalogoAvataresLocales.ObtenerAvatares());
 
         private void MostrarAvataresEnLista(IReadOnlyCollection<ObjetoAvatar> avatares)
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Controls.Primitives;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
@@ -22,15 +24,19 @@ namespace PictionaryMusicalCliente
     {
         private const int LongitudMaximaNombre = 50;
 
-        private readonly IReadOnlyList<ObjetoAvatar> _catalogoAvatares;
+        private IReadOnlyList<ObjetoAvatar> _catalogoAvatares;
         private UsuarioAutenticado _usuarioSesion;
         private ObjetoAvatar _avatarActual;
         private ObjetoAvatar _avatarSeleccionado;
 
+        public ObservableCollection<RedSocialPerfil> RedesSociales { get; } = new ObservableCollection<RedSocialPerfil>();
+
         public Perfil()
         {
             InitializeComponent();
+            DataContext = this;
             _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
+            InicializarRedesSociales();
         }
 
         private async void Perfil_Loaded(object sender, RoutedEventArgs e)
@@ -40,6 +46,8 @@ namespace PictionaryMusicalCliente
 
         private async Task CargarPerfilAsync()
         {
+            await CargarCatalogoAvataresAsync();
+
             _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
 
             if (_usuarioSesion == null)
@@ -80,9 +88,62 @@ namespace PictionaryMusicalCliente
             }
 
             _avatarActual = ObtenerAvatarPorId(_usuarioSesion.AvatarId);
+            if (_avatarActual == null)
+            {
+                _avatarActual = _catalogoAvatares?.FirstOrDefault();
+            }
             _avatarSeleccionado = _avatarActual;
 
             ActualizarCampos();
+        }
+
+        private async Task CargarCatalogoAvataresAsync()
+        {
+            try
+            {
+                using (var proxy = new ServidorProxy())
+                {
+                    List<ObjetoAvatar> avatares = await proxy.ObtenerAvataresAsync();
+
+                    if (avatares != null && avatares.Count > 0)
+                    {
+                        _catalogoAvatares = avatares;
+                        return;
+                    }
+                }
+            }
+            catch (EndpointNotFoundException)
+            {
+                // Se usará el catálogo local.
+            }
+            catch (TimeoutException)
+            {
+            }
+            catch (CommunicationException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            }
+
+            _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
+        }
+
+        private void InicializarRedesSociales()
+        {
+            RedesSociales.Clear();
+
+            IReadOnlyList<RedSocialPerfil> redes = CatalogoImagenesPerfilLocales.ObtenerRedesSociales();
+
+            if (redes == null || redes.Count == 0)
+            {
+                return;
+            }
+
+            foreach (RedSocialPerfil red in redes)
+            {
+                RedesSociales.Add(red);
+            }
         }
 
         private void ActualizarCampos()
@@ -97,9 +158,19 @@ namespace PictionaryMusicalCliente
 
         private void ActualizarVistaAvatares()
         {
-            ObjetoAvatar avatarNuevo = _avatarSeleccionado ?? _avatarActual;
+            ObjetoAvatar avatarNuevo = _avatarSeleccionado ?? _avatarActual ?? _catalogoAvatares?.FirstOrDefault();
+
+            if (avatarNuevo == null)
+            {
+                imagenAvatarNuevo.ImageSource = null;
+                textoNombreAvatarNuevo.Text = string.Empty;
+                textoNombreAvatarActual.Text = string.Empty;
+                return;
+            }
+
             imagenAvatarNuevo.ImageSource = AvatarImagenHelper.CrearImagen(avatarNuevo);
-            textoNombreAvatarNuevo.Text = avatarNuevo?.Nombre ?? string.Empty;
+            textoNombreAvatarNuevo.Text = avatarNuevo.Nombre ?? string.Empty;
+            textoNombreAvatarActual.Text = _avatarActual?.Nombre ?? textoNombreAvatarNuevo.Text;
         }
 
 
@@ -227,6 +298,8 @@ namespace PictionaryMusicalCliente
                         return resultadoReenvio;
                     }
 
+                    Mouse.OverrideCursor = null;
+
                     var ventanaVerificacion = new VerificarCodigo(
                         tokenRecuperacion,
                         correoDestino,
@@ -240,6 +313,8 @@ namespace PictionaryMusicalCliente
                     {
                         return;
                     }
+
+                    Mouse.OverrideCursor = null;
 
                     var ventanaCambio = new CambioContrasena(tokenRecuperacion, identificador);
                     ventanaCambio.ShowDialog();
@@ -387,7 +462,8 @@ namespace PictionaryMusicalCliente
 
         private void EtiquetaSeleccionarAvatar(object sender, MouseButtonEventArgs e)
         {
-            var ventanaSeleccion = new SeleccionarAvatar();
+            IReadOnlyCollection<ObjetoAvatar> catalogo = _catalogoAvatares ?? CatalogoAvataresLocales.ObtenerAvatares();
+            var ventanaSeleccion = new SeleccionarAvatar(catalogo);
             bool? resultado = ventanaSeleccion.ShowDialog();
 
             if (resultado == true && ventanaSeleccion.AvatarSeleccionado != null)
@@ -396,7 +472,49 @@ namespace PictionaryMusicalCliente
                 imagenAvatarNuevo.ImageSource = ventanaSeleccion.AvatarSeleccionadoImagen
                     ?? AvatarImagenHelper.CrearImagen(_avatarSeleccionado);
                 textoNombreAvatarNuevo.Text = _avatarSeleccionado?.Nombre ?? string.Empty;
+                textoNombreAvatarActual.Text = _avatarActual?.Nombre ?? string.Empty;
             }
+        }
+
+        private void PopupRedSocial_Opened(object sender, EventArgs e)
+        {
+            if (sender is Popup popup)
+            {
+                TextBox campo = ObtenerTextBoxDesdePopup(popup);
+
+                if (campo != null)
+                {
+                    campo.Focus();
+                    campo.CaretIndex = campo.Text?.Length ?? 0;
+                }
+            }
+        }
+
+        private void RedSocialTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (sender is TextBox texto && texto.Tag is ToggleButton toggle)
+            {
+                if (e.Key == Key.Enter)
+                {
+                    toggle.IsChecked = false;
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Escape)
+                {
+                    toggle.IsChecked = false;
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private static TextBox ObtenerTextBoxDesdePopup(Popup popup)
+        {
+            if (popup?.Child is Border borde && borde.Child is TextBox texto)
+            {
+                return texto;
+            }
+
+            return null;
         }
     }
 }
