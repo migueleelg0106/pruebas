@@ -23,13 +23,11 @@ namespace PictionaryMusicalCliente.Servicios
         private readonly ChannelFactory<IInicioSesionManejadorContract> _inicioSesionFactory;
         private readonly ChannelFactory<ICambiarContrasenaManejadorContract> _cambiarContrasenaFactory;
         private readonly ChannelFactory<IClasificacionManejadorContract> _clasificacionFactory;
-        private readonly ChannelFactory<IJugadoresManejadorContract> _jugadoresFactory;
 
         private const string BaseImagenesRemotas = "http://localhost:8086/";
         private const string InicioSesionEndpoint = "http://localhost:8086/Pictionary/InicioSesion/InicioSesion";
         private const string CambiarContrasenaEndpoint = "http://localhost:8086/Pictionary/CambiarContrasena/CambiarContrasena";
         private const string ClasificacionEndpoint = "http://localhost:8086/Pictionary/Clasificacion/Clasificacion";
-        private const string JugadoresEndpoint = "http://localhost:8086/Pictionary/Jugadores/Jugadores";
 
         public ServidorProxy()
         {
@@ -40,7 +38,6 @@ namespace PictionaryMusicalCliente.Servicios
             _inicioSesionFactory = new ChannelFactory<IInicioSesionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(InicioSesionEndpoint));
             _cambiarContrasenaFactory = new ChannelFactory<ICambiarContrasenaManejadorContract>(new BasicHttpBinding(), new EndpointAddress(CambiarContrasenaEndpoint));
             _clasificacionFactory = new ChannelFactory<IClasificacionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(ClasificacionEndpoint));
-            _jugadoresFactory = new ChannelFactory<IJugadoresManejadorContract>(new BasicHttpBinding(), new EndpointAddress(JugadoresEndpoint));
         }
 
         public async Task<List<ObjetoAvatar>> ObtenerAvataresAsync()
@@ -403,6 +400,39 @@ namespace PictionaryMusicalCliente.Servicios
             }
         }
 
+        public async Task<List<EntradaClasificacion>> ObtenerClasificacionAsync()
+        {
+            if (_clasificacionFactory == null)
+            {
+                throw new InvalidOperationException("El canal de clasificación no está disponible.");
+            }
+
+            IClasificacionManejadorContract canal = _clasificacionFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ClasificacionUsuarioDto[] resultadoDto = await Task.Run(() => canal.ObtenerTopJugadores());
+                comunicacion?.Close();
+                return ConvertirClasificacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
         private static string ObtenerRutaAbsoluta(string rutaRelativa)
         {
             if (string.IsNullOrWhiteSpace(rutaRelativa))
@@ -435,7 +465,6 @@ namespace PictionaryMusicalCliente.Servicios
             CerrarCliente(_inicioSesionFactory);
             CerrarCliente(_cambiarContrasenaFactory);
             CerrarCliente(_clasificacionFactory);
-            CerrarCliente(_jugadoresFactory);
         }
 
         private static SrvCod.NuevaCuentaDTO CrearNuevaCuentaDtoVerificacion(SolicitudRegistrarUsuario solicitud)
@@ -840,32 +869,6 @@ namespace PictionaryMusicalCliente.Servicios
 
             [DataMember]
             public string Mensaje { get; set; }
-        }
-
-        [ServiceContract(Name = "IJugadoresManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IJugadoresManejador")]
-        private interface IJugadoresManejadorContract
-        {
-            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ObtenerPerfilResponse")]
-            UsuarioDto ObtenerPerfil(int idUsuario);
-
-            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ActualizarPerfilResponse")]
-            ResultadoOperacionDto ActualizarPerfil(ActualizarPerfilDto solicitud);
-        }
-
-        [DataContract(Name = "ActualizarPerfilDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class ActualizarPerfilDto
-        {
-            [DataMember]
-            public int UsuarioId { get; set; }
-
-            [DataMember]
-            public string Nombre { get; set; }
-
-            [DataMember]
-            public string Apellido { get; set; }
-
-            [DataMember]
-            public int AvatarId { get; set; }
         }
 
         [ServiceContract(Name = "IClasificacionManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IClasificacionManejador")]

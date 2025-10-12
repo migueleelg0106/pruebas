@@ -28,7 +28,6 @@ namespace HostServidor
             using (var hostInicioSesion = new ServiceHost(typeof(Servicios.Servicios.InicioSesionManejador)))
             using (var hostCambioContrasena = new ServiceHost(typeof(Servicios.Servicios.CambiarContrasenaManejador)))
             using (var hostClasificacion = new ServiceHost(typeof(Servicios.Servicios.ClasificacionManejador)))
-            using (var hostJugadores = new ServiceHost(typeof(Servicios.Servicios.JugadoresManejador)))
             {
                 try
                 {
@@ -67,11 +66,6 @@ namespace HostServidor
                     foreach (var ep in hostClasificacion.Description.Endpoints)
                         Bitacora.Info($"Clasificacion -> {ep.Address} ({ep.Binding.Name})");
 
-                    hostJugadores.Open();
-                    Bitacora.Info("Servicio Jugadores iniciado.");
-                    foreach (var ep in hostJugadores.Description.Endpoints)
-                        Bitacora.Info($"Jugadores -> {ep.Address} ({ep.Binding.Name})");
-
                     Console.WriteLine("Servicios arriba. ENTER para salir.");
                     Console.ReadLine();
                 }
@@ -100,7 +94,6 @@ namespace HostServidor
                     CerrarFormaSegura(hostInicioSesion);
                     CerrarFormaSegura(hostCambioContrasena);
                     CerrarFormaSegura(hostClasificacion);
-                    CerrarFormaSegura(hostJugadores);
                     Bitacora.Info("Host detenido.");
                 }
             }
