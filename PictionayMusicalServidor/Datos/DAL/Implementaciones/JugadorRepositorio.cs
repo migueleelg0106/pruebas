@@ -19,11 +19,21 @@ namespace Datos.DAL.Implementaciones
             }
         }
 
-        public bool ActualizarPerfil(int jugadorId, string nombre, string apellido, int avatarId)
+        public bool ActualizarPerfil(
+            int jugadorId,
+            string nombre,
+            string apellido,
+            int avatarId,
+            string instagram,
+            string facebook,
+            string x,
+            string discord)
         {
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
-                var jugador = contexto.Jugador.FirstOrDefault(j => j.idJugador == jugadorId);
+                var jugador = contexto.Jugador
+                    .Include(j => j.RedSocial)
+                    .FirstOrDefault(j => j.idJugador == jugadorId);
 
                 if (jugador == null)
                 {
@@ -47,6 +57,43 @@ namespace Datos.DAL.Implementaciones
                 if (jugador.Avatar_idAvatar != avatarId)
                 {
                     jugador.Avatar_idAvatar = avatarId;
+                    requiereActualizacion = true;
+                }
+
+                RedSocial redSocial = jugador.RedSocial?.FirstOrDefault();
+
+                if (redSocial == null)
+                {
+                    redSocial = new RedSocial
+                    {
+                        Jugador_idJugador = jugadorId,
+                        Jugador = jugador
+                    };
+                    contexto.RedSocial.Add(redSocial);
+                    requiereActualizacion = true;
+                }
+
+                if (!string.Equals(redSocial.Instagram, instagram, StringComparison.Ordinal))
+                {
+                    redSocial.Instagram = instagram;
+                    requiereActualizacion = true;
+                }
+
+                if (!string.Equals(redSocial.facebook, facebook, StringComparison.Ordinal))
+                {
+                    redSocial.facebook = facebook;
+                    requiereActualizacion = true;
+                }
+
+                if (!string.Equals(redSocial.x, x, StringComparison.Ordinal))
+                {
+                    redSocial.x = x;
+                    requiereActualizacion = true;
+                }
+
+                if (!string.Equals(redSocial.discord, discord, StringComparison.Ordinal))
+                {
+                    redSocial.discord = discord;
                     requiereActualizacion = true;
                 }
 

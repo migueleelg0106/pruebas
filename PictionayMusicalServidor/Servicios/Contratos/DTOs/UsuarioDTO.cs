@@ -25,5 +25,17 @@ namespace Servicios.Contratos.DTOs
 
         [DataMember]
         public int AvatarId { get; set; }
+
+        [DataMember]
+        public string Instagram { get; set; }
+
+        [DataMember]
+        public string Facebook { get; set; }
+
+        [DataMember]
+        public string X { get; set; }
+
+        [DataMember]
+        public string Discord { get; set; }
     }
 }

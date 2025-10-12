@@ -10,6 +10,8 @@ namespace PictionaryMusicalCliente.Modelo
 
         public string Nombre { get; set; }
 
+        public string Clave { get; set; }
+
         public string RutaIcono { get; set; }
 
         public string Identificador
@@ -32,6 +34,7 @@ namespace PictionaryMusicalCliente.Modelo
             return new RedSocialPerfil
             {
                 Nombre = Nombre,
+                Clave = Clave,
                 RutaIcono = RutaIcono,
                 Identificador = Identificador
             };

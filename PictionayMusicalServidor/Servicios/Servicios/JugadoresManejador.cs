@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Datos.DAL.Implementaciones;
 using Datos.DAL.Interfaces;
 using Datos.Modelo;
@@ -10,6 +11,7 @@ namespace Servicios.Servicios
     public class JugadoresManejador : IJugadoresManejador
     {
         private const int LongitudMaximaNombre = 50;
+        private const int LongitudMaximaRedSocial = 50;
 
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IJugadorRepositorio _jugadorRepositorio;
@@ -42,6 +44,7 @@ namespace Servicios.Servicios
             }
 
             Jugador jugador = usuario.Jugador;
+            RedSocial redSocial = jugador?.RedSocial?.FirstOrDefault();
 
             return new UsuarioDTO
             {
@@ -51,7 +54,11 @@ namespace Servicios.Servicios
                 Nombre = jugador?.Nombre,
                 Apellido = jugador?.Apellido,
                 Correo = jugador?.Correo,
-                AvatarId = jugador?.Avatar_idAvatar ?? 0
+                AvatarId = jugador?.Avatar_idAvatar ?? 0,
+                Instagram = redSocial?.Instagram,
+                Facebook = redSocial?.facebook,
+                X = redSocial?.x,
+                Discord = redSocial?.discord
             };
         }
 
@@ -85,6 +92,30 @@ namespace Servicios.Servicios
                 return CrearResultado(false, "Selecciona un avatar válido.");
             }
 
+            string instagram = NormalizarRedSocial(solicitud.Instagram, "Instagram", out string errorRedInstagram);
+            if (!string.IsNullOrWhiteSpace(errorRedInstagram))
+            {
+                return CrearResultado(false, errorRedInstagram);
+            }
+
+            string facebook = NormalizarRedSocial(solicitud.Facebook, "Facebook", out string errorRedFacebook);
+            if (!string.IsNullOrWhiteSpace(errorRedFacebook))
+            {
+                return CrearResultado(false, errorRedFacebook);
+            }
+
+            string x = NormalizarRedSocial(solicitud.X, "X", out string errorRedX);
+            if (!string.IsNullOrWhiteSpace(errorRedX))
+            {
+                return CrearResultado(false, errorRedX);
+            }
+
+            string discord = NormalizarRedSocial(solicitud.Discord, "Discord", out string errorRedDiscord);
+            if (!string.IsNullOrWhiteSpace(errorRedDiscord))
+            {
+                return CrearResultado(false, errorRedDiscord);
+            }
+
             Usuario usuario = _usuarioRepositorio.ObtenerUsuarioPorId(solicitud.UsuarioId);
 
             if (usuario == null)
@@ -104,7 +135,15 @@ namespace Servicios.Servicios
 
             int jugadorId = usuario.Jugador_idJugador;
 
-            bool actualizado = _jugadorRepositorio.ActualizarPerfil(jugadorId, nombreNormalizado, apellidoNormalizado, solicitud.AvatarId);
+            bool actualizado = _jugadorRepositorio.ActualizarPerfil(
+                jugadorId,
+                nombreNormalizado,
+                apellidoNormalizado,
+                solicitud.AvatarId,
+                instagram,
+                facebook,
+                x,
+                discord);
 
             if (!actualizado)
             {
@@ -117,6 +156,41 @@ namespace Servicios.Servicios
         private static bool EsTextoValido(string valor)
         {
             return !string.IsNullOrWhiteSpace(valor) && valor.Length <= LongitudMaximaNombre;
+        }
+
+        private static string NormalizarRedSocial(string valor, string nombreRed, out string mensajeError)
+        {
+            mensajeError = null;
+
+            if (string.IsNullOrWhiteSpace(valor))
+            {
+                return null;
+            }
+
+            string texto = valor.Trim();
+
+            if (string.Equals(texto, "@", StringComparison.Ordinal))
+            {
+                return null;
+            }
+
+            if (texto.StartsWith("@", StringComparison.Ordinal))
+            {
+                string contenido = texto.Substring(1);
+
+                if (string.IsNullOrWhiteSpace(contenido))
+                {
+                    return null;
+                }
+            }
+
+            if (texto.Length > LongitudMaximaRedSocial)
+            {
+                mensajeError = $"El identificador de {nombreRed} no debe exceder {LongitudMaximaRedSocial} caracteres.";
+                return null;
+            }
+
+            return texto;
         }
 
         private static ResultadoOperacionDTO CrearResultado(bool exito, string mensaje)

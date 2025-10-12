@@ -26,7 +26,14 @@ namespace PictionaryMusicalCliente.Sesiones
             NotificarCambio();
         }
 
-        public void ActualizarDatosPersonales(string nombre, string apellido, int avatarId)
+        public void ActualizarDatosPersonales(
+            string nombre,
+            string apellido,
+            int avatarId,
+            string instagram,
+            string facebook,
+            string x,
+            string discord)
         {
             if (_usuario == null)
             {
@@ -36,6 +43,10 @@ namespace PictionaryMusicalCliente.Sesiones
             _usuario.Nombre = nombre;
             _usuario.Apellido = apellido;
             _usuario.AvatarId = avatarId;
+            _usuario.Instagram = instagram;
+            _usuario.Facebook = facebook;
+            _usuario.X = x;
+            _usuario.Discord = discord;
             NotificarCambio();
         }
 

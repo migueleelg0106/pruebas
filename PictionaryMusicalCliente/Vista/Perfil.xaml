@@ -126,6 +126,7 @@
                                                 <TextBox x:Name="textoRedSocial"
                                                          MinWidth="140"
                                                          Text="{Binding Identificador, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         MaxLength="50"
                                                          Tag="{Binding ElementName=toggleRedSocial}"
                                                          KeyDown="RedSocialTextBox_KeyDown" />
                                             </Border>

@@ -138,6 +138,18 @@ namespace PictionaryMusicalCliente.Servicios
 
             [DataMember]
             public int AvatarId { get; set; }
+
+            [DataMember]
+            public string Instagram { get; set; }
+
+            [DataMember]
+            public string Facebook { get; set; }
+
+            [DataMember]
+            public string X { get; set; }
+
+            [DataMember]
+            public string Discord { get; set; }
         }
 
         [DataContract(Name = "ClasificacionUsuarioDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
@@ -205,6 +217,18 @@ namespace PictionaryMusicalCliente.Servicios
 
             [DataMember]
             public int AvatarId { get; set; }
+
+            [DataMember]
+            public string Instagram { get; set; }
+
+            [DataMember]
+            public string Facebook { get; set; }
+
+            [DataMember]
+            public string X { get; set; }
+
+            [DataMember]
+            public string Discord { get; set; }
         }
     }
 }
