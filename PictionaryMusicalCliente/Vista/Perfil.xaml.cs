@@ -164,13 +164,11 @@ namespace PictionaryMusicalCliente
             {
                 imagenAvatarNuevo.ImageSource = null;
                 textoNombreAvatarNuevo.Text = string.Empty;
-                textoNombreAvatarActual.Text = string.Empty;
                 return;
             }
 
             imagenAvatarNuevo.ImageSource = AvatarImagenHelper.CrearImagen(avatarNuevo);
             textoNombreAvatarNuevo.Text = avatarNuevo.Nombre ?? string.Empty;
-            textoNombreAvatarActual.Text = _avatarActual?.Nombre ?? textoNombreAvatarNuevo.Text;
         }
 
 
@@ -472,7 +470,6 @@ namespace PictionaryMusicalCliente
                 imagenAvatarNuevo.ImageSource = ventanaSeleccion.AvatarSeleccionadoImagen
                     ?? AvatarImagenHelper.CrearImagen(_avatarSeleccionado);
                 textoNombreAvatarNuevo.Text = _avatarSeleccionado?.Nombre ?? string.Empty;
-                textoNombreAvatarActual.Text = _avatarActual?.Nombre ?? string.Empty;
             }
         }
 

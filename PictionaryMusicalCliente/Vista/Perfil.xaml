@@ -49,11 +49,6 @@
                                FontFamily="Comic Sans MS" FontSize="28" FontWeight="Bold"
                                VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="20,0,20,0">
-                        <TextBlock x:Name="textoNombreAvatarActual" FontFamily="Comic Sans MS"
-                                   HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                    </StackPanel>
-
                     <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                         <Ellipse x:Name="ellipseAvatarNuevo" Width="60" Height="60" Stroke="Black" StrokeThickness="1" Margin="0,5,0,0">
                             <Ellipse.Fill>
