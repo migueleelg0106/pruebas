@@ -83,6 +83,11 @@ namespace HostServidor
                         Bitacora.Info($"Jugadores -> {ep.Address} ({ep.Binding.Name})");
                     }
 
+                    hostClasificacion.Open();
+                    Bitacora.Info("Servicio Clasificación iniciado.");
+                    foreach (var ep in hostClasificacion.Description.Endpoints)
+                        Bitacora.Info($"Clasificacion -> {ep.Address} ({ep.Binding.Name})");
+
                     Console.WriteLine("Servicios arriba. ENTER para salir.");
                     Console.ReadLine();
                 }
