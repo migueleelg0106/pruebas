@@ -1,11 +1,9 @@
-﻿using Datos.DAL.Interfaces;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using Datos.DAL.Interfaces;
 using Datos.Modelo;
 using Datos.Utilidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Datos.DAL.Implementaciones
 {
@@ -16,6 +14,14 @@ namespace Datos.DAL.Implementaciones
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 return contexto.Avatar.AsNoTracking().ToList();
+            }
+        }
+
+        public bool ExisteAvatar(int avatarId)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                return contexto.Avatar.Any(a => a.idAvatar == avatarId);
             }
         }
     }

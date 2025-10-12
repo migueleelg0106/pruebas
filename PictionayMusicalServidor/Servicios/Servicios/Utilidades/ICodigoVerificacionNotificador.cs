@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Servicios.Servicios.Notificaciones
+namespace Servicios.Servicios.Utilidades
 {
     public interface ICodigoVerificacionNotificador
     {

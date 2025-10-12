@@ -340,13 +340,19 @@
     <value>MY PROFILE</value>
   </data>
   <data name="perfilTextoRedesSociales" xml:space="preserve">
-    <value>Link a social account:</value>
+    <value>Add a social network:</value>
   </data>
   <data name="perfilTextoCambiarContraseña" xml:space="preserve">
-    <value>CHANGEPASSWORD</value>
+    <value>CHANGE PASSWORD</value>
   </data>
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>SAVE CHANGES</value>
+  </data>
+  <data name="perfilTextoAvatarActual" xml:space="preserve">
+    <value>Current avatar</value>
+  </data>
+  <data name="perfilTextoAvatarNuevo" xml:space="preserve">
+    <value>New avatar</value>
   </data>
   <data name="cambiarContraseñaTextoIngresaNuevaContraseña" xml:space="preserve">
     <value>Enter your new password:
@@ -413,5 +419,6 @@
   </data>
   <data name="alertaAviso" xml:space="preserve">
     <value>Warning</value>
+  </data>
   </data>
 </root>

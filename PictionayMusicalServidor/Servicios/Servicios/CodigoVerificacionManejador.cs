@@ -2,7 +2,7 @@ using Datos.DAL.Implementaciones;
 using Datos.DAL.Interfaces;
 using Servicios.Contratos;
 using Servicios.Contratos.DTOs;
-using Servicios.Servicios.Notificaciones;
+using Servicios.Servicios.Utilidades;
 
 namespace Servicios.Servicios
 {

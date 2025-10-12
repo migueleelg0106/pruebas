@@ -743,7 +743,25 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("perfilTextoRedesSociales", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Avatar actual.
+        /// </summary>
+        public static string perfilTextoAvatarActual {
+            get {
+                return ResourceManager.GetString("perfilTextoAvatarActual", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nuevo avatar.
+        /// </summary>
+        public static string perfilTextoAvatarNuevo {
+            get {
+                return ResourceManager.GetString("perfilTextoAvatarNuevo", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a AMIGOS.
         /// </summary>

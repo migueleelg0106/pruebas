@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Modelo.Catalogos;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente
 {
@@ -36,7 +36,7 @@ namespace PictionaryMusicalCliente
 
             foreach (ObjetoAvatar avatar in avatares)
             {
-                ImageSource imagenAvatar = CrearImagenParaAvatar(avatar);
+                ImageSource imagenAvatar = AvatarImagenHelper.CrearImagen(avatar);
 
                 var imagenControl = new Image
                 {
@@ -58,68 +58,12 @@ namespace PictionaryMusicalCliente
             }
         }
 
-        private static ImageSource CrearImagenParaAvatar(ObjetoAvatar avatar)
-        {
-            if (avatar == null)
-            {
-                return null;
-            }
-
-            if (!string.IsNullOrWhiteSpace(avatar.ImagenUriAbsoluta)
-                && Uri.TryCreate(avatar.ImagenUriAbsoluta, UriKind.Absolute, out Uri uriRemota))
-            {
-                return new BitmapImage(uriRemota);
-            }
-
-            if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
-            {
-                string rutaNormalizada = NormalizarRutaLocal(avatar.RutaRelativa);
-
-                if (Uri.TryCreate($"pack://application:,,,/{rutaNormalizada}", UriKind.Absolute, out Uri uriRecurso))
-                {
-                    try
-                    {
-                        return new BitmapImage(uriRecurso);
-                    }
-                    catch
-                    {
-                        // Ignorado para intentar con la ruta relativa simple.
-                    }
-                }
-
-                try
-                {
-                    return new BitmapImage(new Uri($"/{rutaNormalizada}", UriKind.Relative));
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
-        private static string NormalizarRutaLocal(string ruta)
-        {
-            if (string.IsNullOrWhiteSpace(ruta))
-            {
-                return null;
-            }
-
-            string rutaNormalizada = ruta
-                .TrimStart('/')
-                .Replace('\\', '/');
-
-            return rutaNormalizada;
-        }
-
         private void BotonAceptarSeleccionAvatar(object sender, RoutedEventArgs e)
         {
             if (listaAvatares.SelectedItem is ListBoxItem itemSeleccionado && itemSeleccionado.Tag is ObjetoAvatar avatar)
             {
                 AvatarSeleccionado = avatar;
-                AvatarSeleccionadoImagen = CrearImagenParaAvatar(avatar);
+                AvatarSeleccionadoImagen = AvatarImagenHelper.CrearImagen(avatar);
                 DialogResult = true;
                 Close();
                 return;

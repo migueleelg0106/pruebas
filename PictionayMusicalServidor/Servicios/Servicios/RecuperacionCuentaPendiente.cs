@@ -1,3 +1,4 @@
+using Servicios.Servicios.Utilidades;
 using System;
 
 namespace Servicios.Servicios
@@ -25,7 +26,7 @@ namespace Servicios.Servicios
 
         public static RecuperacionCuentaPendiente Crear(int usuarioId, string correo, string codigo, TimeSpan duracionCodigo, DateTime creadoEn)
         {
-            string token = Guid.NewGuid().ToString("N");
+            string token = TokenGenerator.GenerarToken();
             return new RecuperacionCuentaPendiente(token, usuarioId, correo, codigo, duracionCodigo, creadoEn);
         }
 

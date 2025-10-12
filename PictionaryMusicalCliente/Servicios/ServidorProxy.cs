@@ -22,10 +22,14 @@ namespace PictionaryMusicalCliente.Servicios
         private readonly SrvReenv.ReenviarCodigoVerificacionManejadorClient _reenviarCodigo;
         private readonly ChannelFactory<IInicioSesionManejadorContract> _inicioSesionFactory;
         private readonly ChannelFactory<ICambiarContrasenaManejadorContract> _cambiarContrasenaFactory;
+        private readonly ChannelFactory<IClasificacionManejadorContract> _clasificacionFactory;
+        private readonly ChannelFactory<IJugadoresManejadorContract> _jugadoresFactory;
 
         private const string BaseImagenesRemotas = "http://localhost:8086/";
         private const string InicioSesionEndpoint = "http://localhost:8086/Pictionary/InicioSesion/InicioSesion";
         private const string CambiarContrasenaEndpoint = "http://localhost:8086/Pictionary/CambiarContrasena/CambiarContrasena";
+        private const string ClasificacionEndpoint = "http://localhost:8086/Pictionary/Clasificacion/Clasificacion";
+        private const string JugadoresEndpoint = "http://localhost:8086/Pictionary/Jugadores/Jugadores";
 
         public ServidorProxy()
         {
@@ -35,6 +39,8 @@ namespace PictionaryMusicalCliente.Servicios
             _reenviarCodigo = new SrvReenv.ReenviarCodigoVerificacionManejadorClient("BasicHttpBinding_IReenviarCodigoVerificacionManejador");
             _inicioSesionFactory = new ChannelFactory<IInicioSesionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(InicioSesionEndpoint));
             _cambiarContrasenaFactory = new ChannelFactory<ICambiarContrasenaManejadorContract>(new BasicHttpBinding(), new EndpointAddress(CambiarContrasenaEndpoint));
+            _clasificacionFactory = new ChannelFactory<IClasificacionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(ClasificacionEndpoint));
+            _jugadoresFactory = new ChannelFactory<IJugadoresManejadorContract>(new BasicHttpBinding(), new EndpointAddress(JugadoresEndpoint));
         }
 
         public async Task<List<ObjetoAvatar>> ObtenerAvataresAsync()
@@ -109,7 +115,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoInicioSesion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -139,7 +155,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -169,7 +195,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudCodigo(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -199,7 +235,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -229,7 +275,128 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<List<EntradaClasificacion>> ObtenerClasificacionAsync()
+        {
+            if (_clasificacionFactory == null)
+            {
+                throw new InvalidOperationException("El canal de clasificación no está disponible.");
+            }
+
+            IClasificacionManejadorContract canal = _clasificacionFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ClasificacionUsuarioDto[] resultadoDto = await Task.Run(() => canal.ObtenerTopJugadores());
+                comunicacion?.Close();
+                return ConvertirClasificacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<UsuarioAutenticado> ObtenerPerfilAsync(int idUsuario)
+        {
+            if (_jugadoresFactory == null)
+            {
+                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+            }
+
+            if (idUsuario <= 0)
+            {
+                return null;
+            }
+
+            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                UsuarioDto resultadoDto = await Task.Run(() => canal.ObtenerPerfil(idUsuario));
+                comunicacion?.Close();
+                return ConvertirUsuario(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<ResultadoOperacion> ActualizarPerfilAsync(SolicitudActualizarPerfil solicitud)
+        {
+            if (_jugadoresFactory == null)
+            {
+                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+            }
+
+            ActualizarPerfilDto dto = CrearActualizarPerfilDto(solicitud);
+
+            if (dto == null)
+            {
+                return null;
+            }
+
+            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ResultadoOperacionDto resultadoDto = await Task.Run(() => canal.ActualizarPerfil(dto));
+                comunicacion?.Close();
+                return ConvertirResultadoOperacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -267,6 +434,8 @@ namespace PictionaryMusicalCliente.Servicios
             CerrarCliente(_reenviarCodigo);
             CerrarCliente(_inicioSesionFactory);
             CerrarCliente(_cambiarContrasenaFactory);
+            CerrarCliente(_clasificacionFactory);
+            CerrarCliente(_jugadoresFactory);
         }
 
         private static SrvCod.NuevaCuentaDTO CrearNuevaCuentaDtoVerificacion(SolicitudRegistrarUsuario solicitud)
@@ -423,6 +592,23 @@ namespace PictionaryMusicalCliente.Servicios
                 };
         }
 
+        private static List<EntradaClasificacion> ConvertirClasificacion(ClasificacionUsuarioDto[] clasificacionDto)
+        {
+            if (clasificacionDto == null || clasificacionDto.Length == 0)
+            {
+                return new List<EntradaClasificacion>();
+            }
+
+            return clasificacionDto
+                .Select(entrada => new EntradaClasificacion
+                {
+                    Usuario = entrada.Usuario,
+                    Puntos = entrada.Puntos,
+                    RondasGanadas = entrada.RondasGanadas
+                })
+                .ToList();
+        }
+
         private static ResultadoSolicitudCodigo CrearResultadoSolicitudCodigo(bool codigoEnviado, string mensaje, string token, bool correoYaRegistrado, bool usuarioYaRegistrado, string tokenRecuperacion)
         {
             return new ResultadoSolicitudCodigo
@@ -513,6 +699,22 @@ namespace PictionaryMusicalCliente.Servicios
             };
         }
 
+        private static ActualizarPerfilDto CrearActualizarPerfilDto(SolicitudActualizarPerfil solicitud)
+        {
+            if (solicitud == null)
+            {
+                return null;
+            }
+
+            return new ActualizarPerfilDto
+            {
+                UsuarioId = solicitud.UsuarioId,
+                Nombre = solicitud.Nombre,
+                Apellido = solicitud.Apellido,
+                AvatarId = solicitud.AvatarId
+            };
+        }
+
         private static void CerrarCliente(ICommunicationObject cliente)
         {
             if (cliente == null)
@@ -531,7 +733,15 @@ namespace PictionaryMusicalCliente.Servicios
                     cliente.Abort();
                 }
             }
-            catch
+            catch (CommunicationException)
+            {
+                cliente.Abort();
+            }
+            catch (TimeoutException)
+            {
+                cliente.Abort();
+            }
+            catch (InvalidOperationException)
             {
                 cliente.Abort();
             }
@@ -630,6 +840,52 @@ namespace PictionaryMusicalCliente.Servicios
 
             [DataMember]
             public string Mensaje { get; set; }
+        }
+
+        [ServiceContract(Name = "IJugadoresManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IJugadoresManejador")]
+        private interface IJugadoresManejadorContract
+        {
+            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ObtenerPerfilResponse")]
+            UsuarioDto ObtenerPerfil(int idUsuario);
+
+            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ActualizarPerfilResponse")]
+            ResultadoOperacionDto ActualizarPerfil(ActualizarPerfilDto solicitud);
+        }
+
+        [DataContract(Name = "ActualizarPerfilDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+        private class ActualizarPerfilDto
+        {
+            [DataMember]
+            public int UsuarioId { get; set; }
+
+            [DataMember]
+            public string Nombre { get; set; }
+
+            [DataMember]
+            public string Apellido { get; set; }
+
+            [DataMember]
+            public int AvatarId { get; set; }
+        }
+
+        [ServiceContract(Name = "IClasificacionManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IClasificacionManejador")]
+        private interface IClasificacionManejadorContract
+        {
+            [OperationContract(Action = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadores", ReplyAction = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadoresResponse")]
+            ClasificacionUsuarioDto[] ObtenerTopJugadores();
+        }
+
+        [DataContract(Name = "ClasificacionUsuarioDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+        private class ClasificacionUsuarioDto
+        {
+            [DataMember]
+            public string Usuario { get; set; }
+
+            [DataMember]
+            public int Puntos { get; set; }
+
+            [DataMember]
+            public int RondasGanadas { get; set; }
         }
 
         [ServiceContract(Name = "IInicioSesionManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IInicioSesionManejador")]

@@ -1,4 +1,5 @@
 using System;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -97,7 +98,17 @@ namespace PictionaryMusicalCliente
                     resultadoCodigo = await proxy.SolicitarCodigoVerificacionAsync(solicitud);
                 }
             }
-            catch (Exception)
+            catch (CommunicationException)
+            {
+                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                return;
+            }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                return;
+            }
+            catch (InvalidOperationException)
             {
                 new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
                 return;
