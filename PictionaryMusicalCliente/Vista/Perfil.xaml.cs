@@ -99,22 +99,29 @@ namespace PictionaryMusicalCliente
 
         private async Task CargarCatalogoAvataresAsync()
         {
+            IReadOnlyList<ObjetoAvatar> avataresLocales = CatalogoAvataresLocales.ObtenerAvatares();
+
             try
             {
                 using (var proxy = new ServidorProxy())
                 {
-                    List<ObjetoAvatar> avatares = await proxy.ObtenerAvataresAsync();
+                    List<ObjetoAvatar> avataresServidor = await proxy.ObtenerAvataresAsync();
 
-                    if (avatares != null && avatares.Count > 0)
+                    if (avataresServidor != null && avataresServidor.Count > 0)
                     {
-                        _catalogoAvatares = avatares;
-                        return;
+                        IReadOnlyList<ObjetoAvatar> avataresSincronizados = SincronizarCatalogoLocal(avataresServidor, avataresLocales);
+
+                        if (avataresSincronizados != null && avataresSincronizados.Count > 0)
+                        {
+                            _catalogoAvatares = avataresSincronizados;
+                            return;
+                        }
                     }
                 }
             }
             catch (EndpointNotFoundException)
             {
-                // Se usará el catálogo local.
+                // Se utilizará el catálogo local.
             }
             catch (TimeoutException)
             {
@@ -126,7 +133,69 @@ namespace PictionaryMusicalCliente
             {
             }
 
-            _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
+            _catalogoAvatares = avataresLocales;
+        }
+
+        private static IReadOnlyList<ObjetoAvatar> SincronizarCatalogoLocal(
+            IEnumerable<ObjetoAvatar> avataresServidor,
+            IReadOnlyList<ObjetoAvatar> avataresLocales)
+        {
+            if (avataresServidor == null)
+            {
+                return avataresLocales;
+            }
+
+            if (avataresLocales == null || avataresLocales.Count == 0)
+            {
+                return avataresServidor.ToList();
+            }
+
+            Dictionary<int, ObjetoAvatar> localesPorId = avataresLocales
+                .Where(avatar => avatar != null)
+                .GroupBy(avatar => avatar.Id)
+                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
+
+            Dictionary<string, ObjetoAvatar> localesPorNombre = avataresLocales
+                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.Nombre))
+                .GroupBy(avatar => avatar.Nombre.Trim(), StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(grupo => grupo.Key, grupo => grupo.First(), StringComparer.OrdinalIgnoreCase);
+
+            var resultado = new List<ObjetoAvatar>();
+
+            foreach (ObjetoAvatar avatarServidor in avataresServidor)
+            {
+                if (avatarServidor == null)
+                {
+                    continue;
+                }
+
+                ObjetoAvatar avatarLocal = null;
+
+                if (localesPorId.TryGetValue(avatarServidor.Id, out ObjetoAvatar avatarPorId))
+                {
+                    avatarLocal = avatarPorId;
+                }
+                else if (!string.IsNullOrWhiteSpace(avatarServidor.Nombre)
+                    && localesPorNombre.TryGetValue(avatarServidor.Nombre.Trim(), out ObjetoAvatar avatarPorNombre))
+                {
+                    avatarLocal = avatarPorNombre;
+                }
+
+                if (avatarLocal == null)
+                {
+                    continue;
+                }
+
+                resultado.Add(new ObjetoAvatar
+                {
+                    Id = avatarServidor.Id,
+                    Nombre = avatarServidor.Nombre ?? avatarLocal.Nombre,
+                    RutaRelativa = avatarLocal.RutaRelativa,
+                    ImagenUriAbsoluta = null
+                });
+            }
+
+            return resultado;
         }
 
         private void InicializarRedesSociales()
