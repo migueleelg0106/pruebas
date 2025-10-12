@@ -25,9 +25,11 @@ namespace PictionaryMusicalCliente.Servicios
         private interface IPerfilManejadorContract
         {
             [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ObtenerPerfilResponse")]
+            [FaultContract(typeof(DetalleErrorServicio), Action = "http://tempuri.org/IPerfilManejador/ObtenerPerfilDetalleErrorServicioFault", Name = "DetalleErrorServicio")]
             UsuarioDto ObtenerPerfil(int idUsuario);
 
             [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ActualizarPerfilResponse")]
+            [FaultContract(typeof(DetalleErrorServicio), Action = "http://tempuri.org/IPerfilManejador/ActualizarPerfilDetalleErrorServicioFault", Name = "DetalleErrorServicio")]
             ResultadoOperacionDto ActualizarPerfil(ActualizarPerfilDto solicitud);
         }
 
@@ -43,6 +45,16 @@ namespace PictionaryMusicalCliente.Servicios
         {
             [OperationContract(Action = "http://tempuri.org/IInicioSesionManejador/IniciarSesion", ReplyAction = "http://tempuri.org/IInicioSesionManejador/IniciarSesionResponse")]
             ResultadoInicioSesionDto IniciarSesion(CredencialesInicioSesionDto credenciales);
+        }
+
+        [DataContract(Name = "ServiceErrorDetailDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+        public class DetalleErrorServicio
+        {
+            [DataMember]
+            public string CodigoError { get; set; }
+
+            [DataMember]
+            public string Mensaje { get; set; }
         }
 
         [DataContract(Name = "SolicitudRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]

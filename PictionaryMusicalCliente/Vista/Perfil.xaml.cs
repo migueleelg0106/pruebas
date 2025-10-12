@@ -73,6 +73,11 @@ namespace PictionaryMusicalCliente
                     }
                 }
             }
+            catch (FaultException<ServidorProxy.DetalleErrorServicio> ex)
+            {
+                string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al obtener la información del perfil.";
+                new Avisos(mensaje).ShowDialog();
+            }
             catch (EndpointNotFoundException)
             {
                 new Avisos("No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión.").ShowDialog();
@@ -592,6 +597,11 @@ namespace PictionaryMusicalCliente
                         : resultado.Mensaje;
                     new Avisos(mensajeFinal).ShowDialog();
                 }
+            }
+            catch (FaultException<ServidorProxy.DetalleErrorServicio> ex)
+            {
+                string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al actualizar el perfil.";
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
