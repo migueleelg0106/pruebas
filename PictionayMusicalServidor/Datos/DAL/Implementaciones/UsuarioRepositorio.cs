@@ -16,7 +16,7 @@ namespace Datos.DAL.Implementaciones
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 Usuario usuario = contexto.Usuario
-                    .Include(u => u.Jugador)
+                    .Include(u => u.Jugador.RedSocial)
                     .FirstOrDefault(u => u.Nombre_Usuario == identificadorNormalizado);
 
                 if (usuario != null)
@@ -30,7 +30,7 @@ namespace Datos.DAL.Implementaciones
                 }
 
                 Usuario usuarioPorCorreo = contexto.Usuario
-                    .Include(u => u.Jugador)
+                    .Include(u => u.Jugador.RedSocial)
                     .FirstOrDefault(u => u.Jugador.Correo == identificadorNormalizado);
 
                 if (usuarioPorCorreo != null &&
@@ -53,7 +53,7 @@ namespace Datos.DAL.Implementaciones
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 return contexto.Usuario
-                    .Include(u => u.Jugador)
+                    .Include(u => u.Jugador.RedSocial)
                     .FirstOrDefault(u => u.idUsuario == idUsuario);
             }
         }

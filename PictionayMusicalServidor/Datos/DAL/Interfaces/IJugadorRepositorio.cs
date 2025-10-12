@@ -6,6 +6,14 @@ namespace Datos.DAL.Interfaces
     {
         Jugador ObtenerPorId(int jugadorId);
 
-        bool ActualizarPerfil(int jugadorId, string nombre, string apellido, int avatarId);
+        bool ActualizarPerfil(
+            int jugadorId,
+            string nombre,
+            string apellido,
+            int avatarId,
+            string instagram,
+            string facebook,
+            string x,
+            string discord);
     }
 }

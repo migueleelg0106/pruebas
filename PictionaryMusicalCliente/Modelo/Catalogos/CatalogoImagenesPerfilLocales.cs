@@ -7,10 +7,10 @@ namespace PictionaryMusicalCliente.Modelo.Catalogos
     {
         private static readonly IReadOnlyList<RedSocialPerfil> RedesSociales = new List<RedSocialPerfil>
         {
-            Crear("Discord", "/Recursos/discord.png"),
-            Crear("Facebook", "/Recursos/facebook.png"),
-            Crear("Instagram", "/Recursos/instagram.png"),
-            Crear("X", "/Recursos/x_logo.png")
+            Crear("Discord", "discord", "/Recursos/discord.png"),
+            Crear("Facebook", "facebook", "/Recursos/facebook.png"),
+            Crear("Instagram", "instagram", "/Recursos/instagram.png"),
+            Crear("X", "x", "/Recursos/x_logo.png")
         };
 
         public static IReadOnlyList<RedSocialPerfil> ObtenerRedesSociales()
@@ -18,11 +18,12 @@ namespace PictionaryMusicalCliente.Modelo.Catalogos
             return RedesSociales.Select(red => red.Clonar()).ToList();
         }
 
-        private static RedSocialPerfil Crear(string nombre, string rutaIcono)
+        private static RedSocialPerfil Crear(string nombre, string clave, string rutaIcono)
         {
             return new RedSocialPerfil
             {
                 Nombre = nombre,
+                Clave = clave,
                 RutaIcono = rutaIcono
             };
         }

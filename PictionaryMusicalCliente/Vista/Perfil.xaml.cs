@@ -25,6 +25,7 @@ namespace PictionaryMusicalCliente
     public partial class Perfil : Window
     {
         private const int LongitudMaximaNombre = 50;
+        private const int LongitudMaximaRedSocial = 50;
 
         private IReadOnlyList<ObjetoAvatar> _catalogoAvatares;
         private UsuarioAutenticado _usuarioSesion;
@@ -306,6 +307,7 @@ namespace PictionaryMusicalCliente
             bloqueTextoCorreo.Text = _usuarioSesion?.Correo ?? string.Empty;
 
             ActualizarVistaAvatares();
+            ActualizarRedesSocialesDesdeSesion();
         }
 
         private void ActualizarVistaAvatares()
@@ -529,12 +531,25 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
+            if (!TryObtenerRedesSocialesParaSolicitud(out string instagram, out string facebook, out string x, out string discord, out string mensajeError))
+            {
+                if (!string.IsNullOrWhiteSpace(mensajeError))
+                {
+                    new Avisos(mensajeError).ShowDialog();
+                }
+                return;
+            }
+
             var solicitud = new SolicitudActualizarPerfil
             {
                 UsuarioId = _usuarioSesion.IdUsuario,
                 Nombre = nombre,
                 Apellido = apellido,
-                AvatarId = avatar.Id
+                AvatarId = avatar.Id,
+                Instagram = instagram,
+                Facebook = facebook,
+                X = x,
+                Discord = discord
             };
 
             Button boton = sender as Button;
@@ -559,7 +574,7 @@ namespace PictionaryMusicalCliente
 
                     if (resultado.OperacionExitosa)
                     {
-                        SesionUsuarioActual.Instancia.ActualizarDatosPersonales(nombre, apellido, solicitud.AvatarId);
+                        SesionUsuarioActual.Instancia.ActualizarDatosPersonales(nombre, apellido, solicitud.AvatarId, instagram, facebook, x, discord);
                         _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
                         _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? avatar;
                         _avatarSeleccionado = _avatarActual;
@@ -664,6 +679,135 @@ namespace PictionaryMusicalCliente
             }
 
             return null;
+        }
+
+        private void ActualizarRedesSocialesDesdeSesion()
+        {
+            if (RedesSociales == null || RedesSociales.Count == 0)
+            {
+                return;
+            }
+
+            foreach (RedSocialPerfil red in RedesSociales)
+            {
+                if (red == null)
+                {
+                    continue;
+                }
+
+                string valor = ObtenerValorRedSocialDesdeSesion(red.Clave);
+                red.Identificador = string.IsNullOrWhiteSpace(valor) ? "@" : valor;
+            }
+        }
+
+        private string ObtenerValorRedSocialDesdeSesion(string clave)
+        {
+            if (_usuarioSesion == null || string.IsNullOrWhiteSpace(clave))
+            {
+                return null;
+            }
+
+            switch (clave.ToLowerInvariant())
+            {
+                case "instagram":
+                    return _usuarioSesion.Instagram;
+                case "facebook":
+                    return _usuarioSesion.Facebook;
+                case "x":
+                    return _usuarioSesion.X;
+                case "discord":
+                    return _usuarioSesion.Discord;
+                default:
+                    return null;
+            }
+        }
+
+        private bool TryObtenerRedesSocialesParaSolicitud(
+            out string instagram,
+            out string facebook,
+            out string x,
+            out string discord,
+            out string mensajeError)
+        {
+            instagram = null;
+            facebook = null;
+            x = null;
+            discord = null;
+            mensajeError = null;
+
+            if (RedesSociales == null)
+            {
+                return true;
+            }
+
+            foreach (RedSocialPerfil red in RedesSociales)
+            {
+                if (red == null)
+                {
+                    continue;
+                }
+
+                string valor = PrepararValorRedSocial(red.Identificador, red.Nombre, out string error);
+
+                if (!string.IsNullOrWhiteSpace(error))
+                {
+                    mensajeError = error;
+                    return false;
+                }
+
+                switch (red.Clave?.ToLowerInvariant())
+                {
+                    case "instagram":
+                        instagram = valor;
+                        break;
+                    case "facebook":
+                        facebook = valor;
+                        break;
+                    case "x":
+                        x = valor;
+                        break;
+                    case "discord":
+                        discord = valor;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        private static string PrepararValorRedSocial(string identificador, string nombreRed, out string mensajeError)
+        {
+            mensajeError = null;
+
+            if (string.IsNullOrWhiteSpace(identificador))
+            {
+                return null;
+            }
+
+            string texto = identificador.Trim();
+
+            if (string.Equals(texto, "@", StringComparison.Ordinal))
+            {
+                return null;
+            }
+
+            if (texto.StartsWith("@", StringComparison.Ordinal))
+            {
+                string contenido = texto.Substring(1);
+
+                if (string.IsNullOrWhiteSpace(contenido))
+                {
+                    return null;
+                }
+            }
+
+            if (texto.Length > LongitudMaximaRedSocial)
+            {
+                mensajeError = $"El identificador de {nombreRed ?? "la red social"} no debe exceder {LongitudMaximaRedSocial} caracteres.";
+                return null;
+            }
+
+            return texto;
         }
     }
 }

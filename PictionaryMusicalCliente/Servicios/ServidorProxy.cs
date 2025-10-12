@@ -680,7 +680,11 @@ namespace PictionaryMusicalCliente.Servicios
                     Nombre = usuarioDto.Nombre,
                     Apellido = usuarioDto.Apellido,
                     Correo = usuarioDto.Correo,
-                    AvatarId = usuarioDto.AvatarId
+                    AvatarId = usuarioDto.AvatarId,
+                    Instagram = usuarioDto.Instagram,
+                    Facebook = usuarioDto.Facebook,
+                    X = usuarioDto.X,
+                    Discord = usuarioDto.Discord
                 };
         }
 
@@ -710,7 +714,11 @@ namespace PictionaryMusicalCliente.Servicios
                 UsuarioId = solicitud.UsuarioId,
                 Nombre = solicitud.Nombre,
                 Apellido = solicitud.Apellido,
-                AvatarId = solicitud.AvatarId
+                AvatarId = solicitud.AvatarId,
+                Instagram = solicitud.Instagram,
+                Facebook = solicitud.Facebook,
+                X = solicitud.X,
+                Discord = solicitud.Discord
             };
         }
 

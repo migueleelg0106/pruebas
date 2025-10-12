@@ -2,6 +2,7 @@ using Datos.DAL.Interfaces;
 using Datos.Modelo;
 using Servicios.Contratos.DTOs;
 using System;
+using System.Linq;
 
 namespace Servicios.Servicios
 {
@@ -86,6 +87,7 @@ namespace Servicios.Servicios
             }
 
             Jugador jugador = usuario.Jugador;
+            RedSocial redSocial = jugador?.RedSocial?.FirstOrDefault();
 
             return new UsuarioDTO
             {
@@ -95,7 +97,11 @@ namespace Servicios.Servicios
                 Nombre = jugador?.Nombre,
                 Apellido = jugador?.Apellido,
                 Correo = jugador?.Correo,
-                AvatarId = jugador?.Avatar_idAvatar ?? 0
+                AvatarId = jugador?.Avatar_idAvatar ?? 0,
+                Instagram = redSocial?.Instagram,
+                Facebook = redSocial?.facebook,
+                X = redSocial?.x,
+                Discord = redSocial?.discord
             };
         }
     }
