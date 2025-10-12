@@ -1,0 +1,88 @@
+﻿<Window x:Class="PictionaryMusicalCliente.Perfil"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PictionaryMusicalCliente.Properties.Langs"
+        Title="{x:Static language:Lang.perfilTextoMiPerfil}" Height="500" Width="550"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True" WindowStyle="None" Background="Transparent">
+    <Grid>
+        <Border Background="White" BorderBrush="Gray" BorderThickness="2"
+                Padding="20" CornerRadius="3"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <!-- Título y Avatar -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{x:Static language:Lang.perfilTextoMiPerfil}"
+                               FontFamily="Comic Sans MS" FontSize="28" FontWeight="Bold"
+                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <Ellipse Width="60" Height="60" Stroke="Black" StrokeThickness="1"/>
+                        <Label Content="{x:Static language:Lang.globalTextoSeleccionarAvatar}"
+                               Foreground="Blue" Cursor="Hand"
+                               FontFamily="Comic Sans MS" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Campos de datos -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Usuario y Nombre -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                        <TextBlock Text="{x:Static language:Lang.globalTextoUsuario}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+                        <TextBox Text="" IsReadOnly="True" Height="25"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,10">
+                        <TextBlock Text="{x:Static language:Lang.globalTextoNombre}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+                        <TextBox Text="" Height="25"/>
+                    </StackPanel>
+
+                    <!-- Apellido y Correo -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,10">
+                        <TextBlock Text="{x:Static language:Lang.globalTextoApellido}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+                        <TextBox Text="" Height="25"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,0,10">
+                        <TextBlock Text="{x:Static language:Lang.globalTextoCorreo}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+                        <TextBox Text="" IsReadOnly="True" Height="25"/>
+                    </StackPanel>
+
+                    <!-- Redes Sociales y Cambiar Contraseña -->
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,10,10,0">
+                        <TextBlock Text="{x:Static language:Lang.perfilTextoRedesSociales}" FontFamily="Comic Sans MS" Foreground="Blue"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <!-- Asegúrate de tener estas imágenes en tu proyecto -->
+                            <Image Source="/Recursos/discord.png" Width="32" Height="32" Margin="0,0,5,0" Cursor="Hand"/>
+                            <Image Source="/Recursos/facebook.png" Width="32" Height="32" Margin="5,0" Cursor="Hand"/>
+                            <Image Source="/Recursos/instagram.png" Width="32" Height="32" Margin="5,0" Cursor="Hand"/>
+                            <Image Source="/Recursos/x_logo.png" Width="32" Height="32" Margin="5,0" Cursor="Hand"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button Grid.Row="2" Grid.Column="1" Content="{x:Static language:Lang.perfilTextoCambiarContraseña}" 
+                            FontFamily="Comic Sans MS" Margin="10,0,0,0"
+                            Background="White" BorderBrush="Black" Height="45" VerticalAlignment="Bottom" Click="BotonCambiarContraseña"/>
+                </Grid>
+
+                <!-- Botones de Acción -->
+                <Button Content="{x:Static language:Lang.perfilTextoGuardarCambios}" Margin="0,25,0,5" Height="40" FontFamily="Comic Sans MS" FontWeight="Bold" Background="White" BorderBrush="Black" Click="BotonGuardarCambios"/>
+                <Button Content="{x:Static language:Lang.globalTextoRegresar}" Margin="0,5,0,0" Height="40" FontFamily="Comic Sans MS" FontWeight="Bold" Background="White" BorderBrush="Black" Click="BotonRegresar"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
