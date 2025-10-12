@@ -587,10 +587,10 @@ namespace PictionaryMusicalCliente
                         return;
                     }
 
-                    string mensajeError = string.IsNullOrWhiteSpace(resultado.Mensaje)
+                    string mensajeFinal = string.IsNullOrWhiteSpace(resultado.Mensaje)
                         ? "No fue posible actualizar el perfil."
                         : resultado.Mensaje;
-                    new Avisos(mensajeError).ShowDialog();
+                    new Avisos(mensajeFinal).ShowDialog();
                 }
             }
             catch (EndpointNotFoundException)
