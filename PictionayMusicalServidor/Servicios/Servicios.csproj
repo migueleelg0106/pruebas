@@ -65,6 +65,7 @@
     <Compile Include="Contratos\DTOs\ConfirmarCodigoRecuperacionDTO.cs" />
     <Compile Include="Contratos\DTOs\ConfirmarCodigoVerificacionDTO.cs" />
     <Compile Include="Contratos\DTOs\CredencialesInicioSesionDTO.cs" />
+    <Compile Include="Contratos\DTOs\ActualizarPerfilDTO.cs" />
     <Compile Include="Contratos\DTOs\NuevaCuentaDTO.cs" />
     <Compile Include="Contratos\DTOs\ReenviarCodigoVerificacionDTO.cs" />
     <Compile Include="Contratos\DTOs\SolicitudReenviarCodigoRecuperacionDTO.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Servicios\CambiarContrasenaManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaPendiente.cs" />
     <Compile Include="Servicios\RecuperacionCuentaServicio.cs" />
+    <Compile Include="Servicios\JugadoresManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaStore.cs" />
     <Compile Include="Servicios\ReenviarCodigoVerificacionManejador.cs" />
     <Compile Include="Servicios\Utilidades\CorreoCodigoVerificacionNotificador.cs" />

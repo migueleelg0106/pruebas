@@ -112,7 +112,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoInicioSesion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -142,7 +152,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -172,7 +192,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudCodigo(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -202,7 +232,17 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -232,7 +272,128 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
-            catch
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<List<EntradaClasificacion>> ObtenerClasificacionAsync()
+        {
+            if (_clasificacionFactory == null)
+            {
+                throw new InvalidOperationException("El canal de clasificación no está disponible.");
+            }
+
+            IClasificacionManejadorContract canal = _clasificacionFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ClasificacionUsuarioDto[] resultadoDto = await Task.Run(() => canal.ObtenerTopJugadores());
+                comunicacion?.Close();
+                return ConvertirClasificacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<UsuarioAutenticado> ObtenerPerfilAsync(int idUsuario)
+        {
+            if (_jugadoresFactory == null)
+            {
+                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+            }
+
+            if (idUsuario <= 0)
+            {
+                return null;
+            }
+
+            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                UsuarioDto resultadoDto = await Task.Run(() => canal.ObtenerPerfil(idUsuario));
+                comunicacion?.Close();
+                return ConvertirUsuario(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
+        public async Task<ResultadoOperacion> ActualizarPerfilAsync(SolicitudActualizarPerfil solicitud)
+        {
+            if (_jugadoresFactory == null)
+            {
+                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+            }
+
+            ActualizarPerfilDto dto = CrearActualizarPerfilDto(solicitud);
+
+            if (dto == null)
+            {
+                return null;
+            }
+
+            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ResultadoOperacionDto resultadoDto = await Task.Run(() => canal.ActualizarPerfil(dto));
+                comunicacion?.Close();
+                return ConvertirResultadoOperacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
             {
                 comunicacion?.Abort();
                 throw;
@@ -567,6 +728,22 @@ namespace PictionaryMusicalCliente.Servicios
             };
         }
 
+        private static ActualizarPerfilDto CrearActualizarPerfilDto(SolicitudActualizarPerfil solicitud)
+        {
+            if (solicitud == null)
+            {
+                return null;
+            }
+
+            return new ActualizarPerfilDto
+            {
+                UsuarioId = solicitud.UsuarioId,
+                Nombre = solicitud.Nombre,
+                Apellido = solicitud.Apellido,
+                AvatarId = solicitud.AvatarId
+            };
+        }
+
         private static void CerrarCliente(ICommunicationObject cliente)
         {
             if (cliente == null)
@@ -585,7 +762,15 @@ namespace PictionaryMusicalCliente.Servicios
                     cliente.Abort();
                 }
             }
-            catch
+            catch (CommunicationException)
+            {
+                cliente.Abort();
+            }
+            catch (TimeoutException)
+            {
+                cliente.Abort();
+            }
+            catch (InvalidOperationException)
             {
                 cliente.Abort();
             }

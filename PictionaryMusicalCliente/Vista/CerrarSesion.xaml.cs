@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PictionaryMusicalCliente.Sesiones;
 
 namespace PictionaryMusicalCliente
 {
@@ -27,6 +28,8 @@ namespace PictionaryMusicalCliente
         private void BotonAceptar(object sender, RoutedEventArgs e)
         {
             InicioSesion inicio = new InicioSesion();
+            SesionUsuarioActual.Instancia.Limpiar();
+            Application.Current.MainWindow = inicio;
             inicio.Show();
 
             this.Close();

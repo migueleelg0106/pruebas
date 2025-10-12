@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Sesiones;
 
 namespace PictionaryMusicalCliente
 {
@@ -84,7 +85,9 @@ namespace PictionaryMusicalCliente
 
                     if (resultado.InicioSesionExitoso)
                     {
+                        SesionUsuarioActual.Instancia.EstablecerUsuario(resultado.Usuario);
                         VentanaPrincipal ventana = new VentanaPrincipal();
+                        Application.Current.MainWindow = ventana;
                         ventana.Show();
                         this.Close();
                         return;

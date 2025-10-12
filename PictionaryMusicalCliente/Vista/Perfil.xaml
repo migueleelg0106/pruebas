@@ -4,7 +4,8 @@
         xmlns:language="clr-namespace:PictionaryMusicalCliente.Properties.Langs"
         Title="{x:Static language:Lang.perfilTextoMiPerfil}" Height="500" Width="550"
         WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True" WindowStyle="None" Background="Transparent">
+        AllowsTransparency="True" WindowStyle="None" Background="Transparent"
+        Loaded="Perfil_Loaded">
     <Grid>
         <Border Background="White" BorderBrush="Gray" BorderThickness="2"
                 Padding="20" CornerRadius="3"
@@ -15,17 +16,41 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="{x:Static language:Lang.perfilTextoMiPerfil}"
                                FontFamily="Comic Sans MS" FontSize="28" FontWeight="Bold"
                                VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                        <Ellipse Width="60" Height="60" Stroke="Black" StrokeThickness="1"/>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="20,0,20,0">
+                        <TextBlock Text="{x:Static language:Lang.perfilTextoAvatarActual}"
+                                   FontFamily="Comic Sans MS" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                        <Ellipse x:Name="ellipseAvatarActual" Width="60" Height="60" Stroke="Black" StrokeThickness="1" Margin="0,5,0,0">
+                            <Ellipse.Fill>
+                                <ImageBrush x:Name="imagenAvatarActual" Stretch="UniformToFill"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock x:Name="textoNombreAvatarActual" FontFamily="Comic Sans MS"
+                                   HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                        <TextBlock Text="{x:Static language:Lang.perfilTextoAvatarNuevo}"
+                                   FontFamily="Comic Sans MS" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                        <Ellipse x:Name="ellipseAvatarNuevo" Width="60" Height="60" Stroke="Black" StrokeThickness="1" Margin="0,5,0,0">
+                            <Ellipse.Fill>
+                                <ImageBrush x:Name="imagenAvatarNuevo" Stretch="UniformToFill"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock x:Name="textoNombreAvatarNuevo" FontFamily="Comic Sans MS"
+                                   HorizontalAlignment="Center" Margin="0,5,0,0"/>
                         <Label Content="{x:Static language:Lang.globalTextoSeleccionarAvatar}"
                                Foreground="Blue" Cursor="Hand"
-                               FontFamily="Comic Sans MS" HorizontalAlignment="Center"/>
+                               FontFamily="Comic Sans MS" HorizontalAlignment="Center"
+                               MouseLeftButtonUp="EtiquetaSeleccionarAvatar"/>
                     </StackPanel>
                 </Grid>
 
@@ -44,21 +69,21 @@
                     <!-- Usuario y Nombre -->
                     <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoUsuario}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox Text="" IsReadOnly="True" Height="25"/>
+                        <TextBox x:Name="bloqueTextoUsuario" Text="" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoNombre}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox Text="" Height="25"/>
+                        <TextBox x:Name="bloqueTextoNombre" Text="" Height="25" FontFamily="Comic Sans MS" MaxLength="50"/>
                     </StackPanel>
 
                     <!-- Apellido y Correo -->
                     <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoApellido}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox Text="" Height="25"/>
+                        <TextBox x:Name="bloqueTextoApellido" Text="" Height="25" FontFamily="Comic Sans MS" MaxLength="50"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,0,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoCorreo}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox Text="" IsReadOnly="True" Height="25"/>
+                        <TextBox x:Name="bloqueTextoCorreo" Text="" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
                     </StackPanel>
 
                     <!-- Redes Sociales y Cambiar Contraseña -->

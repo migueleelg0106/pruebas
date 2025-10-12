@@ -91,6 +91,7 @@
     <Compile Include="Modelo\ResultadoSolicitudCodigo.cs" />
     <Compile Include="Modelo\ResultadoSolicitudRecuperacion.cs" />
     <Compile Include="Modelo\SolicitudActualizarContrasena.cs" />
+    <Compile Include="Modelo\SolicitudActualizarPerfil.cs" />
     <Compile Include="Modelo\SolicitudConfirmarCodigo.cs" />
     <Compile Include="Modelo\SolicitudConfirmarCodigoRecuperacion.cs" />
     <Compile Include="Modelo\SolicitudInicioSesion.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
     <Compile Include="Servicios\DialogService.cs" />
     <Compile Include="Servicios\ServidorProxy.cs" />
+    <Compile Include="Sesiones\SesionUsuarioActual.cs" />
     <Compile Include="VistaModelo\CrearCuenta.cs" />
     <Compile Include="Vista\AjustesPartida.xaml.cs">
       <DependentUpon>AjustesPartida.xaml</DependentUpon>
@@ -125,6 +127,7 @@
     <Compile Include="Vista\InvitarAmigos.xaml.cs">
       <DependentUpon>InvitarAmigos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilidades\AvatarImagenHelper.cs" />
     <Compile Include="Vista\SeleccionarAvatar.xaml.cs">
       <DependentUpon>SeleccionarAvatar.xaml</DependentUpon>
     </Compile>
