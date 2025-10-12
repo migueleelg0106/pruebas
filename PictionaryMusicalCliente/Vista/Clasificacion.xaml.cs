@@ -1,16 +1,10 @@
-﻿using System;
+using PictionaryMusicalCliente.Modelo;
+using PictionaryMusicalCliente.Servicios;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PictionaryMusicalCliente
 {
@@ -19,14 +13,46 @@ namespace PictionaryMusicalCliente
     /// </summary>
     public partial class Clasificacion : Window
     {
+        private readonly IDialogService _dialogService;
+
         public Clasificacion()
         {
             InitializeComponent();
+            _dialogService = new DialogService();
         }
 
         private void BotonRegresar(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
+        }
+
+        private async void VentanaCargada(object sender, RoutedEventArgs e)
+        {
+            await CargarClasificacionAsync();
+        }
+
+        private async Task CargarClasificacionAsync()
+        {
+            try
+            {
+                using (var proxy = new ServidorProxy())
+                {
+                    List<EntradaClasificacion> clasificacion = await proxy.ObtenerClasificacionAsync();
+                    TablaClasificacion.ItemsSource = clasificacion;
+                }
+            }
+            catch (CommunicationException ex)
+            {
+                _dialogService.Aviso(ex.Message);
+            }
+            catch (TimeoutException ex)
+            {
+                _dialogService.Aviso(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _dialogService.Aviso(ex.Message);
+            }
         }
     }
 }

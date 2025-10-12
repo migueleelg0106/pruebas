@@ -97,13 +97,17 @@ namespace PictionaryMusicalCliente
             {
                 new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
             }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor no respondió a tiempo. Intente nuevamente.").ShowDialog();
+            }
             catch (CommunicationException)
             {
                 new Avisos("Ocurrió un problema de comunicación con el servidor.").ShowDialog();
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                new Avisos("Ocurrió un error inesperado al actualizar la contraseña.").ShowDialog();
+                new Avisos("Ocurrió un error al preparar la solicitud de cambio de contraseña.").ShowDialog();
             }
             finally
             {

@@ -1,14 +1,13 @@
-﻿using System;
+using Servicios.Contratos.DTOs;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Servicios.Contratos
 {
     [ServiceContract]
     public interface IClasificacionManejador
     {
+        [OperationContract]
+        List<ClasificacionUsuarioDTO> ObtenerTopJugadores();
     }
 }
