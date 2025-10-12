@@ -1,7 +1,9 @@
 using Datos.DAL.Interfaces;
 using Servicios.Contratos.DTOs;
-using Servicios.Servicios.Notificaciones;
+using Servicios.Servicios.Utilidades;
 using System;
+using System.Configuration;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -64,7 +66,31 @@ namespace Servicios.Servicios
             {
                 EjecutarEnvioCodigoAsync(registro.Correo, codigo).GetAwaiter().GetResult();
             }
-            catch (Exception ex)
+            catch (SmtpException ex)
+            {
+                _store.TryRemove(registro.Token);
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo enviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _store.TryRemove(registro.Token);
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo enviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (FormatException ex)
+            {
+                _store.TryRemove(registro.Token);
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo enviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (ConfigurationErrorsException ex)
             {
                 _store.TryRemove(registro.Token);
                 resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
@@ -121,7 +147,28 @@ namespace Servicios.Servicios
             {
                 EjecutarEnvioCodigoAsync(registro.Correo, nuevoCodigo).GetAwaiter().GetResult();
             }
-            catch (Exception ex)
+            catch (SmtpException ex)
+            {
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo reenviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (InvalidOperationException ex)
+            {
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo reenviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (FormatException ex)
+            {
+                resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                    ? "No se pudo reenviar el código de verificación."
+                    : ex.Message;
+                return resultado;
+            }
+            catch (ConfigurationErrorsException ex)
             {
                 resultado.Mensaje = string.IsNullOrWhiteSpace(ex.Message)
                     ? "No se pudo reenviar el código de verificación."

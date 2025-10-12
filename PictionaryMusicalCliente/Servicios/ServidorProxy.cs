@@ -22,10 +22,12 @@ namespace PictionaryMusicalCliente.Servicios
         private readonly SrvReenv.ReenviarCodigoVerificacionManejadorClient _reenviarCodigo;
         private readonly ChannelFactory<IInicioSesionManejadorContract> _inicioSesionFactory;
         private readonly ChannelFactory<ICambiarContrasenaManejadorContract> _cambiarContrasenaFactory;
+        private readonly ChannelFactory<IClasificacionManejadorContract> _clasificacionFactory;
 
         private const string BaseImagenesRemotas = "http://localhost:8086/";
         private const string InicioSesionEndpoint = "http://localhost:8086/Pictionary/InicioSesion/InicioSesion";
         private const string CambiarContrasenaEndpoint = "http://localhost:8086/Pictionary/CambiarContrasena/CambiarContrasena";
+        private const string ClasificacionEndpoint = "http://localhost:8086/Pictionary/Clasificacion/Clasificacion";
 
         public ServidorProxy()
         {
@@ -35,6 +37,7 @@ namespace PictionaryMusicalCliente.Servicios
             _reenviarCodigo = new SrvReenv.ReenviarCodigoVerificacionManejadorClient("BasicHttpBinding_IReenviarCodigoVerificacionManejador");
             _inicioSesionFactory = new ChannelFactory<IInicioSesionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(InicioSesionEndpoint));
             _cambiarContrasenaFactory = new ChannelFactory<ICambiarContrasenaManejadorContract>(new BasicHttpBinding(), new EndpointAddress(CambiarContrasenaEndpoint));
+            _clasificacionFactory = new ChannelFactory<IClasificacionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(ClasificacionEndpoint));
         }
 
         public async Task<List<ObjetoAvatar>> ObtenerAvataresAsync()
@@ -236,6 +239,39 @@ namespace PictionaryMusicalCliente.Servicios
             }
         }
 
+        public async Task<List<EntradaClasificacion>> ObtenerClasificacionAsync()
+        {
+            if (_clasificacionFactory == null)
+            {
+                throw new InvalidOperationException("El canal de clasificación no está disponible.");
+            }
+
+            IClasificacionManejadorContract canal = _clasificacionFactory.CreateChannel();
+            var comunicacion = canal as ICommunicationObject;
+
+            try
+            {
+                ClasificacionUsuarioDto[] resultadoDto = await Task.Run(() => canal.ObtenerTopJugadores());
+                comunicacion?.Close();
+                return ConvertirClasificacion(resultadoDto);
+            }
+            catch (CommunicationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (TimeoutException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
+        }
+
         private static string ObtenerRutaAbsoluta(string rutaRelativa)
         {
             if (string.IsNullOrWhiteSpace(rutaRelativa))
@@ -267,6 +303,7 @@ namespace PictionaryMusicalCliente.Servicios
             CerrarCliente(_reenviarCodigo);
             CerrarCliente(_inicioSesionFactory);
             CerrarCliente(_cambiarContrasenaFactory);
+            CerrarCliente(_clasificacionFactory);
         }
 
         private static SrvCod.NuevaCuentaDTO CrearNuevaCuentaDtoVerificacion(SolicitudRegistrarUsuario solicitud)
@@ -421,6 +458,23 @@ namespace PictionaryMusicalCliente.Servicios
                     OperacionExitosa = resultadoDto.OperacionExitosa,
                     Mensaje = resultadoDto.Mensaje
                 };
+        }
+
+        private static List<EntradaClasificacion> ConvertirClasificacion(ClasificacionUsuarioDto[] clasificacionDto)
+        {
+            if (clasificacionDto == null || clasificacionDto.Length == 0)
+            {
+                return new List<EntradaClasificacion>();
+            }
+
+            return clasificacionDto
+                .Select(entrada => new EntradaClasificacion
+                {
+                    Usuario = entrada.Usuario,
+                    Puntos = entrada.Puntos,
+                    RondasGanadas = entrada.RondasGanadas
+                })
+                .ToList();
         }
 
         private static ResultadoSolicitudCodigo CrearResultadoSolicitudCodigo(bool codigoEnviado, string mensaje, string token, bool correoYaRegistrado, bool usuarioYaRegistrado, string tokenRecuperacion)
@@ -630,6 +684,26 @@ namespace PictionaryMusicalCliente.Servicios
 
             [DataMember]
             public string Mensaje { get; set; }
+        }
+
+        [ServiceContract(Name = "IClasificacionManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IClasificacionManejador")]
+        private interface IClasificacionManejadorContract
+        {
+            [OperationContract(Action = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadores", ReplyAction = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadoresResponse")]
+            ClasificacionUsuarioDto[] ObtenerTopJugadores();
+        }
+
+        [DataContract(Name = "ClasificacionUsuarioDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+        private class ClasificacionUsuarioDto
+        {
+            [DataMember]
+            public string Usuario { get; set; }
+
+            [DataMember]
+            public int Puntos { get; set; }
+
+            [DataMember]
+            public int RondasGanadas { get; set; }
         }
 
         [ServiceContract(Name = "IInicioSesionManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IInicioSesionManejador")]

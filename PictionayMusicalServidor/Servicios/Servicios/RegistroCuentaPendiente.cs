@@ -1,4 +1,5 @@
 using Servicios.Contratos.DTOs;
+using Servicios.Servicios.Utilidades;
 using System;
 
 namespace Servicios.Servicios
@@ -37,7 +38,7 @@ namespace Servicios.Servicios
 
         public static RegistroCuentaPendiente Crear(NuevaCuentaDTO nuevaCuenta, string codigo, TimeSpan duracionCodigo, DateTime creadoEn)
         {
-            string token = Guid.NewGuid().ToString("N");
+            string token = TokenGenerator.GenerarToken();
             return new RegistroCuentaPendiente(token, codigo, nuevaCuenta, duracionCodigo, creadoEn);
         }
 

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contratos\DTOs\AvatarDTO.cs" />
+    <Compile Include="Contratos\DTOs\ClasificacionUsuarioDTO.cs" />
     <Compile Include="Contratos\DTOs\ConfirmarCodigoRecuperacionDTO.cs" />
     <Compile Include="Contratos\DTOs\ConfirmarCodigoVerificacionDTO.cs" />
     <Compile Include="Contratos\DTOs\CredencialesInicioSesionDTO.cs" />
@@ -99,21 +100,23 @@
     <Compile Include="Contratos\ISalirSalaManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicios\CatalogoAvatares.cs" />
+    <Compile Include="Servicios\ClasificacionManejador.cs" />
     <Compile Include="Servicios\CodigoVerificacionManejador.cs" />
     <Compile Include="Servicios\CodigoVerificacionServicio.cs" />
     <Compile Include="Servicios\CuentaManejador.cs" />
     <Compile Include="Servicios\InicioSesionManejador.cs" />
     <Compile Include="Servicios\CuentaRegistroServicio.cs" />
     <Compile Include="Servicios\InicioSesionServicio.cs" />
-    <Compile Include="Servicios\CodigoVerificacion\RegistroCuentaPendiente.cs" />
-    <Compile Include="Servicios\CodigoVerificacion\RegistroCuentaPendienteStore.cs" />
+    <Compile Include="Servicios\RegistroCuentaPendiente.cs" />
+    <Compile Include="Servicios\RegistroCuentaPendienteStore.cs" />
     <Compile Include="Servicios\CambiarContrasenaManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaPendiente.cs" />
     <Compile Include="Servicios\RecuperacionCuentaServicio.cs" />
     <Compile Include="Servicios\RecuperacionCuentaStore.cs" />
     <Compile Include="Servicios\ReenviarCodigoVerificacionManejador.cs" />
-    <Compile Include="Servicios\Notificaciones\CorreoCodigoVerificacionNotificador.cs" />
-    <Compile Include="Servicios\Notificaciones\ICodigoVerificacionNotificador.cs" />
+    <Compile Include="Servicios\Utilidades\CorreoCodigoVerificacionNotificador.cs" />
+    <Compile Include="Servicios\Utilidades\ICodigoVerificacionNotificador.cs" />
+    <Compile Include="Servicios\Utilidades\TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilidades\" />
