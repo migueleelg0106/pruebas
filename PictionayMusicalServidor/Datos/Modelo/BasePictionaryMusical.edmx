@@ -354,8 +354,6 @@ advertencia 6002: La tabla o vista 'BaseDatosPrueba.dbo.Solicitud' no tiene defi
             <PropertyRef Name="idRedSocial" />
           </Key>
           <Property Name="idRedSocial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Jugador_idJugador" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Jugador" Relationship="Self.FK_RedSocial_Jugador" FromRole="RedSocial" ToRole="Jugador" />
           <Property Name="Instagram" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />

@@ -15,8 +15,6 @@ namespace Datos.Modelo
     public partial class RedSocial
     {
         public int idRedSocial { get; set; }
-        public string Nickname { get; set; }
-        public string Tipo { get; set; }
         public int Jugador_idJugador { get; set; }
         public string Instagram { get; set; }
         public string discord { get; set; }
