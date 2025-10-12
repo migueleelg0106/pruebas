@@ -113,7 +113,7 @@
     <Compile Include="Servicios\CambiarContrasenaManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaPendiente.cs" />
     <Compile Include="Servicios\RecuperacionCuentaServicio.cs" />
-    <Compile Include="Servicios\JugadoresManejador.cs" />
+    <Compile Include="Servicios\PerfilManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaStore.cs" />
     <Compile Include="Servicios\ReenviarCodigoVerificacionManejador.cs" />
     <Compile Include="Servicios\Utilidades\CorreoCodigoVerificacionNotificador.cs" />

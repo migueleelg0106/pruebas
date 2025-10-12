@@ -21,13 +21,13 @@ namespace PictionaryMusicalCliente.Servicios
             ResultadoOperacionDto ActualizarContrasena(ActualizarContrasenaDto solicitud);
         }
 
-        [ServiceContract(Name = "IJugadoresManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IJugadoresManejador")]
-        private interface IJugadoresManejadorContract
+        [ServiceContract(Name = "IPerfilManejador", Namespace = "http://tempuri.org/", ConfigurationName = "IPerfilManejador")]
+        private interface IPerfilManejadorContract
         {
-            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ObtenerPerfilResponse")]
+            [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ObtenerPerfilResponse")]
             UsuarioDto ObtenerPerfil(int idUsuario);
 
-            [OperationContract(Action = "http://tempuri.org/IJugadoresManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IJugadoresManejador/ActualizarPerfilResponse")]
+            [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ActualizarPerfilResponse")]
             ResultadoOperacionDto ActualizarPerfil(ActualizarPerfilDto solicitud);
         }
 

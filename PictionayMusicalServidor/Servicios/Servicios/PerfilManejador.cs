@@ -8,7 +8,7 @@ using Servicios.Contratos.DTOs;
 
 namespace Servicios.Servicios
 {
-    public class JugadoresManejador : IJugadoresManejador
+    public class PerfilManejador : IPerfilManejador
     {
         private const int LongitudMaximaNombre = 50;
         private const int LongitudMaximaRedSocial = 50;
@@ -17,12 +17,15 @@ namespace Servicios.Servicios
         private readonly IJugadorRepositorio _jugadorRepositorio;
         private readonly IAvatarRepositorio _avatarRepositorio;
 
-        public JugadoresManejador()
+        public PerfilManejador()
             : this(new UsuarioRepositorio(), new JugadorRepositorio(), new AvatarRepositorio())
         {
         }
 
-        public JugadoresManejador(IUsuarioRepositorio usuarioRepositorio, IJugadorRepositorio jugadorRepositorio, IAvatarRepositorio avatarRepositorio)
+        public PerfilManejador(
+            IUsuarioRepositorio usuarioRepositorio,
+            IJugadorRepositorio jugadorRepositorio,
+            IAvatarRepositorio avatarRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
             _jugadorRepositorio = jugadorRepositorio ?? throw new ArgumentNullException(nameof(jugadorRepositorio));

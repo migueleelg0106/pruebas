@@ -22,13 +22,13 @@ namespace PictionaryMusicalCliente.Servicios
         private readonly ChannelFactory<IInicioSesionManejadorContract> _inicioSesionFactory;
         private readonly ChannelFactory<ICambiarContrasenaManejadorContract> _cambiarContrasenaFactory;
         private readonly ChannelFactory<IClasificacionManejadorContract> _clasificacionFactory;
-        private readonly ChannelFactory<IJugadoresManejadorContract> _jugadoresFactory;
+        private readonly ChannelFactory<IPerfilManejadorContract> _perfilFactory;
 
         private const string BaseImagenesRemotas = "http://localhost:8086/";
         private const string InicioSesionEndpoint = "http://localhost:8086/Pictionary/InicioSesion/InicioSesion";
         private const string CambiarContrasenaEndpoint = "http://localhost:8086/Pictionary/CambiarContrasena/CambiarContrasena";
         private const string ClasificacionEndpoint = "http://localhost:8086/Pictionary/Clasificacion/Clasificacion";
-        private const string JugadoresEndpoint = "http://localhost:8086/Pictionary/Jugadores/Jugadores";
+        private const string PerfilEndpoint = "http://localhost:8086/Pictionary/Perfil/Perfil";
 
         public ServidorProxy()
         {
@@ -39,7 +39,7 @@ namespace PictionaryMusicalCliente.Servicios
             _inicioSesionFactory = new ChannelFactory<IInicioSesionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(InicioSesionEndpoint));
             _cambiarContrasenaFactory = new ChannelFactory<ICambiarContrasenaManejadorContract>(new BasicHttpBinding(), new EndpointAddress(CambiarContrasenaEndpoint));
             _clasificacionFactory = new ChannelFactory<IClasificacionManejadorContract>(new BasicHttpBinding(), new EndpointAddress(ClasificacionEndpoint));
-            _jugadoresFactory = new ChannelFactory<IJugadoresManejadorContract>(new BasicHttpBinding(), new EndpointAddress(JugadoresEndpoint));
+            _perfilFactory = new ChannelFactory<IPerfilManejadorContract>(new BasicHttpBinding(), new EndpointAddress(PerfilEndpoint));
         }
 
         public async Task<List<ObjetoAvatar>> ObtenerAvataresAsync()
@@ -326,9 +326,9 @@ namespace PictionaryMusicalCliente.Servicios
 
         public async Task<UsuarioAutenticado> ObtenerPerfilAsync(int idUsuario)
         {
-            if (_jugadoresFactory == null)
+            if (_perfilFactory == null)
             {
-                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+                throw new InvalidOperationException("El canal de perfil no está disponible.");
             }
 
             if (idUsuario <= 0)
@@ -336,7 +336,7 @@ namespace PictionaryMusicalCliente.Servicios
                 return null;
             }
 
-            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            IPerfilManejadorContract canal = _perfilFactory.CreateChannel();
             var comunicacion = canal as ICommunicationObject;
 
             try
@@ -364,9 +364,9 @@ namespace PictionaryMusicalCliente.Servicios
 
         public async Task<ResultadoOperacion> ActualizarPerfilAsync(SolicitudActualizarPerfil solicitud)
         {
-            if (_jugadoresFactory == null)
+            if (_perfilFactory == null)
             {
-                throw new InvalidOperationException("El canal de jugadores no está disponible.");
+                throw new InvalidOperationException("El canal de perfil no está disponible.");
             }
 
             ActualizarPerfilDto dto = CrearActualizarPerfilDto(solicitud);
@@ -376,7 +376,7 @@ namespace PictionaryMusicalCliente.Servicios
                 return null;
             }
 
-            IJugadoresManejadorContract canal = _jugadoresFactory.CreateChannel();
+            IPerfilManejadorContract canal = _perfilFactory.CreateChannel();
             var comunicacion = canal as ICommunicationObject;
 
             try
@@ -434,7 +434,7 @@ namespace PictionaryMusicalCliente.Servicios
             CerrarCliente(_inicioSesionFactory);
             CerrarCliente(_cambiarContrasenaFactory);
             CerrarCliente(_clasificacionFactory);
-            CerrarCliente(_jugadoresFactory);
+            CerrarCliente(_perfilFactory);
         }
 
         private static SrvCod.NuevaCuentaDTO CrearNuevaCuentaDtoVerificacion(SolicitudRegistrarUsuario solicitud)
