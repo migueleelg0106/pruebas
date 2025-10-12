@@ -71,9 +71,11 @@
             <PropertyRef Name="idRedSocial" />
           </Key>
           <Property Name="idRedSocial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nickname" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Tipo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Jugador_idJugador" Type="int" Nullable="false" />
+          <Property Name="Instagram" Type="varchar" MaxLength="50" />
+          <Property Name="discord" Type="varchar" MaxLength="50" />
+          <Property Name="facebook" Type="varchar" MaxLength="50" />
+          <Property Name="x" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'BaseDatosPrueba.dbo.Solicitud' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -356,6 +358,10 @@ advertencia 6002: La tabla o vista 'BaseDatosPrueba.dbo.Solicitud' no tiene defi
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Jugador_idJugador" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Jugador" Relationship="Self.FK_RedSocial_Jugador" FromRole="RedSocial" ToRole="Jugador" />
+          <Property Name="Instagram" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="discord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="facebook" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="x" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -622,9 +628,11 @@ advertencia 6002: La tabla o vista 'BaseDatosPrueba.dbo.Solicitud' no tiene defi
           <EntitySetMapping Name="RedSocial">
             <EntityTypeMapping TypeName="BaseDatosPruebaModel.RedSocial">
               <MappingFragment StoreEntitySet="RedSocial">
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="facebook" ColumnName="facebook" />
+                <ScalarProperty Name="discord" ColumnName="discord" />
+                <ScalarProperty Name="Instagram" ColumnName="Instagram" />
                 <ScalarProperty Name="idRedSocial" ColumnName="idRedSocial" />
-                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Jugador_idJugador" ColumnName="Jugador_idJugador" />
               </MappingFragment>
             </EntityTypeMapping>

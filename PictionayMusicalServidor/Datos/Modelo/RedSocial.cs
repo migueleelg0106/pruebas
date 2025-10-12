@@ -18,6 +18,10 @@ namespace Datos.Modelo
         public string Nickname { get; set; }
         public string Tipo { get; set; }
         public int Jugador_idJugador { get; set; }
+        public string Instagram { get; set; }
+        public string discord { get; set; }
+        public string facebook { get; set; }
+        public string x { get; set; }
     
         public virtual Jugador Jugador { get; set; }
     }
