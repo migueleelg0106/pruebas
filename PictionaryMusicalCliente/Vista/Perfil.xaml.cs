@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using System.Text;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
@@ -150,16 +152,25 @@ namespace PictionaryMusicalCliente
                 return avataresServidor.ToList();
             }
 
-            Dictionary<int, ObjetoAvatar> localesPorId = avataresLocales
-                .Where(avatar => avatar != null)
-                .GroupBy(avatar => avatar.Id)
+            var localesValidos = avataresLocales
+                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+                .ToList();
+
+            if (localesValidos.Count == 0)
+            {
+                return avataresLocales;
+            }
+
+            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado = localesValidos
+                .Where(avatar => !string.IsNullOrWhiteSpace(avatar.Nombre))
+                .GroupBy(avatar => NormalizarNombre(avatar.Nombre))
                 .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
-            Dictionary<string, ObjetoAvatar> localesPorNombre = avataresLocales
-                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.Nombre))
-                .GroupBy(avatar => avatar.Nombre.Trim(), StringComparer.OrdinalIgnoreCase)
-                .ToDictionary(grupo => grupo.Key, grupo => grupo.First(), StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, ObjetoAvatar> localesPorRuta = localesValidos
+                .GroupBy(avatar => NormalizarRuta(avatar.RutaRelativa))
+                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
+            var asignados = new HashSet<ObjetoAvatar>();
             var resultado = new List<ObjetoAvatar>();
 
             foreach (ObjetoAvatar avatarServidor in avataresServidor)
@@ -169,33 +180,105 @@ namespace PictionaryMusicalCliente
                     continue;
                 }
 
-                ObjetoAvatar avatarLocal = null;
-
-                if (localesPorId.TryGetValue(avatarServidor.Id, out ObjetoAvatar avatarPorId))
-                {
-                    avatarLocal = avatarPorId;
-                }
-                else if (!string.IsNullOrWhiteSpace(avatarServidor.Nombre)
-                    && localesPorNombre.TryGetValue(avatarServidor.Nombre.Trim(), out ObjetoAvatar avatarPorNombre))
-                {
-                    avatarLocal = avatarPorNombre;
-                }
+                ObjetoAvatar avatarLocal = BuscarCoincidenciaLocal(avatarServidor, localesValidos, localesPorNombreNormalizado, localesPorRuta, asignados);
 
                 if (avatarLocal == null)
                 {
                     continue;
                 }
 
+                asignados.Add(avatarLocal);
+
                 resultado.Add(new ObjetoAvatar
                 {
                     Id = avatarServidor.Id,
-                    Nombre = avatarServidor.Nombre ?? avatarLocal.Nombre,
+                    Nombre = string.IsNullOrWhiteSpace(avatarServidor.Nombre) ? avatarLocal.Nombre : avatarServidor.Nombre,
                     RutaRelativa = avatarLocal.RutaRelativa,
                     ImagenUriAbsoluta = null
                 });
             }
 
-            return resultado;
+            return resultado.Count > 0 ? resultado : avataresLocales;
+        }
+
+        private static ObjetoAvatar BuscarCoincidenciaLocal(
+            ObjetoAvatar avatarServidor,
+            List<ObjetoAvatar> localesValidos,
+            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado,
+            Dictionary<string, ObjetoAvatar> localesPorRuta,
+            HashSet<ObjetoAvatar> asignados)
+        {
+            ObjetoAvatar avatarLocal = null;
+
+            if (avatarServidor.Id > 0)
+            {
+                avatarLocal = localesValidos
+                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id && !asignados.Contains(avatar));
+            }
+
+            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.Nombre))
+            {
+                string nombreNormalizado = NormalizarNombre(avatarServidor.Nombre);
+
+                if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out ObjetoAvatar coincidenciaNombre)
+                    && !asignados.Contains(coincidenciaNombre))
+                {
+                    avatarLocal = coincidenciaNombre;
+                }
+            }
+
+            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.RutaRelativa))
+            {
+                string rutaNormalizada = NormalizarRuta(avatarServidor.RutaRelativa);
+
+                if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
+                    && !asignados.Contains(coincidenciaRuta))
+                {
+                    avatarLocal = coincidenciaRuta;
+                }
+            }
+
+            if (avatarLocal == null)
+            {
+                avatarLocal = localesValidos.FirstOrDefault(avatar => !asignados.Contains(avatar));
+            }
+
+            return avatarLocal;
+        }
+
+        private static string NormalizarNombre(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                return string.Empty;
+            }
+
+            string descompuesto = nombre.Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder(descompuesto.Length);
+
+            foreach (char caracter in descompuesto)
+            {
+                UnicodeCategory categoria = CharUnicodeInfo.GetUnicodeCategory(caracter);
+
+                if (categoria == UnicodeCategory.NonSpacingMark)
+                {
+                    continue;
+                }
+
+                if (char.IsLetterOrDigit(caracter))
+                {
+                    builder.Append(char.ToLowerInvariant(caracter));
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private static string NormalizarRuta(string ruta)
+        {
+            return string.IsNullOrWhiteSpace(ruta)
+                ? string.Empty
+                : ruta.Trim().Replace("\\", "/").ToLowerInvariant();
         }
 
         private void InicializarRedesSociales()
