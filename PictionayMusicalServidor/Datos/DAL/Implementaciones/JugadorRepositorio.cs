@@ -55,16 +55,11 @@ namespace Datos.DAL.Implementaciones
             int jugadorId,
             string nombre,
             string apellido,
-            int avatarId,
-            string instagram,
-            string facebook,
-            string x,
-            string discord)
+            int avatarId)
         {
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 var jugador = contexto.Jugador
-                    .Include(j => j.RedSocial)
                     .FirstOrDefault(j => j.idJugador == jugadorId);
 
                 if (jugador == null)
@@ -76,25 +71,9 @@ namespace Datos.DAL.Implementaciones
                 jugador.Apellido = apellido;
                 jugador.Avatar_idAvatar = avatarId;
 
-                RedSocial redSocial = jugador.RedSocial?.FirstOrDefault();
+                contexto.SaveChanges();
 
-                if (redSocial == null)
-                {
-                    redSocial = new RedSocial
-                    {
-                        Jugador_idJugador = jugadorId,
-                        Jugador = jugador
-                    };
-
-                    contexto.RedSocial.Add(redSocial);
-                }
-
-                redSocial.Instagram = instagram;
-                redSocial.facebook = facebook;
-                redSocial.x = x;
-                redSocial.discord = discord;
-
-                return contexto.SaveChanges() > 0;
+                return true;
             }
         }
     }

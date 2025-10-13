@@ -20,21 +20,28 @@ namespace Servicios.Servicios
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IJugadorRepositorio _jugadorRepositorio;
         private readonly IAvatarRepositorio _avatarRepositorio;
+        private readonly IRedSocialRepositorio _redSocialRepositorio;
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(PerfilManejador));
 
         public PerfilManejador()
-            : this(new UsuarioRepositorio(), new JugadorRepositorio(), new AvatarRepositorio())
+            : this(
+                new UsuarioRepositorio(),
+                new JugadorRepositorio(),
+                new AvatarRepositorio(),
+                new RedSocialRepositorio())
         {
         }
 
         public PerfilManejador(
             IUsuarioRepositorio usuarioRepositorio,
             IJugadorRepositorio jugadorRepositorio,
-            IAvatarRepositorio avatarRepositorio)
+            IAvatarRepositorio avatarRepositorio,
+            IRedSocialRepositorio redSocialRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
             _jugadorRepositorio = jugadorRepositorio ?? throw new ArgumentNullException(nameof(jugadorRepositorio));
             _avatarRepositorio = avatarRepositorio ?? throw new ArgumentNullException(nameof(avatarRepositorio));
+            _redSocialRepositorio = redSocialRepositorio ?? throw new ArgumentNullException(nameof(redSocialRepositorio));
         }
 
         public UsuarioDTO ObtenerPerfil(int idUsuario)
@@ -58,7 +65,12 @@ namespace Servicios.Servicios
                 }
 
                 Jugador jugador = usuario.Jugador;
-                RedSocial redSocial = jugador?.RedSocial?.FirstOrDefault();
+                RedSocial redSocial = null;
+
+                if (jugador != null)
+                {
+                    redSocial = _redSocialRepositorio.ObtenerPorJugadorId(jugador.idJugador);
+                }
 
                 return new UsuarioDTO
                 {
@@ -186,19 +198,28 @@ namespace Servicios.Servicios
 
                 int jugadorId = usuario.Jugador_idJugador;
 
-                bool actualizado = _jugadorRepositorio.ActualizarPerfil(
+                bool jugadorActualizado = _jugadorRepositorio.ActualizarPerfil(
                     jugadorId,
                     nombreNormalizado,
                     apellidoNormalizado,
-                    solicitud.AvatarId,
+                    solicitud.AvatarId);
+
+                if (!jugadorActualizado)
+                {
+                    Bitacora.WarnFormat("No se lograron persistir los cambios del perfil para el usuario {0}.", solicitud.UsuarioId);
+                    return CrearResultado(false, "No fue posible actualizar el perfil.");
+                }
+
+                bool redesActualizadas = _redSocialRepositorio.GuardarRedSocial(
+                    jugadorId,
                     instagram,
                     facebook,
                     x,
                     discord);
 
-                if (!actualizado)
+                if (!redesActualizadas)
                 {
-                    Bitacora.WarnFormat("No se lograron persistir los cambios del perfil para el usuario {0}.", solicitud.UsuarioId);
+                    Bitacora.WarnFormat("No fue posible actualizar las redes sociales del jugador {0}.", jugadorId);
                     return CrearResultado(false, "No fue posible actualizar el perfil.");
                 }
 

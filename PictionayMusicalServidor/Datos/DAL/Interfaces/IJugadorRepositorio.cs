@@ -19,10 +19,6 @@ namespace Datos.DAL.Interfaces
             int jugadorId,
             string nombre,
             string apellido,
-            int avatarId,
-            string instagram,
-            string facebook,
-            string x,
-            string discord);
+            int avatarId);
     }
 }
