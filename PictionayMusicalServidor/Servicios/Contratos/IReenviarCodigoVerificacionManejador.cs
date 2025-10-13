@@ -9,5 +9,9 @@ namespace Servicios.Contratos
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
         ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoVerificacionDTO solicitud);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
+        ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDTO solicitud);
     }
 }

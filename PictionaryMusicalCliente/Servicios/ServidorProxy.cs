@@ -138,137 +138,41 @@ namespace PictionaryMusicalCliente.Servicios
 
         public async Task<ResultadoSolicitudRecuperacion> SolicitarCodigoRecuperacionAsync(SolicitudRecuperarCuenta solicitud)
         {
-            if (_cambiarContrasenaFactory == null)
-            {
-                throw new InvalidOperationException("El canal de recuperación de contraseña no está disponible.");
-            }
-
-            SolicitudRecuperacionDto dto = CrearSolicitudRecuperacionDto(solicitud);
+            var dto = CrearSolicitudRecuperacionDto(solicitud);
 
             if (dto == null)
             {
                 return null;
             }
 
-            ICambiarContrasenaManejadorContract canal = _cambiarContrasenaFactory.CreateChannel();
-            var comunicacion = canal as ICommunicationObject;
-
-            try
-            {
-                ResultadoSolicitudRecuperacionDto resultadoDto = await Task.Run(() => canal.SolicitarCodigoRecuperacion(dto));
-                comunicacion?.Close();
-                return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
-            }
-            catch (FaultException<ErrorDetalleServicio>)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (CommunicationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (TimeoutException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (InvalidOperationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
+            SrvCod.ResultadoSolicitudRecuperacionDTO resultadoDto = await _codigoVerificacion.SolicitarCodigoRecuperacionAsync(dto);
+            return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
         }
 
         public async Task<ResultadoSolicitudCodigo> ReenviarCodigoRecuperacionAsync(SolicitudReenviarCodigoRecuperacion solicitud)
         {
-            if (_cambiarContrasenaFactory == null)
-            {
-                throw new InvalidOperationException("El canal de recuperación de contraseña no está disponible.");
-            }
-
-            SolicitudReenviarCodigoRecuperacionDto dto = CrearSolicitudReenviarCodigoRecuperacionDto(solicitud);
+            SrvReenv.SolicitudReenviarCodigoRecuperacionDTO dto = CrearSolicitudReenviarCodigoRecuperacionDto(solicitud);
 
             if (dto == null)
             {
                 return null;
             }
 
-            ICambiarContrasenaManejadorContract canal = _cambiarContrasenaFactory.CreateChannel();
-            var comunicacion = canal as ICommunicationObject;
-
-            try
-            {
-                ResultadoSolicitudCodigoDto resultadoDto = await Task.Run(() => canal.ReenviarCodigoRecuperacion(dto));
-                comunicacion?.Close();
-                return ConvertirResultadoSolicitudCodigo(resultadoDto);
-            }
-            catch (FaultException<ErrorDetalleServicio>)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (CommunicationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (TimeoutException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (InvalidOperationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
+            SrvReenv.ResultadoSolicitudCodigoDTO resultadoDto = await _reenviarCodigo.ReenviarCodigoRecuperacionAsync(dto);
+            return ConvertirResultadoSolicitudCodigo(resultadoDto);
         }
 
         public async Task<ResultadoOperacion> ConfirmarCodigoRecuperacionAsync(SolicitudConfirmarCodigoRecuperacion solicitud)
         {
-            if (_cambiarContrasenaFactory == null)
-            {
-                throw new InvalidOperationException("El canal de recuperación de contraseña no está disponible.");
-            }
-
-            ConfirmarCodigoRecuperacionDto dto = CrearConfirmarCodigoRecuperacionDto(solicitud);
+            SrvCod.ConfirmarCodigoRecuperacionDTO dto = CrearConfirmarCodigoRecuperacionDto(solicitud);
 
             if (dto == null)
             {
                 return null;
             }
 
-            ICambiarContrasenaManejadorContract canal = _cambiarContrasenaFactory.CreateChannel();
-            var comunicacion = canal as ICommunicationObject;
-
-            try
-            {
-                ResultadoOperacionDto resultadoDto = await Task.Run(() => canal.ConfirmarCodigoRecuperacion(dto));
-                comunicacion?.Close();
-                return ConvertirResultadoOperacion(resultadoDto);
-            }
-            catch (FaultException<ErrorDetalleServicio>)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (CommunicationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (TimeoutException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
-            catch (InvalidOperationException)
-            {
-                comunicacion?.Abort();
-                throw;
-            }
+            SrvCod.ResultadoOperacionDTO resultadoDto = await _codigoVerificacion.ConfirmarCodigoRecuperacionAsync(dto);
+            return ConvertirResultadoOperacion(resultadoDto);
         }
 
         public async Task<ResultadoOperacion> ActualizarContrasenaAsync(SolicitudActualizarContrasena solicitud)
@@ -513,40 +417,40 @@ namespace PictionaryMusicalCliente.Servicios
             };
         }
 
-        private static SolicitudRecuperacionDto CrearSolicitudRecuperacionDto(SolicitudRecuperarCuenta solicitud)
+        private static SrvCod.SolicitudRecuperarCuentaDTO CrearSolicitudRecuperacionDto(SolicitudRecuperarCuenta solicitud)
         {
             if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.Identificador))
             {
                 return null;
             }
 
-            return new SolicitudRecuperacionDto
+            return new SrvCod.SolicitudRecuperarCuentaDTO
             {
                 Identificador = solicitud.Identificador
             };
         }
 
-        private static SolicitudReenviarCodigoRecuperacionDto CrearSolicitudReenviarCodigoRecuperacionDto(SolicitudReenviarCodigoRecuperacion solicitud)
+        private static SrvReenv.SolicitudReenviarCodigoRecuperacionDTO CrearSolicitudReenviarCodigoRecuperacionDto(SolicitudReenviarCodigoRecuperacion solicitud)
         {
             if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion))
             {
                 return null;
             }
 
-            return new SolicitudReenviarCodigoRecuperacionDto
+            return new SrvReenv.SolicitudReenviarCodigoRecuperacionDTO
             {
                 TokenRecuperacion = solicitud.TokenRecuperacion
             };
         }
 
-        private static ConfirmarCodigoRecuperacionDto CrearConfirmarCodigoRecuperacionDto(SolicitudConfirmarCodigoRecuperacion solicitud)
+        private static SrvCod.ConfirmarCodigoRecuperacionDTO CrearConfirmarCodigoRecuperacionDto(SolicitudConfirmarCodigoRecuperacion solicitud)
         {
             if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion) || string.IsNullOrWhiteSpace(solicitud.Codigo))
             {
                 return null;
             }
 
-            return new ConfirmarCodigoRecuperacionDto
+            return new SrvCod.ConfirmarCodigoRecuperacionDTO
             {
                 TokenRecuperacion = solicitud.TokenRecuperacion,
                 CodigoIngresado = solicitud.Codigo
@@ -593,20 +497,7 @@ namespace PictionaryMusicalCliente.Servicios
                     null);
         }
 
-        private static ResultadoSolicitudCodigo ConvertirResultadoSolicitudCodigo(ResultadoSolicitudCodigoDto resultadoDto)
-        {
-            return resultadoDto == null
-                ? null
-                : CrearResultadoSolicitudCodigo(
-                    resultadoDto.CodigoEnviado,
-                    resultadoDto.Mensaje,
-                    resultadoDto.TokenRecuperacion ?? resultadoDto.TokenVerificacion,
-                    false,
-                    false,
-                    resultadoDto.TokenRecuperacion);
-        }
-
-        private static ResultadoSolicitudRecuperacion ConvertirResultadoSolicitudRecuperacion(ResultadoSolicitudRecuperacionDto resultadoDto)
+        private static ResultadoSolicitudRecuperacion ConvertirResultadoSolicitudRecuperacion(SrvCod.ResultadoSolicitudRecuperacionDTO resultadoDto)
         {
             return resultadoDto == null
                 ? null
@@ -621,6 +512,17 @@ namespace PictionaryMusicalCliente.Servicios
         }
 
         private static ResultadoOperacion ConvertirResultadoOperacion(ResultadoOperacionDto resultadoDto)
+        {
+            return resultadoDto == null
+                ? null
+                : new ResultadoOperacion
+                {
+                    OperacionExitosa = resultadoDto.OperacionExitosa,
+                    Mensaje = resultadoDto.Mensaje
+                };
+        }
+
+        private static ResultadoOperacion ConvertirResultadoOperacion(SrvCod.ResultadoOperacionDTO resultadoDto)
         {
             return resultadoDto == null
                 ? null

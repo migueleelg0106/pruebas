@@ -4,7 +4,6 @@ using Servicios.Servicios.Utilidades;
 using System;
 using System.Configuration;
 using System.Net.Mail;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Servicios.Servicios
@@ -59,7 +58,7 @@ namespace Servicios.Servicios
 
             _registroStore.RemoverPorCorreoOUsuario(nuevaCuenta.Correo, nuevaCuenta.Usuario);
 
-            string codigo = GenerarCodigoVerificacion();
+            string codigo = CodigoVerificacionGenerator.GenerarCodigo();
             var registroPendiente = RegistroCuentaPendiente.Crear(nuevaCuenta, codigo, DuracionCodigo, ahora);
 
             if (!_registroStore.TryAdd(registroPendiente))
@@ -152,7 +151,7 @@ namespace Servicios.Servicios
                 return resultado;
             }
 
-            string nuevoCodigo = GenerarCodigoVerificacion();
+            string nuevoCodigo = CodigoVerificacionGenerator.GenerarCodigo();
             registro.ActualizarCodigo(nuevoCodigo, DuracionCodigo, ahora);
 
             try
@@ -243,19 +242,6 @@ namespace Servicios.Servicios
             }
 
             return resultado;
-        }
-
-        private static string GenerarCodigoVerificacion()
-        {
-            var bytes = new byte[4];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(bytes);
-            }
-
-            int valor = BitConverter.ToInt32(bytes, 0) & int.MaxValue;
-            int codigo = valor % 1000000;
-            return codigo.ToString("D6");
         }
 
         private Task EjecutarEnvioCodigoAsync(string correoDestino, string codigo)

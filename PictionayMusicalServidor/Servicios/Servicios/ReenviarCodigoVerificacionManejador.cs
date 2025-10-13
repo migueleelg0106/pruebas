@@ -12,6 +12,7 @@ namespace Servicios.Servicios
     public class ReenviarCodigoVerificacionManejador : IReenviarCodigoVerificacionManejador
     {
         private readonly CodigoVerificacionServicio _servicio;
+        private readonly CodigoRecuperacionServicio _recuperacionServicio;
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(ReenviarCodigoVerificacionManejador));
 
         public ReenviarCodigoVerificacionManejador()
@@ -33,6 +34,10 @@ namespace Servicios.Servicios
                 jugadorRepositorio,
                 usuarioRepositorio,
                 clasificacionRepositorio,
+                notificador);
+
+            _recuperacionServicio = new CodigoRecuperacionServicio(
+                usuarioRepositorio,
                 notificador);
         }
 
@@ -63,6 +68,36 @@ namespace Servicios.Servicios
             {
                 Bitacora.Fatal("Error inesperado al reenviar el código de verificación.", ex);
                 throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al reenviar el código de verificación.", "Error interno del servidor.");
+            }
+        }
+
+        public ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDTO solicitud)
+        {
+            Bitacora.Info("Solicitud para reenviar código de recuperación recibida.");
+
+            try
+            {
+                return _recuperacionServicio.ReenviarCodigoRecuperacion(solicitud);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Bitacora.Warn("Los datos para reenviar el código de recuperación son inválidos.", ex);
+                throw FabricaFallaServicio.Crear("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para reenviar el código.", "Solicitud inválida.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Bitacora.Error("Operación inválida al reenviar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("OPERACION_INVALIDA", "No fue posible reenviar el código de recuperación.", "Operación inválida en la capa de datos.");
+            }
+            catch (DataException ex)
+            {
+                Bitacora.Error("Error en la base de datos al reenviar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_BASE_DATOS", "Ocurrió un problema al reenviar el código de recuperación.", "Fallo en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                Bitacora.Fatal("Error inesperado al reenviar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al reenviar el código de recuperación.", "Error interno del servidor.");
             }
         }
     }
