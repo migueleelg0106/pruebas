@@ -81,7 +81,7 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorSinRespuesta);
+                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
                         return;
                     }
 
@@ -119,11 +119,11 @@ namespace PictionaryMusicalCliente
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorNuevamente);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoPrepararSolicitudInicioSesion);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
             }
             finally
             {
@@ -273,11 +273,11 @@ namespace PictionaryMusicalCliente
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorNuevamente);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoProcesarSolicitudRecuperacion);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
             }
             finally
             {

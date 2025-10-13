@@ -132,7 +132,7 @@ namespace PictionaryMusicalCliente
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorMasTarde);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
@@ -259,11 +259,11 @@ namespace PictionaryMusicalCliente
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorMasTarde);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoProcesarSolicitudReenvio);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
             }
             finally
             {
