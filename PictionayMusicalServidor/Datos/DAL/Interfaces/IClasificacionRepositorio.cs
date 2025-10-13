@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Datos.Modelo;
 
 namespace Datos.DAL.Interfaces
 {
     public interface IClasificacionRepositorio
     {
-        IList<ClasificacionJugadorInfo> ObtenerTopJugadores(int limite);
+        Clasificacion CrearClasificacionInicial();
+
+        IList<Usuario> ObtenerTopJugadores(int limite);
     }
 }

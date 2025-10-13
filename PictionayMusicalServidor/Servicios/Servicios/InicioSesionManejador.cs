@@ -14,18 +14,25 @@ namespace Servicios.Servicios
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(InicioSesionManejador));
 
         public InicioSesionManejador()
-            : this(new UsuarioRepositorio())
+            : this(new UsuarioRepositorio(), new RedSocialRepositorio())
         {
         }
 
-        public InicioSesionManejador(IUsuarioRepositorio usuarioRepositorio)
+        public InicioSesionManejador(
+            IUsuarioRepositorio usuarioRepositorio,
+            IRedSocialRepositorio redSocialRepositorio)
         {
             if (usuarioRepositorio == null)
             {
                 throw new ArgumentNullException(nameof(usuarioRepositorio));
             }
 
-            _servicio = new InicioSesionServicio(usuarioRepositorio);
+            if (redSocialRepositorio == null)
+            {
+                throw new ArgumentNullException(nameof(redSocialRepositorio));
+            }
+
+            _servicio = new InicioSesionServicio(usuarioRepositorio, redSocialRepositorio);
         }
 
         public ResultadoInicioSesionDTO IniciarSesion(CredencialesInicioSesionDTO credenciales)

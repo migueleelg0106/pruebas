@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Datos.DAL.Implementaciones;
 using Datos.DAL.Interfaces;
+using Datos.Modelo;
 using Servicios.Contratos;
 using Servicios.Contratos.DTOs;
 using log4net;
@@ -31,16 +32,18 @@ namespace Servicios.Servicios
 
             try
             {
-                IList<ClasificacionJugadorInfo> jugadores = _repositorio.ObtenerTopJugadores(MaximoElementos);
+                IList<Usuario> jugadores = _repositorio.ObtenerTopJugadores(MaximoElementos);
 
                 var resultado = new List<ClasificacionUsuarioDTO>(jugadores.Count);
                 foreach (var jugador in jugadores)
                 {
+                    var clasificacion = jugador.Jugador?.Clasificacion;
+
                     resultado.Add(new ClasificacionUsuarioDTO
                     {
-                        Usuario = jugador.Usuario,
-                        Puntos = jugador.Puntos,
-                        RondasGanadas = jugador.Rondas
+                        Usuario = jugador.Nombre_Usuario,
+                        Puntos = clasificacion?.Puntos_Ganados ?? 0,
+                        RondasGanadas = clasificacion?.Rondas_Ganadas ?? 0
                     });
                 }
 

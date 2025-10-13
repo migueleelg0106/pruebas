@@ -17,16 +17,18 @@ namespace Servicios.Servicios
         private static readonly TimeSpan DuracionCodigo = TimeSpan.FromMinutes(5);
         private static readonly TimeSpan TiempoEsperaReenvio = TimeSpan.FromMinutes(1);
 
-        public CodigoVerificacionServicio(ICuentaRepositorio repositorioCuenta, ICodigoVerificacionNotificador notificador)
+        public CodigoVerificacionServicio(
+            IJugadorRepositorio jugadorRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IClasificacionRepositorio clasificacionRepositorio,
+            ICodigoVerificacionNotificador notificador)
         {
-            if (repositorioCuenta == null)
-            {
-                throw new ArgumentNullException(nameof(repositorioCuenta));
-            }
-
             _notificador = notificador ?? throw new ArgumentNullException(nameof(notificador));
             _registroStore = RegistroCuentaPendienteStore.Instancia;
-            _cuentaRegistroServicio = new CuentaRegistroServicio(repositorioCuenta);
+            _cuentaRegistroServicio = new CuentaRegistroServicio(
+                jugadorRepositorio ?? throw new ArgumentNullException(nameof(jugadorRepositorio)),
+                usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio)),
+                clasificacionRepositorio ?? throw new ArgumentNullException(nameof(clasificacionRepositorio)));
         }
 
         public ResultadoSolicitudCodigoDTO SolicitarCodigoVerificacion(NuevaCuentaDTO nuevaCuenta)
