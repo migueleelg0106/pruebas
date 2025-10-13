@@ -351,12 +351,10 @@ namespace PictionaryMusicalCliente
 
         private static bool ValidarTexto(
             string valor,
-            string mensajeCampoRequerido,
             string descripcionCampo)
         {
             if (string.IsNullOrWhiteSpace(valor))
             {
-                AvisoHelper.Mostrar(mensajeCampoRequerido);
                 return false;
             }
 
@@ -536,23 +534,31 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
+            RestablecerEstadoCampo(bloqueTextoNombre);
+            RestablecerEstadoCampo(bloqueTextoApellido);
+
             string nombre = bloqueTextoNombre.Text?.Trim();
             string apellido = bloqueTextoApellido.Text?.Trim();
 
+            if (!ValidarCamposObligatoriosPerfil(nombre, apellido))
+            {
+                return;
+            }
+
             if (!ValidarTexto(
                     nombre,
-                    LangResources.Lang.errorTextoNombreJugadorRequerido,
                     LangResources.Lang.globalTextoNombre.ToLowerInvariant()))
             {
+                MarcarCampoInvalido(bloqueTextoNombre);
                 bloqueTextoNombre.Focus();
                 return;
             }
 
             if (!ValidarTexto(
                     apellido,
-                    LangResources.Lang.errorTextoApellidoJugadorRequerido,
                     LangResources.Lang.globalTextoApellido.ToLowerInvariant()))
             {
+                MarcarCampoInvalido(bloqueTextoApellido);
                 bloqueTextoApellido.Focus();
                 return;
             }
@@ -664,6 +670,57 @@ namespace PictionaryMusicalCliente
         private void BotonRegresar(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private bool ValidarCamposObligatoriosPerfil(string nombre, string apellido)
+        {
+            bool hayError = false;
+            Control primerCampo = null;
+
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                hayError = true;
+                primerCampo ??= bloqueTextoNombre;
+                MarcarCampoInvalido(bloqueTextoNombre);
+            }
+
+            if (string.IsNullOrWhiteSpace(apellido))
+            {
+                hayError = true;
+                primerCampo ??= bloqueTextoApellido;
+                MarcarCampoInvalido(bloqueTextoApellido);
+            }
+
+            if (hayError)
+            {
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
+                primerCampo?.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void RestablecerEstadoCampo(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.ClearValue(Control.BorderBrushProperty);
+            control.ClearValue(Control.BorderThicknessProperty);
+        }
+
+        private static void MarcarCampoInvalido(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.BorderBrush = Brushes.Red;
+            control.BorderThickness = new Thickness(2);
         }
 
         private void EtiquetaSeleccionarAvatar(object sender, MouseButtonEventArgs e)

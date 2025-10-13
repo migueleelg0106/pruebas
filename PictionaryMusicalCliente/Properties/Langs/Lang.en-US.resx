@@ -20,12 +20,12 @@
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
+    <value>[base64 mime encoded serialized .NET Framework object]</value>
+  </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+    <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
-    </data>
+  </data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -462,9 +462,6 @@
   <data name="errorTextoActualizarPerfil" xml:space="preserve">
     <value>The profile could not be updated. Please try again.</value>
   </data>
-  <data name="errorTextoApellidoJugadorRequerido" xml:space="preserve">
-    <value>Enter the player's last name.</value>
-  </data>
   <data name="errorTextoCampoLongitudMaxima" xml:space="preserve">
     <value>The {0} must not exceed {1} characters.</value>
   </data>
@@ -477,9 +474,6 @@
   <data name="errorTextoContrasenaFormato" xml:space="preserve">
     <value>The password must be 8 to 15 characters long and include at least one uppercase letter, one number, and one special character.</value>
   </data>
-  <data name="errorTextoContrasenaRequerida" xml:space="preserve">
-    <value>Enter a password.</value>
-  </data>
   <data name="errorTextoConfirmacionContrasenaRequerida" xml:space="preserve">
     <value>Enter and confirm the new password.</value>
   </data>
@@ -488,12 +482,6 @@
   </data>
   <data name="errorTextoCorreoInvalido" xml:space="preserve">
     <value>Enter a valid e-mail address.</value>
-  </data>
-  <data name="errorTextoCorreoRequerido" xml:space="preserve">
-    <value>Enter an e-mail address.</value>
-  </data>
-  <data name="errorTextoCredencialesIncompletas" xml:space="preserve">
-    <value>Enter your username or e-mail and password.</value>
   </data>
   <data name="errorTextoCuentaNoEncontradaSesion" xml:space="preserve">
     <value>The account associated with the current session was not found.</value>
@@ -585,12 +573,6 @@
   <data name="errorTextoIniciarRecuperacion" xml:space="preserve">
     <value>The password recovery process could not be started. Please try again.</value>
   </data>
-  <data name="errorTextoNombreJugadorRequerido" xml:space="preserve">
-    <value>Enter the player's first name.</value>
-  </data>
-  <data name="errorTextoNombreUsuarioRequerido" xml:space="preserve">
-    <value>Enter a username.</value>
-  </data>
   <data name="errorTextoPerfilActualizarInformacion" xml:space="preserve">
     <value>The updated profile information could not be obtained.</value>
   </data>
@@ -656,5 +638,8 @@
   </data>
   <data name="errorTextoSolicitudVerificacionInvalida" xml:space="preserve">
     <value>The verification request is not valid. Please try again.</value>
+  </data>
+  <data name="errorTextoCamposInvalidosGenerico" xml:space="preserve">
+    <value>There are invalid or empty fields, please verify your information.</value>
   </data>
 </root>
