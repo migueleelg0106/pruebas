@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Sesiones;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente
 {
@@ -99,6 +100,13 @@ namespace PictionaryMusicalCliente
 
                     new Avisos(mensaje).ShowDialog();
                 }
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al iniciar sesión.");
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
@@ -246,6 +254,13 @@ namespace PictionaryMusicalCliente
                         bloqueContrasenaContrasena.Clear();
                     }
                 }
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al iniciar la recuperación de contraseña.");
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
