@@ -12,6 +12,7 @@ namespace Servicios.Contratos
     public interface ICatalogoAvatares
     {
         [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
         List<AvatarDTO> ObtenerAvataresDisponibles();
     }
 }

@@ -7,6 +7,7 @@ namespace Servicios.Contratos
     public interface IInicioSesionManejador
     {
         [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
         ResultadoInicioSesionDTO IniciarSesion(CredencialesInicioSesionDTO credenciales);
     }
 }

@@ -8,6 +8,7 @@ namespace Servicios.Contratos
     public interface IClasificacionManejador
     {
         [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
         List<ClasificacionUsuarioDTO> ObtenerTopJugadores();
     }
 }

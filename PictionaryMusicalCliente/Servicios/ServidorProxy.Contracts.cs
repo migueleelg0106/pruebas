@@ -9,15 +9,19 @@ namespace PictionaryMusicalCliente.Servicios
         private interface ICambiarContrasenaManejadorContract
         {
             [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacionResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoSolicitudRecuperacionDto SolicitarCodigoRecuperacion(SolicitudRecuperacionDto solicitud);
 
             [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacionResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoSolicitudCodigoDto ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDto solicitud);
 
             [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacionResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoOperacionDto ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDto confirmacion);
 
             [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasena", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasenaResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasenaErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoOperacionDto ActualizarContrasena(ActualizarContrasenaDto solicitud);
         }
 
@@ -25,9 +29,11 @@ namespace PictionaryMusicalCliente.Servicios
         private interface IPerfilManejadorContract
         {
             [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ObtenerPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ObtenerPerfilResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/IPerfilManejador/ObtenerPerfilErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             UsuarioDto ObtenerPerfil(int idUsuario);
 
             [OperationContract(Action = "http://tempuri.org/IPerfilManejador/ActualizarPerfil", ReplyAction = "http://tempuri.org/IPerfilManejador/ActualizarPerfilResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/IPerfilManejador/ActualizarPerfilErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoOperacionDto ActualizarPerfil(ActualizarPerfilDto solicitud);
         }
 
@@ -35,6 +41,7 @@ namespace PictionaryMusicalCliente.Servicios
         private interface IClasificacionManejadorContract
         {
             [OperationContract(Action = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadores", ReplyAction = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadoresResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/IClasificacionManejador/ObtenerTopJugadoresErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ClasificacionUsuarioDto[] ObtenerTopJugadores();
         }
 
@@ -42,7 +49,18 @@ namespace PictionaryMusicalCliente.Servicios
         private interface IInicioSesionManejadorContract
         {
             [OperationContract(Action = "http://tempuri.org/IInicioSesionManejador/IniciarSesion", ReplyAction = "http://tempuri.org/IInicioSesionManejador/IniciarSesionResponse")]
+            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/IInicioSesionManejador/IniciarSesionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoInicioSesionDto IniciarSesion(CredencialesInicioSesionDto credenciales);
+        }
+
+        [DataContract(Name = "ErrorDetalleServicioDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+        public class ErrorDetalleServicio
+        {
+            [DataMember]
+            public string CodigoError { get; set; }
+
+            [DataMember]
+            public string Mensaje { get; set; }
         }
 
         [DataContract(Name = "SolicitudRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
