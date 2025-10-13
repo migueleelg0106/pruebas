@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente
 {
@@ -97,6 +98,14 @@ namespace PictionaryMusicalCliente
                 {
                     resultadoCodigo = await proxy.SolicitarCodigoVerificacionAsync(solicitud);
                 }
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al solicitar el código de verificación.");
+                new Avisos(mensaje).ShowDialog();
+                return;
             }
             catch (CommunicationException)
             {
@@ -228,9 +237,28 @@ namespace PictionaryMusicalCliente
                     }
                 }
             }
-            catch
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
-                return null;
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "No se pudo obtener la información del avatar seleccionado.");
+                new Avisos(mensaje).ShowDialog();
+            }
+            catch (EndpointNotFoundException)
+            {
+                new Avisos("No se pudo contactar al servidor para validar el avatar seleccionado.").ShowDialog();
+            }
+            catch (TimeoutException)
+            {
+                new Avisos("El servidor tardó demasiado en responder al validar el avatar.").ShowDialog();
+            }
+            catch (CommunicationException)
+            {
+                new Avisos("Ocurrió un problema de comunicación al consultar los avatares.").ShowDialog();
+            }
+            catch (InvalidOperationException)
+            {
+                new Avisos("No fue posible procesar la solicitud de avatares.").ShowDialog();
             }
 
             return null;

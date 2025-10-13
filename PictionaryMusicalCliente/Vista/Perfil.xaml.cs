@@ -75,7 +75,9 @@ namespace PictionaryMusicalCliente
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
-                string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al obtener la información del perfil.";
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al obtener la información del perfil.");
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
@@ -127,18 +129,28 @@ namespace PictionaryMusicalCliente
                     }
                 }
             }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "No se pudo obtener el catálogo de avatares desde el servidor.");
+                new Avisos(mensaje).ShowDialog();
+            }
             catch (EndpointNotFoundException)
             {
-                // Se utilizará el catálogo local.
+                new Avisos("No se pudo contactar al servidor para actualizar el catálogo de avatares.").ShowDialog();
             }
             catch (TimeoutException)
             {
+                new Avisos("El servidor tardó demasiado en responder al solicitar los avatares.").ShowDialog();
             }
             catch (CommunicationException)
             {
+                new Avisos("Ocurrió un problema de comunicación al obtener los avatares del servidor.").ShowDialog();
             }
             catch (InvalidOperationException)
             {
+                new Avisos("No fue posible procesar la solicitud de avatares.").ShowDialog();
             }
 
             _catalogoAvatares = avataresLocales;
@@ -477,6 +489,13 @@ namespace PictionaryMusicalCliente
                     ventanaCambio.ShowDialog();
                 }
             }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al solicitar el cambio de contraseña.");
+                new Avisos(mensaje).ShowDialog();
+            }
             catch (EndpointNotFoundException)
             {
                 new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
@@ -600,7 +619,9 @@ namespace PictionaryMusicalCliente
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
-                string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al actualizar el perfil.";
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al actualizar el perfil.");
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
@@ -668,12 +689,7 @@ namespace PictionaryMusicalCliente
         {
             if (sender is TextBox texto && texto.Tag is ToggleButton toggle)
             {
-                if (e.Key == Key.Enter)
-                {
-                    toggle.IsChecked = false;
-                    e.Handled = true;
-                }
-                else if (e.Key == Key.Escape)
+                if (e.Key == Key.Enter || e.Key == Key.Escape)
                 {
                     toggle.IsChecked = false;
                     e.Handled = true;

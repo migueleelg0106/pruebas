@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente
 {
@@ -112,6 +113,13 @@ namespace PictionaryMusicalCliente
                     : resultado.Mensaje;
 
                 new Avisos(mensajeError).ShowDialog();
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al validar el código.");
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
@@ -230,6 +238,13 @@ namespace PictionaryMusicalCliente
                     : resultado.Mensaje;
 
                 new Avisos(mensajeError).ShowDialog();
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al reenviar el código.");
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {

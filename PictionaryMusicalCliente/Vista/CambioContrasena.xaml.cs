@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente
 {
@@ -92,6 +93,13 @@ namespace PictionaryMusicalCliente
 
                     new Avisos(mensajeError).ShowDialog();
                 }
+            }
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            {
+                string mensaje = ErrorServicioHelper.ObtenerMensaje(
+                    ex,
+                    "El servidor reportó un error al actualizar la contraseña.");
+                new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
