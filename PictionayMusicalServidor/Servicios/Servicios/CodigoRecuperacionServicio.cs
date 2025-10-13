@@ -5,12 +5,11 @@ using Servicios.Servicios.Utilidades;
 using System;
 using System.Configuration;
 using System.Net.Mail;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Servicios.Servicios
 {
-    internal class RecuperacionCuentaServicio
+    internal class CodigoRecuperacionServicio
     {
         private readonly ICodigoVerificacionNotificador _notificador;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
@@ -19,7 +18,7 @@ namespace Servicios.Servicios
         private static readonly TimeSpan TiempoEsperaReenvio = TimeSpan.FromMinutes(1);
         private static readonly TimeSpan DuracionTokenConfirmado = TimeSpan.FromMinutes(10);
 
-        public RecuperacionCuentaServicio(IUsuarioRepositorio usuarioRepositorio, ICodigoVerificacionNotificador notificador)
+        public CodigoRecuperacionServicio(IUsuarioRepositorio usuarioRepositorio, ICodigoVerificacionNotificador notificador)
         {
             _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
             _notificador = notificador ?? throw new ArgumentNullException(nameof(notificador));
@@ -65,7 +64,7 @@ namespace Servicios.Servicios
 
             _store.RemoverPorUsuario(idUsuario);
 
-            string codigo = GenerarCodigo();
+            string codigo = CodigoVerificacionGenerator.GenerarCodigo();
             var registro = RecuperacionCuentaPendiente.Crear(idUsuario, correo, codigo, DuracionCodigo, ahora);
 
             if (!_store.TryAdd(registro))
@@ -152,7 +151,7 @@ namespace Servicios.Servicios
                 return resultado;
             }
 
-            string nuevoCodigo = GenerarCodigo();
+            string nuevoCodigo = CodigoVerificacionGenerator.GenerarCodigo();
             registro.ActualizarCodigo(nuevoCodigo, DuracionCodigo, ahora);
 
             try
@@ -278,19 +277,6 @@ namespace Servicios.Servicios
             resultado.OperacionExitosa = true;
             resultado.Mensaje = "La contraseña se actualizó correctamente.";
             return resultado;
-        }
-
-        private static string GenerarCodigo()
-        {
-            var bytes = new byte[4];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(bytes);
-            }
-
-            int valor = BitConverter.ToInt32(bytes, 0) & int.MaxValue;
-            int codigo = valor % 1000000;
-            return codigo.ToString("D6");
         }
 
         private Task EjecutarEnvioCodigoAsync(string correoDestino, string codigo)
