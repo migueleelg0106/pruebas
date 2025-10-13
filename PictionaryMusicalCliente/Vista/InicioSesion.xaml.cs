@@ -52,9 +52,26 @@ namespace PictionaryMusicalCliente
             string identificador = bloqueTextoUsuario.Text;
             string contrasena = bloqueContrasenaContrasena.Password;
 
-            if (string.IsNullOrWhiteSpace(identificador) || string.IsNullOrWhiteSpace(contrasena))
+            RestablecerEstadoCampo(bloqueTextoUsuario);
+            RestablecerEstadoCampo(bloqueContrasenaContrasena);
+
+            bool hayCamposInvalidos = false;
+
+            if (string.IsNullOrWhiteSpace(identificador))
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCredencialesIncompletas);
+                hayCamposInvalidos = true;
+                MarcarCampoInvalido(bloqueTextoUsuario);
+            }
+
+            if (string.IsNullOrWhiteSpace(contrasena))
+            {
+                hayCamposInvalidos = true;
+                MarcarCampoInvalido(bloqueContrasenaContrasena);
+            }
+
+            if (hayCamposInvalidos)
+            {
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
                 return;
             }
 
@@ -152,9 +169,12 @@ namespace PictionaryMusicalCliente
         {
             string identificador = bloqueTextoUsuario.Text?.Trim();
 
+            RestablecerEstadoCampo(bloqueTextoUsuario);
+
             if (string.IsNullOrWhiteSpace(identificador))
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoIdentificadorRecuperacionRequerido);
+                MarcarCampoInvalido(bloqueTextoUsuario);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
                 bloqueTextoUsuario.Focus();
                 return;
             }
@@ -288,6 +308,28 @@ namespace PictionaryMusicalCliente
 
                 Mouse.OverrideCursor = null;
             }
+        }
+
+        private static void RestablecerEstadoCampo(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.ClearValue(Control.BorderBrushProperty);
+            control.ClearValue(Control.BorderThicknessProperty);
+        }
+
+        private static void MarcarCampoInvalido(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.BorderBrush = Brushes.Red;
+            control.BorderThickness = new Thickness(2);
         }
     }
 }

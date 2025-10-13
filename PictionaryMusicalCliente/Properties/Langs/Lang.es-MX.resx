@@ -20,12 +20,12 @@
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
+    <value>[base64 mime encoded serialized .NET Framework object]</value>
+  </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+    <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
-    </data>
+  </data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -464,9 +464,6 @@ aciertan o cuando se acaba el tiempo.
   <data name="errorTextoActualizarPerfil" xml:space="preserve">
     <value>No se pudo actualizar el perfil. Intente nuevamente.</value>
   </data>
-  <data name="errorTextoApellidoJugadorRequerido" xml:space="preserve">
-    <value>Ingrese el apellido del jugador.</value>
-  </data>
   <data name="errorTextoCampoLongitudMaxima" xml:space="preserve">
     <value>El {0} no debe superar {1} caracteres.</value>
   </data>
@@ -479,9 +476,6 @@ aciertan o cuando se acaba el tiempo.
   <data name="errorTextoContrasenaFormato" xml:space="preserve">
     <value>La contraseña debe tener de 8 a 15 caracteres con al menos una mayúscula, un número y un carácter especial.</value>
   </data>
-  <data name="errorTextoContrasenaRequerida" xml:space="preserve">
-    <value>Ingrese una contraseña.</value>
-  </data>
   <data name="errorTextoConfirmacionContrasenaRequerida" xml:space="preserve">
     <value>Ingrese y confirme la nueva contraseña.</value>
   </data>
@@ -490,12 +484,6 @@ aciertan o cuando se acaba el tiempo.
   </data>
   <data name="errorTextoCorreoInvalido" xml:space="preserve">
     <value>Ingrese un correo electrónico válido.</value>
-  </data>
-  <data name="errorTextoCorreoRequerido" xml:space="preserve">
-    <value>Ingrese un correo electrónico.</value>
-  </data>
-  <data name="errorTextoCredencialesIncompletas" xml:space="preserve">
-    <value>Ingrese el usuario o correo y la contraseña.</value>
   </data>
   <data name="errorTextoCuentaNoEncontradaSesion" xml:space="preserve">
     <value>No se encontró la cuenta asociada a la sesión actual.</value>
@@ -587,12 +575,6 @@ aciertan o cuando se acaba el tiempo.
   <data name="errorTextoIniciarRecuperacion" xml:space="preserve">
     <value>No se pudo iniciar la recuperación de contraseña. Intente nuevamente.</value>
   </data>
-  <data name="errorTextoNombreJugadorRequerido" xml:space="preserve">
-    <value>Ingrese el nombre del jugador.</value>
-  </data>
-  <data name="errorTextoNombreUsuarioRequerido" xml:space="preserve">
-    <value>Ingrese un nombre de usuario.</value>
-  </data>
   <data name="errorTextoPerfilActualizarInformacion" xml:space="preserve">
     <value>No fue posible obtener la información actualizada del perfil.</value>
   </data>
@@ -658,5 +640,8 @@ aciertan o cuando se acaba el tiempo.
   </data>
   <data name="errorTextoSolicitudVerificacionInvalida" xml:space="preserve">
     <value>La solicitud de verificación no es válida. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoCamposInvalidosGenerico" xml:space="preserve">
+    <value>Hay datos inválidos o campos vacíos, por favor verifique sus datos.</value>
   </data>
 </root>

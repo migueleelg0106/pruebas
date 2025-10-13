@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
@@ -47,6 +48,12 @@ namespace PictionaryMusicalCliente
             textoErrorUsuario.Visibility = Visibility.Collapsed;
             textoErrorCorreo.Visibility = Visibility.Collapsed;
 
+            RestablecerEstadoCampo(bloqueTextoUsuario);
+            RestablecerEstadoCampo(bloqueTextoCorreo);
+            RestablecerEstadoCampo(bloqueTextoNombre);
+            RestablecerEstadoCampo(bloqueTextoApellido);
+            RestablecerEstadoCampo(bloqueContrasenaContrasena);
+
             if (!ValidarCamposObligatorios(usuario, correo, nombre, apellido, contrasena))
             {
                 return;
@@ -54,6 +61,7 @@ namespace PictionaryMusicalCliente
 
             if (!PatronCorreoValido.IsMatch(correo))
             {
+                MarcarCampoInvalido(bloqueTextoCorreo);
                 AvisoHelper.Mostrar(Lang.errorTextoCorreoInvalido);
                 bloqueTextoCorreo.Focus();
                 return;
@@ -61,6 +69,7 @@ namespace PictionaryMusicalCliente
 
             if (!PatronContrasenaValida.IsMatch(contrasena))
             {
+                MarcarCampoInvalido(bloqueContrasenaContrasena);
                 AvisoHelper.Mostrar(Lang.errorTextoContrasenaFormato);
                 bloqueContrasenaContrasena.Focus();
                 return;
@@ -155,38 +164,48 @@ namespace PictionaryMusicalCliente
 
         private bool ValidarCamposObligatorios(string usuario, string correo, string nombre, string apellido, string contrasena)
         {
+            bool hayError = false;
+            Control primerCampo = null;
+
             if (string.IsNullOrWhiteSpace(usuario))
             {
-                AvisoHelper.Mostrar(Lang.errorTextoNombreUsuarioRequerido);
-                bloqueTextoUsuario.Focus();
-                return false;
+                hayError = true;
+                primerCampo ??= bloqueTextoUsuario;
+                MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                AvisoHelper.Mostrar(Lang.errorTextoNombreJugadorRequerido);
-                bloqueTextoNombre.Focus();
-                return false;
+                hayError = true;
+                primerCampo ??= bloqueTextoNombre;
+                MarcarCampoInvalido(bloqueTextoNombre);
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
             {
-                AvisoHelper.Mostrar(Lang.errorTextoApellidoJugadorRequerido);
-                bloqueTextoApellido.Focus();
-                return false;
+                hayError = true;
+                primerCampo ??= bloqueTextoApellido;
+                MarcarCampoInvalido(bloqueTextoApellido);
             }
 
             if (string.IsNullOrWhiteSpace(correo))
             {
-                AvisoHelper.Mostrar(Lang.errorTextoCorreoRequerido);
-                bloqueTextoCorreo.Focus();
-                return false;
+                hayError = true;
+                primerCampo ??= bloqueTextoCorreo;
+                MarcarCampoInvalido(bloqueTextoCorreo);
             }
 
             if (string.IsNullOrWhiteSpace(contrasena))
             {
-                AvisoHelper.Mostrar(Lang.errorTextoContrasenaRequerida);
-                bloqueContrasenaContrasena.Focus();
+                hayError = true;
+                primerCampo ??= bloqueContrasenaContrasena;
+                MarcarCampoInvalido(bloqueContrasenaContrasena);
+            }
+
+            if (hayError)
+            {
+                AvisoHelper.Mostrar(Lang.errorTextoCamposInvalidosGenerico);
+                primerCampo?.Focus();
                 return false;
             }
 
@@ -326,6 +345,28 @@ namespace PictionaryMusicalCliente
             return string.IsNullOrWhiteSpace(rutaNormalizada)
                 ? null
                 : rutaNormalizada.ToLowerInvariant();
+        }
+
+        private static void RestablecerEstadoCampo(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.ClearValue(Control.BorderBrushProperty);
+            control.ClearValue(Control.BorderThicknessProperty);
+        }
+
+        private static void MarcarCampoInvalido(Control control)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            control.BorderBrush = Brushes.Red;
+            control.BorderThickness = new Thickness(2);
         }
     }
 }

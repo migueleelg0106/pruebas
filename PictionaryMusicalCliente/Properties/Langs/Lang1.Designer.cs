@@ -194,7 +194,16 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("avisoTextoPerfilActualizado", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay datos inválidos o campos vacíos, por favor verifique sus datos..
+        /// </summary>
+        public static string errorTextoCamposInvalidosGenerico {
+            get {
+                return ResourceManager.GetString("errorTextoCamposInvalidosGenerico", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a No es posible reenviar el código todavía..
         /// </summary>
