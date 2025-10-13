@@ -155,15 +155,12 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion 
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MensajeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenCodigoField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool UsuarioYaRegistradoField;
 
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string TokenCodigoField;
+
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool UsuarioYaRegistradoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -236,19 +233,6 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion 
                 if ((this.UsuarioYaRegistradoField.Equals(value) != true)) {
                     this.UsuarioYaRegistradoField = value;
                     this.RaisePropertyChanged("UsuarioYaRegistrado");
-                }
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenCodigo {
-            get {
-                return this.TokenCodigoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
-                    this.TokenCodigoField = value;
-                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
