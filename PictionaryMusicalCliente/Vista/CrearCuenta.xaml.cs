@@ -125,7 +125,7 @@ namespace PictionaryMusicalCliente
 
             if (resultadoCodigo == null)
             {
-                AvisoHelper.Mostrar(Lang.errorTextoProblemaProcesarSolicitud);
+                AvisoHelper.Mostrar(Lang.errorTextoErrorProcesarSolicitud);
                 return;
             }
 
@@ -246,19 +246,19 @@ namespace PictionaryMusicalCliente
             }
             catch (EndpointNotFoundException)
             {
-                AvisoHelper.Mostrar(Lang.errorTextoServidorValidarAvatar);
+                AvisoHelper.Mostrar(Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                AvisoHelper.Mostrar(Lang.errorTextoServidorTiempoValidarAvatar);
+                AvisoHelper.Mostrar(Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(Lang.errorTextoComunicacionConsultarAvatares);
+                AvisoHelper.Mostrar(Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
-                AvisoHelper.Mostrar(Lang.errorTextoProcesarSolicitudAvatares);
+                AvisoHelper.Mostrar(Lang.errorTextoErrorProcesarSolicitud);
             }
 
             return null;

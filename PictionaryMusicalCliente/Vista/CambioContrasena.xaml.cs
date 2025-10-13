@@ -108,11 +108,11 @@ namespace PictionaryMusicalCliente
             }
             catch (TimeoutException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoRespondioTiempo);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorSimple);
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (InvalidOperationException)
             {
