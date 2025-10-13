@@ -11,7 +11,7 @@ namespace PictionaryMusicalCliente.Utilidades
 
             try
             {
-                new Vista.Avisos(mensaje).ShowDialog();
+                new Avisos(mensaje).ShowDialog();
             }
             finally
             {
