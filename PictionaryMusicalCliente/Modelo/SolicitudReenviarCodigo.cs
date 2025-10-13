@@ -2,6 +2,6 @@ namespace PictionaryMusicalCliente.Modelo
 {
     public class SolicitudReenviarCodigo
     {
-        public string TokenVerificacion { get; set; }
+        public string TokenCodigo { get; set; }
     }
 }

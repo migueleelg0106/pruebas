@@ -621,14 +621,11 @@
   <data name="errorTextoSolicitarNuevoCodigo" xml:space="preserve">
     <value>A new code could not be requested. Please try again.</value>
   </data>
-  <data name="errorTextoTokenRecuperacionObligatorio" xml:space="preserve">
-    <value>The recovery token is required.</value>
+  <data name="errorTextoTokenCodigoObligatorio" xml:space="preserve">
+    <value>The code token is required.</value>
   </data>
   <data name="errorTextoTiempoEsperaCodigo" xml:space="preserve">
     <value>You must wait {0} seconds before requesting a new code.</value>
-  </data>
-  <data name="errorTextoTokenVerificacionObligatorio" xml:space="preserve">
-    <value>The verification token is required.</value>
   </data>
   <data name="errorTextoVerificarCodigo" xml:space="preserve">
     <value>The code could not be verified. Please try again.</value>

@@ -71,7 +71,7 @@ namespace Servicios.Servicios
             }
         }
 
-        public ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoVerificacionDTO confirmacion)
+        public ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoDTO confirmacion)
         {
             Bitacora.Info("Solicitud para confirmar código de verificación recibida.");
 
@@ -131,7 +131,7 @@ namespace Servicios.Servicios
             }
         }
 
-        public ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDTO confirmacion)
+        public ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoDTO confirmacion)
         {
             Bitacora.Info("Solicitud para confirmar código de recuperación recibida.");
 

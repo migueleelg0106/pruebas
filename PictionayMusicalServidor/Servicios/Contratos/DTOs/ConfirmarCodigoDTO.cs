@@ -3,10 +3,10 @@ using System.Runtime.Serialization;
 namespace Servicios.Contratos.DTOs
 {
     [DataContract]
-    public class ConfirmarCodigoVerificacionDTO
+    public class ConfirmarCodigoDTO
     {
         [DataMember]
-        public string TokenVerificacion { get; set; }
+        public string TokenCodigo { get; set; }
 
         [DataMember]
         public string CodigoIngresado { get; set; }

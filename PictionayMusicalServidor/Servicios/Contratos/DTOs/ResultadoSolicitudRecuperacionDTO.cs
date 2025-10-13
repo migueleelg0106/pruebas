@@ -15,7 +15,7 @@ namespace Servicios.Contratos.DTOs
         public string Mensaje { get; set; }
 
         [DataMember]
-        public string TokenRecuperacion { get; set; }
+        public string TokenCodigo { get; set; }
 
         [DataMember]
         public string CorreoDestino { get; set; }

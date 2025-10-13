@@ -65,13 +65,11 @@
   <ItemGroup>
     <Compile Include="Contratos\DTOs\AvatarDTO.cs" />
     <Compile Include="Contratos\DTOs\ClasificacionUsuarioDTO.cs" />
-    <Compile Include="Contratos\DTOs\ConfirmarCodigoRecuperacionDTO.cs" />
-    <Compile Include="Contratos\DTOs\ConfirmarCodigoVerificacionDTO.cs" />
+    <Compile Include="Contratos\DTOs\ConfirmarCodigoDTO.cs" />
     <Compile Include="Contratos\DTOs\CredencialesInicioSesionDTO.cs" />
     <Compile Include="Contratos\DTOs\ActualizarPerfilDTO.cs" />
     <Compile Include="Contratos\DTOs\NuevaCuentaDTO.cs" />
-    <Compile Include="Contratos\DTOs\ReenviarCodigoVerificacionDTO.cs" />
-    <Compile Include="Contratos\DTOs\SolicitudReenviarCodigoRecuperacionDTO.cs" />
+    <Compile Include="Contratos\DTOs\ReenviarCodigoDTO.cs" />
     <Compile Include="Contratos\DTOs\SolicitudRecuperarCuentaDTO.cs" />
     <Compile Include="Contratos\DTOs\ActualizarContrasenaDTO.cs" />
     <Compile Include="Contratos\DTOs\ResultadoRegistroCuentaDTO.cs" />

@@ -41,7 +41,7 @@ namespace Servicios.Servicios
                 notificador);
         }
 
-        public ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoVerificacionDTO solicitud)
+        public ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoDTO solicitud)
         {
             Bitacora.Info("Solicitud para reenviar código de verificación recibida.");
 
@@ -71,7 +71,7 @@ namespace Servicios.Servicios
             }
         }
 
-        public ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDTO solicitud)
+        public ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(ReenviarCodigoDTO solicitud)
         {
             Bitacora.Info("Solicitud para reenviar código de recuperación recibida.");
 

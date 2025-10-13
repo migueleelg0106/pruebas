@@ -154,7 +154,7 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            var ventanaVerificacion = new VerificarCodigo(resultadoCodigo.TokenVerificacion, solicitud.Correo);
+            var ventanaVerificacion = new VerificarCodigo(resultadoCodigo.TokenCodigo, solicitud.Correo);
             ventanaVerificacion.ShowDialog();
 
             if (ventanaVerificacion.RegistroCompletado)

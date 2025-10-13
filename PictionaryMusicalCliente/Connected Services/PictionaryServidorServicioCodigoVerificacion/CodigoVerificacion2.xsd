@@ -16,18 +16,18 @@
       <xs:element minOccurs="0" name="CodigoEnviado" type="xs:boolean" />
       <xs:element minOccurs="0" name="CorreoYaRegistrado" type="xs:boolean" />
       <xs:element minOccurs="0" name="Mensaje" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="TokenVerificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TokenCodigo" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UsuarioYaRegistrado" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ResultadoSolicitudCodigoDTO" nillable="true" type="tns:ResultadoSolicitudCodigoDTO" />
-  <xs:complexType name="ConfirmarCodigoVerificacionDTO">
+  <xs:complexType name="ConfirmarCodigoDTO">
     <xs:sequence>
       <xs:element minOccurs="0" name="CodigoIngresado" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="TokenVerificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TokenCodigo" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ConfirmarCodigoVerificacionDTO" nillable="true" type="tns:ConfirmarCodigoVerificacionDTO" />
+  <xs:element name="ConfirmarCodigoDTO" nillable="true" type="tns:ConfirmarCodigoDTO" />
   <xs:complexType name="ResultadoRegistroCuentaDTO">
     <xs:sequence>
       <xs:element minOccurs="0" name="CorreoYaRegistrado" type="xs:boolean" />
