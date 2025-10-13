@@ -9,22 +9,7 @@ namespace Datos.DAL.Implementaciones
 {
     public class ClasificacionRepositorio : IClasificacionRepositorio
     {
-        public Clasificacion CrearClasificacionInicial()
-        {
-            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
-            {
-                var clasificacion = new Clasificacion
-                {
-                    Puntos_Ganados = 0,
-                    Rondas_Ganadas = 0
-                };
-
-                contexto.Clasificacion.Add(clasificacion);
-                contexto.SaveChanges();
-
-                return clasificacion;
-            }
-        }
+        private const int MaximoPorDefecto = 10;
 
         public Clasificacion CrearClasificacionInicial()
         {
@@ -45,6 +30,8 @@ namespace Datos.DAL.Implementaciones
 
         public IList<Usuario> ObtenerTopJugadores(int limite)
         {
+            int cantidadSolicitada = limite <= 0 ? MaximoPorDefecto : limite;
+
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 return contexto.Usuario
