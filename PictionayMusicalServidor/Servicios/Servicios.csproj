@@ -116,13 +116,14 @@
     <Compile Include="Servicios\RegistroCuentaPendiente.cs" />
     <Compile Include="Servicios\RegistroCuentaPendienteStore.cs" />
     <Compile Include="Servicios\CambiarContrasenaManejador.cs" />
-    <Compile Include="Servicios\RecuperacionCuentaPendiente.cs" />
     <Compile Include="Servicios\RecuperacionCuentaServicio.cs" />
+    <Compile Include="Servicios\RecuperacionCuentaPendiente.cs" />
     <Compile Include="Servicios\PerfilManejador.cs" />
     <Compile Include="Servicios\RecuperacionCuentaStore.cs" />
     <Compile Include="Servicios\ReenviarCodigoVerificacionManejador.cs" />
     <Compile Include="Servicios\Utilidades\CorreoCodigoVerificacionNotificador.cs" />
     <Compile Include="Servicios\Utilidades\ICodigoVerificacionNotificador.cs" />
+    <Compile Include="Servicios\Utilidades\CodigoVerificacionGenerator.cs" />
     <Compile Include="Servicios\Utilidades\TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup />
