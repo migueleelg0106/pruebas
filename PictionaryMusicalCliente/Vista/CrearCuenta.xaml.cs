@@ -143,11 +143,14 @@ namespace PictionaryMusicalCliente
 
             if (!resultadoCodigo.CodigoEnviado)
             {
-                string mensajeError = MensajeServidorHelper.Localizar(
-                    resultadoCodigo.Mensaje,
-                    Lang.errorTextoEnvioCodigoVerificacionDatos);
+                if (!resultadoCodigo.UsuarioYaRegistrado && !resultadoCodigo.CorreoYaRegistrado)
+                {
+                    string mensajeError = MensajeServidorHelper.Localizar(
+                        resultadoCodigo.Mensaje,
+                        Lang.errorTextoEnvioCodigoVerificacionDatos);
 
-                AvisoHelper.Mostrar(mensajeError);
+                    AvisoHelper.Mostrar(mensajeError);
+                }
                 return;
             }
 
