@@ -155,15 +155,12 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion 
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MensajeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenCodigoField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool UsuarioYaRegistradoField;
 
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string TokenCodigoField;
+
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool UsuarioYaRegistradoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -236,19 +233,6 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion 
                 if ((this.UsuarioYaRegistradoField.Equals(value) != true)) {
                     this.UsuarioYaRegistradoField = value;
                     this.RaisePropertyChanged("UsuarioYaRegistrado");
-                }
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenCodigo {
-            get {
-                return this.TokenCodigoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
-                    this.TokenCodigoField = value;
-                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -436,67 +420,6 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion 
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenCodigo {
-            get {
-                return this.TokenCodigoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
-                    this.TokenCodigoField = value;
-                    this.RaisePropertyChanged("TokenCodigo");
-                }
-            }
-        }
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ConfirmarCodigoDTO", Namespace="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class ConfirmarCodigoDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CodigoIngresadoField;
-
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenCodigoField;
-
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CodigoIngresado {
-            get {
-                return this.CodigoIngresadoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CodigoIngresadoField, value) != true)) {
-                    this.CodigoIngresadoField = value;
-                    this.RaisePropertyChanged("CodigoIngresado");
-                }
             }
         }
 
