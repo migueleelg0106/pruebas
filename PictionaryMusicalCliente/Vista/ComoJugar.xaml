@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" WindowStyle="None" Background="Transparent">
     <Grid>
-        <Border Background="White" BorderBrush="Gray" BorderThickness="2" Padding="30" CornerRadius="3" Margin="0,0,57,155">
+        <Border Background="White" BorderBrush="Gray" BorderThickness="2" Padding="30" CornerRadius="3" Margin="28,78,29,78">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
