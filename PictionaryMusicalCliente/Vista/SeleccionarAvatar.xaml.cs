@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,7 +72,7 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            new Avisos(Lang.globalTextoSeleccionarAvatar).ShowDialog();
+            AvisoHelper.Mostrar(Lang.globalTextoSeleccionarAvatar);
         }
     }
 }

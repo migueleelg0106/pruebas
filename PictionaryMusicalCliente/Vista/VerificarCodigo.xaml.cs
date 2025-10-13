@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -75,7 +75,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(codigoIngresado))
             {
-                new Avisos(LangResources.Lang.errorTextoCodigoVerificacionRequerido).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCodigoVerificacionRequerido);
                 bloqueTextoCodigoVerificacion.Focus();
                 return;
             }
@@ -86,7 +86,7 @@ namespace PictionaryMusicalCliente
             {
                 if (_confirmarCodigoFunc == null)
                 {
-                    new Avisos(LangResources.Lang.errorTextoValidacionCodigoNoDisponible).ShowDialog();
+                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoValidacionCodigoNoDisponible);
                     return;
                 }
 
@@ -94,49 +94,49 @@ namespace PictionaryMusicalCliente
 
                 if (resultado == null)
                 {
-                    new Avisos(LangResources.Lang.errorTextoVerificarCodigo).ShowDialog();
+                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoVerificarCodigo);
                     return;
                 }
 
                 if (resultado.OperacionExitosa)
                 {
-                    string mensaje = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                        ? LangResources.Lang.avisoTextoCodigoVerificadoCorrecto
-                        : resultado.Mensaje;
-                    new Avisos(mensaje).ShowDialog();
+                    string mensaje = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.avisoTextoCodigoVerificadoCorrecto);
+                    AvisoHelper.Mostrar(mensaje);
                     OperacionCompletada = true;
                     Close();
                     return;
                 }
 
-                string mensajeError = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                    ? LangResources.Lang.errorTextoCodigoIncorrectoExpirado
-                    : resultado.Mensaje;
+                string mensajeError = MensajeServidorHelper.Localizar(
+                    resultado.Mensaje,
+                    LangResources.Lang.errorTextoCodigoIncorrectoExpirado);
 
-                new Avisos(mensajeError).ShowDialog();
+                AvisoHelper.Mostrar(mensajeError);
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
                     LangResources.Lang.errorTextoServidorValidarCodigo);
-                new Avisos(mensaje).ShowDialog();
+                AvisoHelper.Mostrar(mensaje);
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                new Avisos(LangResources.Lang.errorTextoComunicacionServidorMasTarde).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorMasTarde);
             }
             catch (InvalidOperationException)
             {
-                new Avisos(LangResources.Lang.errorTextoSolicitudVerificacionInvalida).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoSolicitudVerificacionInvalida);
             }
             finally
             {
@@ -169,7 +169,9 @@ namespace PictionaryMusicalCliente
             return new ResultadoOperacion
             {
                 OperacionExitosa = resultado.RegistroExitoso,
-                Mensaje = resultado.Mensaje ?? (resultado.RegistroExitoso ? LangResources.Lang.avisoTextoRegistroCompletado : null)
+                Mensaje = MensajeServidorHelper.Localizar(
+                    resultado.Mensaje,
+                    resultado.RegistroExitoso ? LangResources.Lang.avisoTextoRegistroCompletado : null)
             };
         }
 
@@ -215,7 +217,7 @@ namespace PictionaryMusicalCliente
 
                 if (resultado == null)
                 {
-                    new Avisos(LangResources.Lang.errorTextoSolicitarNuevoCodigo).ShowDialog();
+                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoSolicitarNuevoCodigo);
                     return;
                 }
 
@@ -227,41 +229,41 @@ namespace PictionaryMusicalCliente
                     }
 
                     _siguienteReenvioPermitido = DateTime.UtcNow.AddMinutes(1);
-                    string mensaje = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                        ? LangResources.Lang.avisoTextoCodigoReenviado
-                        : resultado.Mensaje;
-                    new Avisos(mensaje).ShowDialog();
+                    string mensaje = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.avisoTextoCodigoReenviado);
+                    AvisoHelper.Mostrar(mensaje);
                     return;
                 }
 
-                string mensajeError = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                    ? LangResources.Lang.avisoTextoReenvioCodigoNoDisponible
-                    : resultado.Mensaje;
+                string mensajeError = MensajeServidorHelper.Localizar(
+                    resultado.Mensaje,
+                    LangResources.Lang.avisoTextoReenvioCodigoNoDisponible);
 
-                new Avisos(mensajeError).ShowDialog();
+                AvisoHelper.Mostrar(mensajeError);
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
                     LangResources.Lang.errorTextoServidorReenviarCodigo);
-                new Avisos(mensaje).ShowDialog();
+                AvisoHelper.Mostrar(mensaje);
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                new Avisos(LangResources.Lang.errorTextoComunicacionServidorMasTarde).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorMasTarde);
             }
             catch (InvalidOperationException)
             {
-                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudReenvio).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoProcesarSolicitudReenvio);
             }
             finally
             {

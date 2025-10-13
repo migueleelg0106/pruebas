@@ -14,18 +14,19 @@ namespace PictionaryMusicalCliente.Utilidades
             if (excepcion?.Detail != null &&
                 !string.IsNullOrWhiteSpace(excepcion.Detail.Mensaje))
             {
-                return excepcion.Detail.Mensaje.Trim();
+                return MensajeServidorHelper.Localizar(
+                    excepcion.Detail.Mensaje,
+                    mensajePredeterminado);
             }
-
 
             if (!string.IsNullOrWhiteSpace(excepcion?.Message))
             {
-                return excepcion.Message.Trim();
+                return MensajeServidorHelper.Localizar(
+                    excepcion.Message,
+                    mensajePredeterminado);
             }
 
-            return string.IsNullOrWhiteSpace(mensajePredeterminado)
-                ? LangResources.Lang.errorTextoErrorProcesarSolicitud
-                : mensajePredeterminado;
+            return MensajeServidorHelper.Localizar(null, mensajePredeterminado);
         }
     }
 }
