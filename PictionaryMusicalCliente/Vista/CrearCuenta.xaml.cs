@@ -170,35 +170,50 @@ namespace PictionaryMusicalCliente
             if (string.IsNullOrWhiteSpace(usuario))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoUsuario;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoUsuario;
+                }
                 MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoNombre;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoNombre;
+                }
                 MarcarCampoInvalido(bloqueTextoNombre);
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoApellido;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoApellido;
+                }
                 MarcarCampoInvalido(bloqueTextoApellido);
             }
 
             if (string.IsNullOrWhiteSpace(correo))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoCorreo;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoCorreo;
+                }
                 MarcarCampoInvalido(bloqueTextoCorreo);
             }
 
             if (string.IsNullOrWhiteSpace(contrasena))
             {
                 hayError = true;
-                primerCampo ??= bloqueContrasenaContrasena;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueContrasenaContrasena;
+                }
                 MarcarCampoInvalido(bloqueContrasenaContrasena);
             }
 

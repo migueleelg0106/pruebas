@@ -680,14 +680,20 @@ namespace PictionaryMusicalCliente
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoNombre;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoNombre;
+                }
                 MarcarCampoInvalido(bloqueTextoNombre);
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
             {
                 hayError = true;
-                primerCampo ??= bloqueTextoApellido;
+                if (primerCampo == null)
+                {
+                    primerCampo = bloqueTextoApellido;
+                }
                 MarcarCampoInvalido(bloqueTextoApellido);
             }
 
