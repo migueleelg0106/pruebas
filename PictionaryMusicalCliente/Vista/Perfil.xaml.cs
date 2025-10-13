@@ -689,11 +689,12 @@ namespace PictionaryMusicalCliente
         {
             if (sender is TextBox texto && texto.Tag is ToggleButton toggle)
             {
-                if (e.Key == Key.Enter || e.Key == Key.Escape)
+                if (e.Key != Key.Enter && e.Key != Key.Escape)
                 {
-                    toggle.IsChecked = false;
-                    e.Handled = true;
+                    return;
                 }
+                toggle.IsChecked = false;
+                e.Handled = true;
             }
         }
 

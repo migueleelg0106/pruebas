@@ -10,18 +10,12 @@ namespace PictionaryMusicalCliente.Utilidades
             FaultException<ServidorProxy.ErrorDetalleServicio> excepcion,
             string mensajePredeterminado)
         {
-            if (excepcion?.Detail != null)
+            if (excepcion?.Detail != null &&
+                !string.IsNullOrWhiteSpace(excepcion.Detail.Mensaje))
             {
-                if (!string.IsNullOrWhiteSpace(excepcion.Detail.Mensaje))
-                {
-                    return excepcion.Detail.Mensaje.Trim();
-                }
-
-                if (!string.IsNullOrWhiteSpace(excepcion.Detail.Razon))
-                {
-                    return excepcion.Detail.Razon.Trim();
-                }
+                return excepcion.Detail.Mensaje.Trim();
             }
+
 
             if (!string.IsNullOrWhiteSpace(excepcion?.Message))
             {
