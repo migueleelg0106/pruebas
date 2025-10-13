@@ -127,7 +127,7 @@
     <value>Registro completo</value>
   </data>
   <data name="errorTextoBaseDeDatosTitulo" xml:space="preserve">
-    <value>Error de base de datos</value>
+    <value>Hubo un error en la base de datos</value>
   </data>
   <data name="errorTextoBaseDeDatosMensaje" xml:space="preserve">
     <value>Ocurrió un error al guardar los datos</value>

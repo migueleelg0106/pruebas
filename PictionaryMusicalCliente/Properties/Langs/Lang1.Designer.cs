@@ -124,11 +124,29 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Se envió un código de verificación a tu correo electrónico..
+        /// </summary>
+        public static string avisoTextoCodigoEnviado {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoEnviado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Se envió un nuevo código a su correo electrónico..
         /// </summary>
         public static string avisoTextoCodigoReenviado {
             get {
                 return ResourceManager.GetString("avisoTextoCodigoReenviado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código verificado correctamente. Continúe con el cambio de contraseña..
+        /// </summary>
+        public static string avisoTextoCodigoVerificadoCambio {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoVerificadoCambio", resourceCulture);
             }
         }
         
@@ -403,6 +421,24 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El apellido es obligatorio y no debe exceder 50 caracteres..
+        /// </summary>
+        public static string errorTextoApellidoObligatorioLongitud {
+            get {
+                return ResourceManager.GetString("errorTextoApellidoObligatorioLongitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El avatar seleccionado no existe..
+        /// </summary>
+        public static string errorTextoAvatarNoExiste {
+            get {
+                return ResourceManager.GetString("errorTextoAvatarNoExiste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ocurrió un error al guardar los datos:.
         /// </summary>
         public static string errorTextoBaseDeDatosMensaje {
@@ -435,6 +471,15 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoCampoRequerido {
             get {
                 return ResourceManager.GetString("errorTextoCampoRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código de verificación ha expirado. Solicite uno nuevo..
+        /// </summary>
+        public static string errorTextoCodigoExpiradoSolicitarNuevo {
+            get {
+                return ResourceManager.GetString("errorTextoCodigoExpiradoSolicitarNuevo", resourceCulture);
             }
         }
         
@@ -574,6 +619,24 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El correo o usuario ya está registrado..
+        /// </summary>
+        public static string errorTextoCorreoUsuarioRegistrado {
+            get {
+                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo y el usuario ya están registrados..
+        /// </summary>
+        public static string errorTextoCorreoUsuarioRegistrados {
+            get {
+                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrados", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingrese el usuario o correo y la contraseña..
         /// </summary>
         public static string errorTextoCredencialesIncompletas {
@@ -583,11 +646,29 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Credenciales incorrectas..
+        /// </summary>
+        public static string errorTextoCredencialesIncorrectas {
+            get {
+                return ResourceManager.GetString("errorTextoCredencialesIncorrectas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se pudo iniciar sesión.
         /// </summary>
         public static string errorTextoCredencialesTitulo {
             get {
                 return ResourceManager.GetString("errorTextoCredencialesTitulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los datos de la cuenta no están disponibles..
+        /// </summary>
+        public static string errorTextoCuentaDatosNoDisponibles {
+            get {
+                return ResourceManager.GetString("errorTextoCuentaDatosNoDisponibles", resourceCulture);
             }
         }
         
@@ -644,205 +725,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("errorTextoEnvioCodigoVerificacionMasTarde", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de verificación..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudVerificacion {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudVerificacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Se envió un código de verificación a tu correo electrónico..
-        /// </summary>
-        public static string avisoTextoCodigoEnviado {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoEnviado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se encontró una solicitud de verificación activa..
-        /// </summary>
-        public static string errorTextoSolicitudVerificacionActiva {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudVerificacionActiva", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una solicitud de verificación vigente..
-        /// </summary>
-        public static string errorTextoSolicitudVerificacionVigente {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudVerificacionVigente", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El correo y el usuario ya están registrados..
-        /// </summary>
-        public static string errorTextoCorreoUsuarioRegistrados {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrados", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Los datos de la cuenta no están disponibles..
-        /// </summary>
-        public static string errorTextoCuentaDatosNoDisponibles {
-            get {
-                return ResourceManager.GetString("errorTextoCuentaDatosNoDisponibles", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El correo o usuario ya está registrado..
-        /// </summary>
-        public static string errorTextoCorreoUsuarioRegistrado {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo registrar la cuenta. Intente más tarde..
-        /// </summary>
-        public static string errorTextoRegistrarCuentaMasTarde {
-            get {
-                return ResourceManager.GetString("errorTextoRegistrarCuentaMasTarde", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Credenciales incorrectas..
-        /// </summary>
-        public static string errorTextoCredencialesIncorrectas {
-            get {
-                return ResourceManager.GetString("errorTextoCredencialesIncorrectas", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La solicitud de recuperación no es válida..
-        /// </summary>
-        public static string errorTextoSolicitudRecuperacionInvalida {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudRecuperacionInvalida", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se encontró una solicitud de recuperación activa..
-        /// </summary>
-        public static string errorTextoSolicitudRecuperacionActiva {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudRecuperacionActiva", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El código de verificación ha expirado. Solicite uno nuevo..
-        /// </summary>
-        public static string errorTextoCodigoExpiradoSolicitarNuevo {
-            get {
-                return ResourceManager.GetString("errorTextoCodigoExpiradoSolicitarNuevo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Código verificado correctamente. Continúe con el cambio de contraseña..
-        /// </summary>
-        public static string avisoTextoCodigoVerificadoCambio {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoVerificadoCambio", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una solicitud de recuperación vigente..
-        /// </summary>
-        public static string errorTextoSolicitudRecuperacionVigente {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudRecuperacionVigente", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La solicitud de actualización es obligatoria..
-        /// </summary>
-        public static string errorTextoSolicitudActualizacionObligatoria {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudActualizacionObligatoria", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El identificador de usuario es inválido..
-        /// </summary>
-        public static string errorTextoIdentificadorUsuarioInvalido {
-            get {
-                return ResourceManager.GetString("errorTextoIdentificadorUsuarioInvalido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El nombre es obligatorio y no debe exceder 50 caracteres..
-        /// </summary>
-        public static string errorTextoNombreObligatorioLongitud {
-            get {
-                return ResourceManager.GetString("errorTextoNombreObligatorioLongitud", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El apellido es obligatorio y no debe exceder 50 caracteres..
-        /// </summary>
-        public static string errorTextoApellidoObligatorioLongitud {
-            get {
-                return ResourceManager.GetString("errorTextoApellidoObligatorioLongitud", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se encontró el usuario especificado..
-        /// </summary>
-        public static string errorTextoUsuarioNoEncontrado {
-            get {
-                return ResourceManager.GetString("errorTextoUsuarioNoEncontrado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No existe un jugador asociado al usuario especificado..
-        /// </summary>
-        public static string errorTextoJugadorNoExiste {
-            get {
-                return ResourceManager.GetString("errorTextoJugadorNoExiste", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El avatar seleccionado no existe..
-        /// </summary>
-        public static string errorTextoAvatarNoExiste {
-            get {
-                return ResourceManager.GetString("errorTextoAvatarNoExiste", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Debe esperar {0} segundos para solicitar un nuevo código..
-        /// </summary>
-        public static string errorTextoTiempoEsperaCodigo {
-            get {
-                return ResourceManager.GetString("errorTextoTiempoEsperaCodigo", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Ocurrió un error al procesar la solicitud..
         /// </summary>
@@ -867,6 +750,15 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoIdentificadorRedSocialLongitud {
             get {
                 return ResourceManager.GetString("errorTextoIdentificadorRedSocialLongitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El identificador de usuario es inválido..
+        /// </summary>
+        public static string errorTextoIdentificadorUsuarioInvalido {
+            get {
+                return ResourceManager.GetString("errorTextoIdentificadorUsuarioInvalido", resourceCulture);
             }
         }
         
@@ -898,6 +790,15 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No existe un jugador asociado al usuario especificado..
+        /// </summary>
+        public static string errorTextoJugadorNoExiste {
+            get {
+                return ResourceManager.GetString("errorTextoJugadorNoExiste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se encontró la partida.
         /// </summary>
         public static string errorTextoNoEncuentraPartida {
@@ -912,6 +813,15 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoNombreJugadorRequerido {
             get {
                 return ResourceManager.GetString("errorTextoNombreJugadorRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre es obligatorio y no debe exceder 50 caracteres..
+        /// </summary>
+        public static string errorTextoNombreObligatorioLongitud {
+            get {
+                return ResourceManager.GetString("errorTextoNombreObligatorioLongitud", resourceCulture);
             }
         }
         
@@ -1002,6 +912,24 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoProcesarSolicitudReenvio {
             get {
                 return ResourceManager.GetString("errorTextoProcesarSolicitudReenvio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de verificación..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudVerificacion {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudVerificacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo registrar la cuenta. Intente más tarde..
+        /// </summary>
+        public static string errorTextoRegistrarCuentaMasTarde {
+            get {
+                return ResourceManager.GetString("errorTextoRegistrarCuentaMasTarde", resourceCulture);
             }
         }
         
@@ -1222,11 +1150,74 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La solicitud de actualización es obligatoria..
+        /// </summary>
+        public static string errorTextoSolicitudActualizacionObligatoria {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudActualizacionObligatoria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontró una solicitud de recuperación activa..
+        /// </summary>
+        public static string errorTextoSolicitudRecuperacionActiva {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudRecuperacionActiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La solicitud de recuperación no es válida..
+        /// </summary>
+        public static string errorTextoSolicitudRecuperacionInvalida {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudRecuperacionInvalida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay una solicitud de recuperación vigente..
+        /// </summary>
+        public static string errorTextoSolicitudRecuperacionVigente {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudRecuperacionVigente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontró una solicitud de verificación activa..
+        /// </summary>
+        public static string errorTextoSolicitudVerificacionActiva {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudVerificacionActiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La solicitud de verificación no es válida. Intente nuevamente..
         /// </summary>
         public static string errorTextoSolicitudVerificacionInvalida {
             get {
                 return ResourceManager.GetString("errorTextoSolicitudVerificacionInvalida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay una solicitud de verificación vigente..
+        /// </summary>
+        public static string errorTextoSolicitudVerificacionVigente {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudVerificacionVigente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe esperar {0} segundos para solicitar un nuevo código..
+        /// </summary>
+        public static string errorTextoTiempoEsperaCodigo {
+            get {
+                return ResourceManager.GetString("errorTextoTiempoEsperaCodigo", resourceCulture);
             }
         }
         
@@ -1254,6 +1245,15 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoUsuarioEnUso {
             get {
                 return ResourceManager.GetString("errorTextoUsuarioEnUso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontró el usuario especificado..
+        /// </summary>
+        public static string errorTextoUsuarioNoEncontrado {
+            get {
+                return ResourceManager.GetString("errorTextoUsuarioNoEncontrado", resourceCulture);
             }
         }
         
