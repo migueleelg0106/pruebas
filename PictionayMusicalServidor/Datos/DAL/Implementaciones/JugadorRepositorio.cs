@@ -1,4 +1,3 @@
-using System;
 using System.Data.Entity;
 using System.Linq;
 using Datos.DAL.Interfaces;
@@ -9,6 +8,39 @@ namespace Datos.DAL.Implementaciones
 {
     public class JugadorRepositorio : IJugadorRepositorio
     {
+        public bool ExisteCorreo(string correo)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                return contexto.Jugador.Any(j => j.Correo == correo);
+            }
+        }
+
+        public Jugador CrearJugador(
+            string nombre,
+            string apellido,
+            string correo,
+            int avatarId,
+            int clasificacionId)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                var jugador = new Jugador
+                {
+                    Nombre = nombre,
+                    Apellido = apellido,
+                    Correo = correo,
+                    Avatar_idAvatar = avatarId,
+                    Clasificacion_idClasificacion = clasificacionId
+                };
+
+                contexto.Jugador.Add(jugador);
+                contexto.SaveChanges();
+
+                return jugador;
+            }
+        }
+
         public Jugador ObtenerPorId(int jugadorId)
         {
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
@@ -40,25 +72,9 @@ namespace Datos.DAL.Implementaciones
                     return false;
                 }
 
-                bool requiereActualizacion = false;
-
-                if (!string.Equals(jugador.Nombre, nombre, StringComparison.Ordinal))
-                {
-                    jugador.Nombre = nombre;
-                    requiereActualizacion = true;
-                }
-
-                if (!string.Equals(jugador.Apellido, apellido, StringComparison.Ordinal))
-                {
-                    jugador.Apellido = apellido;
-                    requiereActualizacion = true;
-                }
-
-                if (jugador.Avatar_idAvatar != avatarId)
-                {
-                    jugador.Avatar_idAvatar = avatarId;
-                    requiereActualizacion = true;
-                }
+                jugador.Nombre = nombre;
+                jugador.Apellido = apellido;
+                jugador.Avatar_idAvatar = avatarId;
 
                 RedSocial redSocial = jugador.RedSocial?.FirstOrDefault();
 
@@ -69,38 +85,14 @@ namespace Datos.DAL.Implementaciones
                         Jugador_idJugador = jugadorId,
                         Jugador = jugador
                     };
+
                     contexto.RedSocial.Add(redSocial);
-                    requiereActualizacion = true;
                 }
 
-                if (!string.Equals(redSocial.Instagram, instagram, StringComparison.Ordinal))
-                {
-                    redSocial.Instagram = instagram;
-                    requiereActualizacion = true;
-                }
-
-                if (!string.Equals(redSocial.facebook, facebook, StringComparison.Ordinal))
-                {
-                    redSocial.facebook = facebook;
-                    requiereActualizacion = true;
-                }
-
-                if (!string.Equals(redSocial.x, x, StringComparison.Ordinal))
-                {
-                    redSocial.x = x;
-                    requiereActualizacion = true;
-                }
-
-                if (!string.Equals(redSocial.discord, discord, StringComparison.Ordinal))
-                {
-                    redSocial.discord = discord;
-                    requiereActualizacion = true;
-                }
-
-                if (!requiereActualizacion)
-                {
-                    return true;
-                }
+                redSocial.Instagram = instagram;
+                redSocial.facebook = facebook;
+                redSocial.x = x;
+                redSocial.discord = discord;
 
                 return contexto.SaveChanges() > 0;
             }
