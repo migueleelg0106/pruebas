@@ -5,7 +5,7 @@ namespace PictionaryMusicalCliente.Modelo
         public bool CodigoEnviado { get; set; }
         public bool CuentaEncontrada { get; set; }
         public string Mensaje { get; set; }
-        public string TokenRecuperacion { get; set; }
+        public string TokenCodigo { get; set; }
         public string CorreoDestino { get; set; }
     }
 }

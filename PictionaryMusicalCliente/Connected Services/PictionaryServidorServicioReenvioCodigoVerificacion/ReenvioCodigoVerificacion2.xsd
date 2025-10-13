@@ -4,7 +4,7 @@
   <xs:element name="ReenviarCodigoVerificacion">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs" minOccurs="0" name="solicitud" nillable="true" type="q1:ReenviarCodigoVerificacionDTO" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs" minOccurs="0" name="solicitud" nillable="true" type="q1:ReenviarCodigoDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

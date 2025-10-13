@@ -11,7 +11,8 @@ namespace Servicios.Servicios
 {
     public class CodigoVerificacionManejador : ICodigoVerificacionManejador
     {
-        private readonly CodigoVerificacionServicio _servicio;
+        private readonly CodigoVerificacionServicio _codigoServicio;
+        private readonly RecuperacionCuentaServicio _recuperacionServicio;
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(CodigoVerificacionManejador));
 
         public CodigoVerificacionManejador()
@@ -29,11 +30,12 @@ namespace Servicios.Servicios
             IClasificacionRepositorio clasificacionRepositorio,
             ICodigoVerificacionNotificador notificador)
         {
-            _servicio = new CodigoVerificacionServicio(
+            _codigoServicio = new CodigoVerificacionServicio(
                 jugadorRepositorio,
                 usuarioRepositorio,
                 clasificacionRepositorio,
                 notificador);
+            _recuperacionServicio = new RecuperacionCuentaServicio(usuarioRepositorio, notificador);
         }
 
         public ResultadoSolicitudCodigoDTO SolicitarCodigoVerificacion(NuevaCuentaDTO nuevaCuenta)
@@ -42,7 +44,7 @@ namespace Servicios.Servicios
 
             try
             {
-                return _servicio.SolicitarCodigoVerificacion(nuevaCuenta);
+                return _codigoServicio.SolicitarCodigoVerificacion(nuevaCuenta);
             }
             catch (ArgumentNullException ex)
             {
@@ -66,13 +68,13 @@ namespace Servicios.Servicios
             }
         }
 
-        public ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoVerificacionDTO confirmacion)
+        public ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoDTO confirmacion)
         {
             Bitacora.Info("Solicitud para confirmar código de verificación recibida.");
 
             try
             {
-                return _servicio.ConfirmarCodigoVerificacion(confirmacion);
+                return _codigoServicio.ConfirmarCodigoVerificacion(confirmacion);
             }
             catch (ArgumentNullException ex)
             {
@@ -93,6 +95,66 @@ namespace Servicios.Servicios
             {
                 Bitacora.Fatal("Error inesperado al confirmar el código de verificación.", ex);
                 throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al confirmar el código de verificación.", "Error interno del servidor.");
+            }
+        }
+
+        public ResultadoSolicitudRecuperacionDTO SolicitarCodigoRecuperacion(SolicitudRecuperarCuentaDTO solicitud)
+        {
+            Bitacora.Info("Solicitud para iniciar recuperación de cuenta recibida.");
+
+            try
+            {
+                return _recuperacionServicio.SolicitarCodigoRecuperacion(solicitud);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Bitacora.Warn("Los datos para solicitar la recuperación de cuenta son inválidos.", ex);
+                throw FabricaFallaServicio.Crear("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para recuperar la cuenta.", "Solicitud inválida.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Bitacora.Error("Operación inválida al solicitar la recuperación de cuenta.", ex);
+                throw FabricaFallaServicio.Crear("OPERACION_INVALIDA", "No fue posible procesar la recuperación de la cuenta.", "Operación inválida en la capa de datos.");
+            }
+            catch (DataException ex)
+            {
+                Bitacora.Error("Error en la base de datos al solicitar la recuperación de cuenta.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_BASE_DATOS", "Ocurrió un problema al iniciar la recuperación de la cuenta.", "Fallo en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                Bitacora.Fatal("Error inesperado al solicitar la recuperación de cuenta.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al solicitar la recuperación de la cuenta.", "Error interno del servidor.");
+            }
+        }
+
+        public ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoDTO confirmacion)
+        {
+            Bitacora.Info("Solicitud para confirmar código de recuperación recibida.");
+
+            try
+            {
+                return _recuperacionServicio.ConfirmarCodigoRecuperacion(confirmacion);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Bitacora.Warn("Los datos para confirmar el código de recuperación son inválidos.", ex);
+                throw FabricaFallaServicio.Crear("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para confirmar el código.", "Solicitud inválida.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Bitacora.Error("Operación inválida al confirmar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("OPERACION_INVALIDA", "No fue posible confirmar el código de recuperación.", "Operación inválida en la capa de datos.");
+            }
+            catch (DataException ex)
+            {
+                Bitacora.Error("Error en la base de datos al confirmar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_BASE_DATOS", "Ocurrió un problema al confirmar el código de recuperación.", "Fallo en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                Bitacora.Fatal("Error inesperado al confirmar el código de recuperación.", ex);
+                throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al confirmar el código de recuperación.", "Error interno del servidor.");
             }
         }
     }

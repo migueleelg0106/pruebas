@@ -15,15 +15,15 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ReenviarCodigoVerificacionDTO", Namespace="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ReenviarCodigoDTO", Namespace="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
     [System.SerializableAttribute()]
-    public partial class ReenviarCodigoVerificacionDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
+    public partial class ReenviarCodigoDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
+
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenVerificacionField;
+        private string TokenCodigoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -36,14 +36,14 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenVerificacion {
+        public string TokenCodigo {
             get {
-                return this.TokenVerificacionField;
+                return this.TokenCodigoField;
             }
             set {
-                if ((object.ReferenceEquals(this.TokenVerificacionField, value) != true)) {
-                    this.TokenVerificacionField = value;
-                    this.RaisePropertyChanged("TokenVerificacion");
+                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
+                    this.TokenCodigoField = value;
+                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -57,7 +57,11 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
             }
         }
     }
-    
+
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ReenviarCodigoDTO", Namespace="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
+    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ResultadoSolicitudCodigoDTO", Namespace="http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
@@ -77,10 +81,13 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
         private string MensajeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenVerificacionField;
+        private string TokenCodigoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool UsuarioYaRegistradoField;
+
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TokenCodigoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -132,14 +139,14 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenVerificacion {
+        public string TokenCodigo {
             get {
-                return this.TokenVerificacionField;
+                return this.TokenCodigoField;
             }
             set {
-                if ((object.ReferenceEquals(this.TokenVerificacionField, value) != true)) {
-                    this.TokenVerificacionField = value;
-                    this.RaisePropertyChanged("TokenVerificacion");
+                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
+                    this.TokenCodigoField = value;
+                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -153,6 +160,19 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
                 if ((this.UsuarioYaRegistradoField.Equals(value) != true)) {
                     this.UsuarioYaRegistradoField = value;
                     this.RaisePropertyChanged("UsuarioYaRegistrado");
+                }
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TokenCodigo {
+            get {
+                return this.TokenCodigoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
+                    this.TokenCodigoField = value;
+                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -175,12 +195,18 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoVerificacio" +
             "n", ReplyAction="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoVerificacio" +
             "nResponse")]
-        PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoVerificacionDTO solicitud);
+        PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoVerificacio" +
             "n", ReplyAction="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoVerificacio" +
             "nResponse")]
-        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoVerificacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoVerificacionDTO solicitud);
+        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoVerificacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoRecuperacion", ReplyAction="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoRecuperacionResponse")]
+        PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoRecuperacion", ReplyAction="http://tempuri.org/IReenviarCodigoVerificacionManejador/ReenviarCodigoRecuperacionResponse")]
+        System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoRecuperacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -210,12 +236,20 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerifi
                 base(binding, remoteAddress) {
         }
         
-        public PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoVerificacionDTO solicitud) {
+        public PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud) {
             return base.Channel.ReenviarCodigoVerificacion(solicitud);
         }
         
-        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoVerificacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoVerificacionDTO solicitud) {
+        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoVerificacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud) {
             return base.Channel.ReenviarCodigoVerificacionAsync(solicitud);
+        }
+
+        public PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud) {
+            return base.Channel.ReenviarCodigoRecuperacion(solicitud);
+        }
+
+        public System.Threading.Tasks.Task<PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ResultadoSolicitudCodigoDTO> ReenviarCodigoRecuperacionAsync(PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion.ReenviarCodigoDTO solicitud) {
+            return base.Channel.ReenviarCodigoRecuperacionAsync(solicitud);
         }
     }
 }

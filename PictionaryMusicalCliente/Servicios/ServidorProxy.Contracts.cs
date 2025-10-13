@@ -8,18 +8,6 @@ namespace PictionaryMusicalCliente.Servicios
         [ServiceContract(Name = "ICambiarContrasenaManejador", Namespace = "http://tempuri.org/", ConfigurationName = "ICambiarContrasenaManejador")]
         private interface ICambiarContrasenaManejadorContract
         {
-            [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacionResponse")]
-            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/SolicitarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
-            ResultadoSolicitudRecuperacionDto SolicitarCodigoRecuperacion(SolicitudRecuperacionDto solicitud);
-
-            [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacionResponse")]
-            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ReenviarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
-            ResultadoSolicitudCodigoDto ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDto solicitud);
-
-            [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacion", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacionResponse")]
-            [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ConfirmarCodigoRecuperacionErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
-            ResultadoOperacionDto ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDto confirmacion);
-
             [OperationContract(Action = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasena", ReplyAction = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasenaResponse")]
             [FaultContract(typeof(ErrorDetalleServicio), Action = "http://tempuri.org/ICambiarContrasenaManejador/ActualizarContrasenaErrorDetalleServicioDTOFault", Name = "ErrorDetalleServicioDTO")]
             ResultadoOperacionDto ActualizarContrasena(ActualizarContrasenaDto solicitud);
@@ -63,73 +51,14 @@ namespace PictionaryMusicalCliente.Servicios
             public string Mensaje { get; set; }
         }
 
-        [DataContract(Name = "SolicitudRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class SolicitudRecuperacionDto
-        {
-            [DataMember]
-            public string Identificador { get; set; }
-        }
-
-        [DataContract(Name = "SolicitudReenviarCodigoRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class SolicitudReenviarCodigoRecuperacionDto
-        {
-            [DataMember]
-            public string TokenRecuperacion { get; set; }
-        }
-
-        [DataContract(Name = "ConfirmarCodigoRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class ConfirmarCodigoRecuperacionDto
-        {
-            [DataMember]
-            public string TokenRecuperacion { get; set; }
-
-            [DataMember]
-            public string CodigoIngresado { get; set; }
-        }
-
         [DataContract(Name = "ActualizarContrasenaDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
         private class ActualizarContrasenaDto
         {
             [DataMember]
-            public string TokenRecuperacion { get; set; }
+            public string TokenCodigo { get; set; }
 
             [DataMember]
             public string NuevaContrasena { get; set; }
-        }
-
-        [DataContract(Name = "ResultadoSolicitudRecuperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class ResultadoSolicitudRecuperacionDto
-        {
-            [DataMember]
-            public bool CodigoEnviado { get; set; }
-
-            [DataMember]
-            public bool CuentaEncontrada { get; set; }
-
-            [DataMember]
-            public string Mensaje { get; set; }
-
-            [DataMember]
-            public string TokenRecuperacion { get; set; }
-
-            [DataMember]
-            public string CorreoDestino { get; set; }
-        }
-
-        [DataContract(Name = "ResultadoSolicitudCodigoDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]
-        private class ResultadoSolicitudCodigoDto
-        {
-            [DataMember]
-            public bool CodigoEnviado { get; set; }
-
-            [DataMember]
-            public string Mensaje { get; set; }
-
-            [DataMember]
-            public string TokenVerificacion { get; set; }
-
-            [DataMember]
-            public string TokenRecuperacion { get; set; }
         }
 
         [DataContract(Name = "ResultadoOperacionDTO", Namespace = "http://schemas.datacontract.org/2004/07/Servicios.Contratos.DTOs")]

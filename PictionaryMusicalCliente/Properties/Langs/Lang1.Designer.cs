@@ -1231,20 +1231,11 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El token de recuperación es obligatorio..
+        ///   Busca una cadena traducida similar a El token del código es obligatorio..
         /// </summary>
-        public static string errorTextoTokenRecuperacionObligatorio {
+        public static string errorTextoTokenCodigoObligatorio {
             get {
-                return ResourceManager.GetString("errorTextoTokenRecuperacionObligatorio", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El token de verificación es obligatorio..
-        /// </summary>
-        public static string errorTextoTokenVerificacionObligatorio {
-            get {
-                return ResourceManager.GetString("errorTextoTokenVerificacionObligatorio", resourceCulture);
+                return ResourceManager.GetString("errorTextoTokenCodigoObligatorio", resourceCulture);
             }
         }
         

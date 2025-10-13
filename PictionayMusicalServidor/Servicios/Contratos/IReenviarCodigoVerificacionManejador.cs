@@ -8,6 +8,10 @@ namespace Servicios.Contratos
     {
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
-        ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoVerificacionDTO solicitud);
+        ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoDTO solicitud);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
+        ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(ReenviarCodigoDTO solicitud);
     }
 }

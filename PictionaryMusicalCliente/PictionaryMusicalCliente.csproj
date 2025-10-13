@@ -100,12 +100,10 @@
     <Compile Include="Modelo\SolicitudActualizarContrasena.cs" />
     <Compile Include="Modelo\SolicitudActualizarPerfil.cs" />
     <Compile Include="Modelo\SolicitudConfirmarCodigo.cs" />
-    <Compile Include="Modelo\SolicitudConfirmarCodigoRecuperacion.cs" />
     <Compile Include="Modelo\SolicitudInicioSesion.cs" />
     <Compile Include="Modelo\SolicitudRecuperarCuenta.cs" />
     <Compile Include="Modelo\SolicitudRegistrarUsuario.cs" />
     <Compile Include="Modelo\SolicitudReenviarCodigo.cs" />
-    <Compile Include="Modelo\SolicitudReenviarCodigoRecuperacion.cs" />
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
     <Compile Include="Servicios\DialogService.cs" />
     <Compile Include="Servicios\ServidorProxy.cs" />

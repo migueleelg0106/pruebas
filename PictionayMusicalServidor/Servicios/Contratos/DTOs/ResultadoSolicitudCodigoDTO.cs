@@ -12,15 +12,12 @@ namespace Servicios.Contratos.DTOs
         public string Mensaje { get; set; }
 
         [DataMember]
-        public string TokenVerificacion { get; set; }
+        public string TokenCodigo { get; set; }
 
         [DataMember]
         public bool CorreoYaRegistrado { get; set; }
 
         [DataMember]
         public bool UsuarioYaRegistrado { get; set; }
-
-        [DataMember]
-        public string TokenRecuperacion { get; set; }
     }
 }

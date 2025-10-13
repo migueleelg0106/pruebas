@@ -5,7 +5,6 @@ using Servicios.Servicios.Utilidades;
 using System;
 using System.Configuration;
 using System.Net.Mail;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Servicios.Servicios
@@ -65,7 +64,7 @@ namespace Servicios.Servicios
 
             _store.RemoverPorUsuario(idUsuario);
 
-            string codigo = GenerarCodigo();
+            string codigo = CodigoVerificacionGenerator.GenerarCodigo();
             var registro = RecuperacionCuentaPendiente.Crear(idUsuario, correo, codigo, DuracionCodigo, ahora);
 
             if (!_store.TryAdd(registro))
@@ -112,12 +111,12 @@ namespace Servicios.Servicios
             }
 
             resultado.CodigoEnviado = true;
-            resultado.TokenRecuperacion = registro.Token;
+            resultado.TokenCodigo = registro.Token;
             resultado.Mensaje = "Se envió un código de verificación al correo registrado.";
             return resultado;
         }
 
-        public ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDTO solicitud)
+        public ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(ReenviarCodigoDTO solicitud)
         {
             var resultado = new ResultadoSolicitudCodigoDTO
             {
@@ -125,7 +124,7 @@ namespace Servicios.Servicios
                 Mensaje = "La solicitud de recuperación no es válida."
             };
 
-            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion))
+            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenCodigo))
             {
                 return resultado;
             }
@@ -133,7 +132,7 @@ namespace Servicios.Servicios
             DateTime ahora = DateTime.UtcNow;
             _store.LimpiarExpirados(ahora);
 
-            if (!_store.TryGet(solicitud.TokenRecuperacion, out RecuperacionCuentaPendiente registro))
+            if (!_store.TryGet(solicitud.TokenCodigo, out RecuperacionCuentaPendiente registro))
             {
                 resultado.Mensaje = "No se encontró una solicitud de recuperación activa.";
                 return resultado;
@@ -141,7 +140,7 @@ namespace Servicios.Servicios
 
             if (registro.EstaExpiradoParaVerificacion(ahora))
             {
-                _store.TryRemove(solicitud.TokenRecuperacion);
+                _store.TryRemove(solicitud.TokenCodigo);
                 resultado.Mensaje = "El código de verificación ha expirado. Solicite uno nuevo.";
                 return resultado;
             }
@@ -152,7 +151,7 @@ namespace Servicios.Servicios
                 return resultado;
             }
 
-            string nuevoCodigo = GenerarCodigo();
+            string nuevoCodigo = CodigoVerificacionGenerator.GenerarCodigo();
             registro.ActualizarCodigo(nuevoCodigo, DuracionCodigo, ahora);
 
             try
@@ -189,13 +188,12 @@ namespace Servicios.Servicios
             }
 
             resultado.CodigoEnviado = true;
-            resultado.TokenVerificacion = registro.Token;
-            resultado.TokenRecuperacion = registro.Token;
+            resultado.TokenCodigo = registro.Token;
             resultado.Mensaje = "Se envió un nuevo código de verificación.";
             return resultado;
         }
 
-        public ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDTO confirmacion)
+        public ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoDTO confirmacion)
         {
             var resultado = new ResultadoOperacionDTO
             {
@@ -203,7 +201,7 @@ namespace Servicios.Servicios
                 Mensaje = "El código de verificación es inválido."
             };
 
-            if (confirmacion == null || string.IsNullOrWhiteSpace(confirmacion.TokenRecuperacion) || string.IsNullOrWhiteSpace(confirmacion.CodigoIngresado))
+            if (confirmacion == null || string.IsNullOrWhiteSpace(confirmacion.TokenCodigo) || string.IsNullOrWhiteSpace(confirmacion.CodigoIngresado))
             {
                 return resultado;
             }
@@ -211,7 +209,7 @@ namespace Servicios.Servicios
             DateTime ahora = DateTime.UtcNow;
             _store.LimpiarExpirados(ahora);
 
-            if (!_store.TryGet(confirmacion.TokenRecuperacion, out RecuperacionCuentaPendiente registro))
+            if (!_store.TryGet(confirmacion.TokenCodigo, out RecuperacionCuentaPendiente registro))
             {
                 resultado.Mensaje = "No hay una solicitud de recuperación vigente.";
                 return resultado;
@@ -219,7 +217,7 @@ namespace Servicios.Servicios
 
             if (registro.EstaExpiradoParaVerificacion(ahora))
             {
-                _store.TryRemove(confirmacion.TokenRecuperacion);
+                _store.TryRemove(confirmacion.TokenCodigo);
                 resultado.Mensaje = "El código de verificación ha expirado.";
                 return resultado;
             }
@@ -244,7 +242,7 @@ namespace Servicios.Servicios
                 Mensaje = "La solicitud de actualización de contraseña no es válida."
             };
 
-            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion) || string.IsNullOrWhiteSpace(solicitud.NuevaContrasena))
+            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenCodigo) || string.IsNullOrWhiteSpace(solicitud.NuevaContrasena))
             {
                 return resultado;
             }
@@ -252,7 +250,7 @@ namespace Servicios.Servicios
             DateTime ahora = DateTime.UtcNow;
             _store.LimpiarExpirados(ahora);
 
-            if (!_store.TryGet(solicitud.TokenRecuperacion, out RecuperacionCuentaPendiente registro))
+            if (!_store.TryGet(solicitud.TokenCodigo, out RecuperacionCuentaPendiente registro))
             {
                 resultado.Mensaje = "No se encontró una solicitud de recuperación activa.";
                 return resultado;
@@ -260,7 +258,7 @@ namespace Servicios.Servicios
 
             if (!registro.PuedeActualizar(ahora))
             {
-                _store.TryRemove(solicitud.TokenRecuperacion);
+                _store.TryRemove(solicitud.TokenCodigo);
                 resultado.Mensaje = "El código de verificación ha expirado. Solicite uno nuevo.";
                 return resultado;
             }
@@ -273,24 +271,11 @@ namespace Servicios.Servicios
                 return resultado;
             }
 
-            _store.TryRemove(solicitud.TokenRecuperacion);
+            _store.TryRemove(solicitud.TokenCodigo);
 
             resultado.OperacionExitosa = true;
             resultado.Mensaje = "La contraseña se actualizó correctamente.";
             return resultado;
-        }
-
-        private static string GenerarCodigo()
-        {
-            var bytes = new byte[4];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(bytes);
-            }
-
-            int valor = BitConverter.ToInt32(bytes, 0) & int.MaxValue;
-            int codigo = valor % 1000000;
-            return codigo.ToString("D6");
         }
 
         private Task EjecutarEnvioCodigoAsync(string correoDestino, string codigo)

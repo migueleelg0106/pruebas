@@ -26,7 +26,7 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         private string MensajeField;
 
         [OptionalFieldAttribute()]
-        private string TokenVerificacionField;
+        private string TokenCodigoField;
 
         [OptionalFieldAttribute()]
         private bool CorreoYaRegistradoField;
@@ -70,15 +70,15 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         }
 
         [DataMemberAttribute()]
-        public string TokenVerificacion
+        public string TokenCodigo
         {
-            get { return TokenVerificacionField; }
+            get { return TokenCodigoField; }
             set
             {
-                if (!object.ReferenceEquals(TokenVerificacionField, value))
+                if (!object.ReferenceEquals(TokenCodigoField, value))
                 {
-                    TokenVerificacionField = value;
-                    RaisePropertyChanged("TokenVerificacion");
+                    TokenCodigoField = value;
+                    RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -129,7 +129,7 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         private ExtensionDataObject extensionDataField;
 
         [OptionalFieldAttribute()]
-        private string TokenVerificacionField;
+        private string TokenCodigoField;
 
         [BrowsableAttribute(false)]
         public ExtensionDataObject ExtensionData
@@ -139,15 +139,15 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         }
 
         [DataMemberAttribute()]
-        public string TokenVerificacion
+        public string TokenCodigo
         {
-            get { return TokenVerificacionField; }
+            get { return TokenCodigoField; }
             set
             {
-                if (!object.ReferenceEquals(TokenVerificacionField, value))
+                if (!object.ReferenceEquals(TokenCodigoField, value))
                 {
-                    TokenVerificacionField = value;
-                    RaisePropertyChanged("TokenVerificacion");
+                    TokenCodigoField = value;
+                    RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
@@ -170,7 +170,7 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         private ExtensionDataObject extensionDataField;
 
         [OptionalFieldAttribute()]
-        private string TokenVerificacionField;
+        private string TokenCodigoField;
 
         [OptionalFieldAttribute()]
         private string CodigoIngresadoField;
@@ -183,15 +183,15 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCuenta
         }
 
         [DataMemberAttribute()]
-        public string TokenVerificacion
+        public string TokenCodigo
         {
-            get { return TokenVerificacionField; }
+            get { return TokenCodigoField; }
             set
             {
-                if (!object.ReferenceEquals(TokenVerificacionField, value))
+                if (!object.ReferenceEquals(TokenCodigoField, value))
                 {
-                    TokenVerificacionField = value;
-                    RaisePropertyChanged("TokenVerificacion");
+                    TokenCodigoField = value;
+                    RaisePropertyChanged("TokenCodigo");
                 }
             }
         }

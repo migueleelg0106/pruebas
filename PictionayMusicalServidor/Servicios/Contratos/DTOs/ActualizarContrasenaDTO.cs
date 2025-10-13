@@ -6,7 +6,7 @@ namespace Servicios.Contratos.DTOs
     public class ActualizarContrasenaDTO
     {
         [DataMember]
-        public string TokenRecuperacion { get; set; }
+        public string TokenCodigo { get; set; }
 
         [DataMember]
         public string NuevaContrasena { get; set; }
