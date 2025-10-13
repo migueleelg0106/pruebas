@@ -525,6 +525,69 @@
   <data name="errorTextoEnvioCodigoVerificacionMasTarde" xml:space="preserve">
     <value>No fue posible enviar el código de verificación. Intente más tarde.</value>
   </data>
+  <data name="errorTextoProcesarSolicitudVerificacion" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de verificación.</value>
+  </data>
+  <data name="avisoTextoCodigoEnviado" xml:space="preserve">
+    <value>Se envió un código de verificación a tu correo electrónico.</value>
+  </data>
+  <data name="errorTextoSolicitudVerificacionActiva" xml:space="preserve">
+    <value>No se encontró una solicitud de verificación activa.</value>
+  </data>
+  <data name="errorTextoSolicitudVerificacionVigente" xml:space="preserve">
+    <value>No hay una solicitud de verificación vigente.</value>
+  </data>
+  <data name="errorTextoCorreoUsuarioRegistrados" xml:space="preserve">
+    <value>El correo y el usuario ya están registrados.</value>
+  </data>
+  <data name="errorTextoCuentaDatosNoDisponibles" xml:space="preserve">
+    <value>Los datos de la cuenta no están disponibles.</value>
+  </data>
+  <data name="errorTextoCorreoUsuarioRegistrado" xml:space="preserve">
+    <value>El correo o usuario ya está registrado.</value>
+  </data>
+  <data name="errorTextoRegistrarCuentaMasTarde" xml:space="preserve">
+    <value>No se pudo registrar la cuenta. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoCredencialesIncorrectas" xml:space="preserve">
+    <value>Credenciales incorrectas.</value>
+  </data>
+  <data name="errorTextoSolicitudRecuperacionInvalida" xml:space="preserve">
+    <value>La solicitud de recuperación no es válida.</value>
+  </data>
+  <data name="errorTextoSolicitudRecuperacionActiva" xml:space="preserve">
+    <value>No se encontró una solicitud de recuperación activa.</value>
+  </data>
+  <data name="errorTextoCodigoExpiradoSolicitarNuevo" xml:space="preserve">
+    <value>El código de verificación ha expirado. Solicite uno nuevo.</value>
+  </data>
+  <data name="avisoTextoCodigoVerificadoCambio" xml:space="preserve">
+    <value>Código verificado correctamente. Continúe con el cambio de contraseña.</value>
+  </data>
+  <data name="errorTextoSolicitudRecuperacionVigente" xml:space="preserve">
+    <value>No hay una solicitud de recuperación vigente.</value>
+  </data>
+  <data name="errorTextoSolicitudActualizacionObligatoria" xml:space="preserve">
+    <value>La solicitud de actualización es obligatoria.</value>
+  </data>
+  <data name="errorTextoIdentificadorUsuarioInvalido" xml:space="preserve">
+    <value>El identificador de usuario es inválido.</value>
+  </data>
+  <data name="errorTextoNombreObligatorioLongitud" xml:space="preserve">
+    <value>El nombre es obligatorio y no debe exceder 50 caracteres.</value>
+  </data>
+  <data name="errorTextoApellidoObligatorioLongitud" xml:space="preserve">
+    <value>El apellido es obligatorio y no debe exceder 50 caracteres.</value>
+  </data>
+  <data name="errorTextoUsuarioNoEncontrado" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="errorTextoJugadorNoExiste" xml:space="preserve">
+    <value>No existe un jugador asociado al usuario especificado.</value>
+  </data>
+  <data name="errorTextoAvatarNoExiste" xml:space="preserve">
+    <value>El avatar seleccionado no existe.</value>
+  </data>
   <data name="errorTextoErrorProcesarSolicitud" xml:space="preserve">
     <value>Ocurrió un error al procesar la solicitud.</value>
   </data>
@@ -650,6 +713,9 @@
   </data>
   <data name="errorTextoTokenRecuperacionObligatorio" xml:space="preserve">
     <value>El token de recuperación es obligatorio.</value>
+  </data>
+  <data name="errorTextoTiempoEsperaCodigo" xml:space="preserve">
+    <value>Debe esperar {0} segundos para solicitar un nuevo código.</value>
   </data>
   <data name="errorTextoTokenVerificacionObligatorio" xml:space="preserve">
     <value>El token de verificación es obligatorio.</value>

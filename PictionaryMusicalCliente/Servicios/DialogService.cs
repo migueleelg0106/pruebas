@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente.Servicios
 {
@@ -13,6 +14,6 @@ namespace PictionaryMusicalCliente.Servicios
 
     public class DialogService : IDialogService
     {
-        public void Aviso(string mensaje) => new Avisos(mensaje).ShowDialog();
+        public void Aviso(string mensaje) => AvisoHelper.Mostrar(mensaje);
     }
 }

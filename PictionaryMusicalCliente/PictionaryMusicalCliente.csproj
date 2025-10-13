@@ -112,6 +112,8 @@
     <Compile Include="Servicios\ServidorProxy.Contracts.cs" />
     <Compile Include="Sesiones\SesionUsuarioActual.cs" />
     <Compile Include="Utilidades\ErrorServicioHelper.cs" />
+    <Compile Include="Utilidades\AvisoHelper.cs" />
+    <Compile Include="Utilidades\MensajeServidorHelper.cs" />
     <Compile Include="VistaModelo\CrearCuenta.cs" />
     <Compile Include="Vista\AjustesPartida.xaml.cs">
       <DependentUpon>AjustesPartida.xaml</DependentUpon>

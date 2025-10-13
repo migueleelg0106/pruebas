@@ -54,7 +54,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(identificador) || string.IsNullOrWhiteSpace(contrasena))
             {
-                new Avisos(LangResources.Lang.errorTextoCredencialesIncompletas).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCredencialesIncompletas);
                 return;
             }
 
@@ -81,7 +81,7 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos(LangResources.Lang.errorTextoServidorSinRespuesta).ShowDialog();
+                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorSinRespuesta);
                         return;
                     }
 
@@ -95,11 +95,11 @@ namespace PictionaryMusicalCliente
                         return;
                     }
 
-                    string mensaje = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                        ? Properties.Langs.Lang.errorTextoCredencialesTitulo
-                        : resultado.Mensaje;
+                    string mensaje = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        Properties.Langs.Lang.errorTextoCredencialesTitulo);
 
-                    new Avisos(mensaje).ShowDialog();
+                    AvisoHelper.Mostrar(mensaje);
                 }
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
@@ -107,23 +107,23 @@ namespace PictionaryMusicalCliente
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
                     LangResources.Lang.errorTextoServidorInicioSesion);
-                new Avisos(mensaje).ShowDialog();
+                AvisoHelper.Mostrar(mensaje);
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorNuevamente);
             }
             catch (InvalidOperationException)
             {
-                new Avisos(LangResources.Lang.errorTextoPrepararSolicitudInicioSesion).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoPrepararSolicitudInicioSesion);
             }
             finally
             {
@@ -154,7 +154,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(identificador))
             {
-                new Avisos(LangResources.Lang.errorTextoIdentificadorRecuperacionRequerido).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoIdentificadorRecuperacionRequerido);
                 bloqueTextoUsuario.Focus();
                 return;
             }
@@ -180,25 +180,25 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos(LangResources.Lang.errorTextoIniciarRecuperacion).ShowDialog();
+                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoIniciarRecuperacion);
                         return;
                     }
 
                     if (!resultado.CuentaEncontrada)
                     {
-                        string mensajeCuenta = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? LangResources.Lang.errorTextoCuentaNoRegistrada
-                            : resultado.Mensaje;
-                        new Avisos(mensajeCuenta).ShowDialog();
+                        string mensajeCuenta = MensajeServidorHelper.Localizar(
+                            resultado.Mensaje,
+                            LangResources.Lang.errorTextoCuentaNoRegistrada);
+                        AvisoHelper.Mostrar(mensajeCuenta);
                         return;
                     }
 
                     if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenRecuperacion))
                     {
-                        string mensajeCodigo = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde
-                            : resultado.Mensaje;
-                        new Avisos(mensajeCodigo).ShowDialog();
+                        string mensajeCodigo = MensajeServidorHelper.Localizar(
+                            resultado.Mensaje,
+                            LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde);
+                        AvisoHelper.Mostrar(mensajeCodigo);
                         return;
                     }
 
@@ -261,23 +261,23 @@ namespace PictionaryMusicalCliente
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
                     LangResources.Lang.errorTextoServidorInicioRecuperacion);
-                new Avisos(mensaje).ShowDialog();
+                AvisoHelper.Mostrar(mensaje);
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
             }
             catch (CommunicationException)
             {
-                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorNuevamente);
             }
             catch (InvalidOperationException)
             {
-                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudRecuperacion).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoProcesarSolicitudRecuperacion);
             }
             finally
             {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -35,13 +35,13 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(nuevaContrasena) || string.IsNullOrWhiteSpace(confirmacion))
             {
-                new Avisos(LangResources.Lang.errorTextoConfirmacionContrasenaRequerida).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoConfirmacionContrasenaRequerida);
                 return;
             }
 
             if (!string.Equals(nuevaContrasena, confirmacion, StringComparison.Ordinal))
             {
-                new Avisos(LangResources.Lang.errorTextoContrasenasNoCoinciden).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoContrasenasNoCoinciden);
                 bloqueContrasenaNueva.Clear();
                 bloqueContrasenaConfirmacion.Clear();
                 bloqueContrasenaNueva.Focus();
@@ -50,7 +50,7 @@ namespace PictionaryMusicalCliente
 
             if (!PatronContrasenaValida.IsMatch(nuevaContrasena))
             {
-                new Avisos(LangResources.Lang.errorTextoContrasenaFormato).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoContrasenaFormato);
                 bloqueContrasenaNueva.Focus();
                 return;
             }
@@ -72,27 +72,27 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos(LangResources.Lang.errorTextoActualizarContrasena).ShowDialog();
+                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoActualizarContrasena);
                         return;
                     }
 
                     if (resultado.OperacionExitosa)
                     {
                         ContrasenaActualizada = true;
-                        string mensaje = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? LangResources.Lang.avisoTextoContrasenaActualizada
-                            : resultado.Mensaje;
-                        new Avisos(mensaje).ShowDialog();
+                        string mensaje = MensajeServidorHelper.Localizar(
+                            resultado.Mensaje,
+                            LangResources.Lang.avisoTextoContrasenaActualizada);
+                        AvisoHelper.Mostrar(mensaje);
                         DialogResult = true;
                         Close();
                         return;
                     }
 
-                    string mensajeError = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                        ? LangResources.Lang.errorTextoActualizarContrasena
-                        : resultado.Mensaje;
+                    string mensajeError = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.errorTextoActualizarContrasena);
 
-                    new Avisos(mensajeError).ShowDialog();
+                    AvisoHelper.Mostrar(mensajeError);
                 }
             }
             catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
@@ -100,23 +100,23 @@ namespace PictionaryMusicalCliente
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
                     LangResources.Lang.errorTextoServidorActualizarContrasena);
-                new Avisos(mensaje).ShowDialog();
+                AvisoHelper.Mostrar(mensaje);
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
             }
             catch (TimeoutException)
             {
-                new Avisos(LangResources.Lang.errorTextoServidorNoRespondioTiempo).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoRespondioTiempo);
             }
             catch (CommunicationException)
             {
-                new Avisos(LangResources.Lang.errorTextoComunicacionServidorSimple).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoComunicacionServidorSimple);
             }
             catch (InvalidOperationException)
             {
-                new Avisos(LangResources.Lang.errorTextoPrepararSolicitudCambioContrasena).ShowDialog();
+                AvisoHelper.Mostrar(LangResources.Lang.errorTextoPrepararSolicitudCambioContrasena);
             }
             finally
             {
