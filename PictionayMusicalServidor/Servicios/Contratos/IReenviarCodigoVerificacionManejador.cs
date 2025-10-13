@@ -7,6 +7,7 @@ namespace Servicios.Contratos
     public interface IReenviarCodigoVerificacionManejador
     {
         [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
         ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoVerificacionDTO solicitud);
     }
 }

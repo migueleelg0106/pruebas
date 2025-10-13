@@ -73,7 +73,7 @@ namespace PictionaryMusicalCliente
                     }
                 }
             }
-            catch (FaultException<ServidorProxy.DetalleErrorServicio> ex)
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
                 string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al obtener la información del perfil.";
                 new Avisos(mensaje).ShowDialog();
@@ -598,7 +598,7 @@ namespace PictionaryMusicalCliente
                     new Avisos(mensajeFinal).ShowDialog();
                 }
             }
-            catch (FaultException<ServidorProxy.DetalleErrorServicio> ex)
+            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
             {
                 string mensaje = ex.Detail?.Mensaje ?? "El servidor reportó un error al actualizar el perfil.";
                 new Avisos(mensaje).ShowDialog();

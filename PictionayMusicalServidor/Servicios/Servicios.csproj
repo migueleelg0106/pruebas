@@ -79,7 +79,7 @@
     <Compile Include="Contratos\DTOs\ResultadoSolicitudRecuperacionDTO.cs" />
     <Compile Include="Contratos\DTOs\ResultadoOperacionDTO.cs" />
     <Compile Include="Contratos\DTOs\ResultadoSolicitudCodigoDTO.cs" />
-    <Compile Include="Contratos\DTOs\ServiceErrorDetailDTO.cs" />
+    <Compile Include="Contratos\DTOs\ErrorDetalleServicioDTO.cs" />
     <Compile Include="Contratos\DTOs\UsuarioDTO.cs" />
     <Compile Include="Contratos\IAmigosManejador.cs" />
     <Compile Include="Contratos\ICambiarContrasenaManejador.cs" />
@@ -109,6 +109,7 @@
     <Compile Include="Servicios\CodigoVerificacionManejador.cs" />
     <Compile Include="Servicios\CodigoVerificacionServicio.cs" />
     <Compile Include="Servicios\CuentaManejador.cs" />
+    <Compile Include="Servicios\FabricaFallaServicio.cs" />
     <Compile Include="Servicios\InicioSesionManejador.cs" />
     <Compile Include="Servicios\CuentaRegistroServicio.cs" />
     <Compile Include="Servicios\InicioSesionServicio.cs" />

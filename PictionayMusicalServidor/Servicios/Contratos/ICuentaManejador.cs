@@ -7,6 +7,7 @@ namespace Servicios.Contratos
     public interface ICuentaManejador
     {
         [OperationContract]
+        [FaultContract(typeof(ErrorDetalleServicioDTO))]
         ResultadoRegistroCuentaDTO RegistrarCuenta(NuevaCuentaDTO nuevaCuenta);
     }
 }

@@ -114,6 +114,11 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoInicioSesion(resultadoDto);
             }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
             catch (CommunicationException)
             {
                 comunicacion?.Abort();
@@ -153,6 +158,11 @@ namespace PictionaryMusicalCliente.Servicios
                 ResultadoSolicitudRecuperacionDto resultadoDto = await Task.Run(() => canal.SolicitarCodigoRecuperacion(dto));
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
+            }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
             }
             catch (CommunicationException)
             {
@@ -194,6 +204,11 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoSolicitudCodigo(resultadoDto);
             }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
             catch (CommunicationException)
             {
                 comunicacion?.Abort();
@@ -233,6 +248,11 @@ namespace PictionaryMusicalCliente.Servicios
                 ResultadoOperacionDto resultadoDto = await Task.Run(() => canal.ConfirmarCodigoRecuperacion(dto));
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
+            }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
             }
             catch (CommunicationException)
             {
@@ -274,6 +294,11 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
+            }
             catch (CommunicationException)
             {
                 comunicacion?.Abort();
@@ -306,6 +331,11 @@ namespace PictionaryMusicalCliente.Servicios
                 ClasificacionUsuarioDto[] resultadoDto = await Task.Run(() => canal.ObtenerTopJugadores());
                 comunicacion?.Close();
                 return ConvertirClasificacion(resultadoDto);
+            }
+            catch (FaultException<ErrorDetalleServicio>)
+            {
+                comunicacion?.Abort();
+                throw;
             }
             catch (CommunicationException)
             {
@@ -345,7 +375,7 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirUsuario(resultadoDto);
             }
-            catch (FaultException<DetalleErrorServicio>)
+            catch (FaultException<ErrorDetalleServicio>)
             {
                 comunicacion?.Abort();
                 throw;
@@ -390,7 +420,7 @@ namespace PictionaryMusicalCliente.Servicios
                 comunicacion?.Close();
                 return ConvertirResultadoOperacion(resultadoDto);
             }
-            catch (FaultException<DetalleErrorServicio>)
+            catch (FaultException<ErrorDetalleServicio>)
             {
                 comunicacion?.Abort();
                 throw;

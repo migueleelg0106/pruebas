@@ -78,22 +78,22 @@ namespace Servicios.Servicios
             catch (ArgumentNullException ex)
             {
                 Bitacora.Warn("La información necesaria para obtener el perfil es nula.", ex);
-                throw CrearExcepcionServicio("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para obtener el perfil.", "Solicitud inválida.");
+                throw FabricaFallaServicio.Crear("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para obtener el perfil.", "Solicitud inválida.");
             }
             catch (InvalidOperationException ex)
             {
                 Bitacora.Error("Se produjo una operación inválida al consultar el perfil.", ex);
-                throw CrearExcepcionServicio("OPERACION_INVALIDA", "No fue posible obtener el perfil del usuario.", "Operación inválida en la capa de datos.");
+                throw FabricaFallaServicio.Crear("OPERACION_INVALIDA", "No fue posible obtener el perfil del usuario.", "Operación inválida en la capa de datos.");
             }
             catch (DataException ex)
             {
                 Bitacora.Error("Ocurrió un error en la base de datos al obtener el perfil.", ex);
-                throw CrearExcepcionServicio("ERROR_BASE_DATOS", "Ocurrió un problema al consultar la información del perfil.", "Fallo en la base de datos.");
+                throw FabricaFallaServicio.Crear("ERROR_BASE_DATOS", "Ocurrió un problema al consultar la información del perfil.", "Fallo en la base de datos.");
             }
             catch (Exception ex)
             {
                 Bitacora.Fatal("Error inesperado al obtener el perfil del usuario.", ex);
-                throw CrearExcepcionServicio("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al obtener el perfil.", "Error interno del servidor.");
+                throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al obtener el perfil.", "Error interno del servidor.");
             }
         }
 
@@ -208,22 +208,22 @@ namespace Servicios.Servicios
             catch (ArgumentNullException ex)
             {
                 Bitacora.Warn("Se encontraron valores nulos al actualizar el perfil.", ex);
-                throw CrearExcepcionServicio("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para actualizar el perfil.", "Solicitud inválida.");
+                throw FabricaFallaServicio.Crear("SOLICITUD_INVALIDA", "Los datos proporcionados no son válidos para actualizar el perfil.", "Solicitud inválida.");
             }
             catch (InvalidOperationException ex)
             {
                 Bitacora.Error("Se produjo una operación inválida al actualizar el perfil.", ex);
-                throw CrearExcepcionServicio("OPERACION_INVALIDA", "No fue posible actualizar el perfil del usuario.", "Operación inválida en la capa de datos.");
+                throw FabricaFallaServicio.Crear("OPERACION_INVALIDA", "No fue posible actualizar el perfil del usuario.", "Operación inválida en la capa de datos.");
             }
             catch (DataException ex)
             {
                 Bitacora.Error("Error de base de datos al intentar actualizar el perfil.", ex);
-                throw CrearExcepcionServicio("ERROR_BASE_DATOS", "Ocurrió un problema con la base de datos al actualizar el perfil.", "Fallo en la base de datos.");
+                throw FabricaFallaServicio.Crear("ERROR_BASE_DATOS", "Ocurrió un problema con la base de datos al actualizar el perfil.", "Fallo en la base de datos.");
             }
             catch (Exception ex)
             {
                 Bitacora.Fatal("Error inesperado al actualizar el perfil.", ex);
-                throw CrearExcepcionServicio("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al actualizar el perfil.", "Error interno del servidor.");
+                throw FabricaFallaServicio.Crear("ERROR_NO_CONTROLADO", "Ocurrió un error inesperado al actualizar el perfil.", "Error interno del servidor.");
             }
         }
 
@@ -276,15 +276,5 @@ namespace Servicios.Servicios
             };
         }
 
-        private static FaultException<ServiceErrorDetailDTO> CrearExcepcionServicio(string codigoError, string mensajeUsuario, string razon)
-        {
-            var detalle = new ServiceErrorDetailDTO
-            {
-                CodigoError = codigoError,
-                Mensaje = mensajeUsuario
-            };
-
-            return new FaultException<ServiceErrorDetailDTO>(detalle, new FaultReason(razon));
-        }
     }
 }
