@@ -17,6 +17,7 @@ using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Sesiones;
 using PictionaryMusicalCliente.Utilidades;
+using LangResources = PictionaryMusicalCliente.Properties.Langs;
 
 namespace PictionaryMusicalCliente
 {
@@ -53,7 +54,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(identificador) || string.IsNullOrWhiteSpace(contrasena))
             {
-                new Avisos("Ingrese el usuario o correo y la contraseña.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoCredencialesIncompletas).ShowDialog();
                 return;
             }
 
@@ -80,7 +81,7 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos("No se obtuvo respuesta del servidor. Intente más tarde.").ShowDialog();
+                        new Avisos(LangResources.Lang.errorTextoServidorSinRespuesta).ShowDialog();
                         return;
                     }
 
@@ -105,24 +106,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al iniciar sesión.");
+                    LangResources.Lang.errorTextoServidorInicioSesion);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente de nuevo.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible preparar la solicitud de inicio de sesión.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoPrepararSolicitudInicioSesion).ShowDialog();
             }
             finally
             {
@@ -153,7 +154,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(identificador))
             {
-                new Avisos("Ingrese el usuario o correo registrado para recuperar la contraseña.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoIdentificadorRecuperacionRequerido).ShowDialog();
                 bloqueTextoUsuario.Focus();
                 return;
             }
@@ -179,14 +180,14 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos("No se pudo iniciar la recuperación de contraseña. Intente nuevamente.").ShowDialog();
+                        new Avisos(LangResources.Lang.errorTextoIniciarRecuperacion).ShowDialog();
                         return;
                     }
 
                     if (!resultado.CuentaEncontrada)
                     {
                         string mensajeCuenta = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? "No se encontró una cuenta con el usuario o correo proporcionado."
+                            ? LangResources.Lang.errorTextoCuentaNoRegistrada
                             : resultado.Mensaje;
                         new Avisos(mensajeCuenta).ShowDialog();
                         return;
@@ -195,7 +196,7 @@ namespace PictionaryMusicalCliente
                     if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenRecuperacion))
                     {
                         string mensajeCodigo = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? "No fue posible enviar el código de verificación. Intente más tarde."
+                            ? LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde
                             : resultado.Mensaje;
                         new Avisos(mensajeCodigo).ShowDialog();
                         return;
@@ -237,7 +238,7 @@ namespace PictionaryMusicalCliente
                         correoDestino,
                         ConfirmarCodigoAsync,
                         ReenviarCodigoAsync,
-                        "Ingresa el código que enviamos para restablecer tu contraseña.");
+                        LangResources.Lang.avisoTextoCodigoDescripcionRecuperacion);
 
                     ventanaVerificacion.ShowDialog();
 
@@ -259,24 +260,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al iniciar la recuperación de contraseña.");
+                    LangResources.Lang.errorTextoServidorInicioRecuperacion);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente de nuevo.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible procesar la solicitud de recuperación. Intente de nuevo.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudRecuperacion).ShowDialog();
             }
             finally
             {
