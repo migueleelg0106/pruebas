@@ -15,13 +15,13 @@ namespace Servicios.Servicios
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(CambiarContrasenaManejador));
 
         public CambiarContrasenaManejador()
-            : this(new CuentaRepositorio(), new CorreoCodigoVerificacionNotificador())
+            : this(new UsuarioRepositorio(), new CorreoCodigoVerificacionNotificador())
         {
         }
 
-        public CambiarContrasenaManejador(ICuentaRepositorio cuentaRepositorio, ICodigoVerificacionNotificador notificador)
+        public CambiarContrasenaManejador(IUsuarioRepositorio usuarioRepositorio, ICodigoVerificacionNotificador notificador)
         {
-            _servicio = new RecuperacionCuentaServicio(cuentaRepositorio, notificador);
+            _servicio = new RecuperacionCuentaServicio(usuarioRepositorio, notificador);
         }
 
         public ResultadoSolicitudRecuperacionDTO SolicitarCodigoRecuperacion(SolicitudRecuperarCuentaDTO solicitud)

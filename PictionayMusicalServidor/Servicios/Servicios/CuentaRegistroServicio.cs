@@ -1,4 +1,5 @@
 using Datos.DAL.Interfaces;
+using Datos.Modelo;
 using Servicios.Contratos.DTOs;
 using System;
 
@@ -6,11 +7,18 @@ namespace Servicios.Servicios
 {
     internal class CuentaRegistroServicio
     {
-        private readonly ICuentaRepositorio _repositorioCuenta;
+        private readonly IJugadorRepositorio _jugadorRepositorio;
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IClasificacionRepositorio _clasificacionRepositorio;
 
-        public CuentaRegistroServicio(ICuentaRepositorio repositorioCuenta)
+        public CuentaRegistroServicio(
+            IJugadorRepositorio jugadorRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IClasificacionRepositorio clasificacionRepositorio)
         {
-            _repositorioCuenta = repositorioCuenta ?? throw new ArgumentNullException(nameof(repositorioCuenta));
+            _jugadorRepositorio = jugadorRepositorio ?? throw new ArgumentNullException(nameof(jugadorRepositorio));
+            _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
+            _clasificacionRepositorio = clasificacionRepositorio ?? throw new ArgumentNullException(nameof(clasificacionRepositorio));
         }
 
         public bool ValidarNuevaCuenta(NuevaCuentaDTO nuevaCuenta, ResultadoRegistroCuentaDTO resultado)
@@ -44,12 +52,16 @@ namespace Servicios.Servicios
 
             string correo = nuevaCuenta.Correo.Trim();
             string usuario = nuevaCuenta.Usuario.Trim();
+            string nombre = nuevaCuenta.Nombre.Trim();
+            string apellido = nuevaCuenta.Apellido.Trim();
 
             nuevaCuenta.Correo = correo;
             nuevaCuenta.Usuario = usuario;
+            nuevaCuenta.Nombre = nombre;
+            nuevaCuenta.Apellido = apellido;
 
-            resultado.CorreoYaRegistrado = _repositorioCuenta.ExisteCorreo(correo);
-            resultado.UsuarioYaRegistrado = _repositorioCuenta.ExisteUsuario(usuario);
+            resultado.CorreoYaRegistrado = _jugadorRepositorio.ExisteCorreo(correo);
+            resultado.UsuarioYaRegistrado = _usuarioRepositorio.ExisteUsuario(usuario);
 
             if (resultado.CorreoYaRegistrado && resultado.UsuarioYaRegistrado)
             {
@@ -109,8 +121,8 @@ namespace Servicios.Servicios
         {
             var resultado = new ResultadoRegistroCuentaDTO();
 
-            resultado.CorreoYaRegistrado = _repositorioCuenta.ExisteCorreo(correo);
-            resultado.UsuarioYaRegistrado = _repositorioCuenta.ExisteUsuario(usuario);
+            resultado.CorreoYaRegistrado = _jugadorRepositorio.ExisteCorreo(correo);
+            resultado.UsuarioYaRegistrado = _usuarioRepositorio.ExisteUsuario(usuario);
 
             if (resultado.CorreoYaRegistrado || resultado.UsuarioYaRegistrado)
             {
@@ -119,18 +131,12 @@ namespace Servicios.Servicios
                 return resultado;
             }
 
-            bool cuentaCreada = _repositorioCuenta.CreateAccount(
-                correo: correo,
-                contrasenaHash: contrasenaHash,
-                usuario: usuario,
-                nombre: nombre,
-                apellido: apellido,
-                avatarId: avatarId);
+            Clasificacion clasificacion = _clasificacionRepositorio.CrearClasificacionInicial();
+            Jugador jugador = _jugadorRepositorio.CrearJugador(nombre, apellido, correo, avatarId, clasificacion.idClasificacion);
+            _usuarioRepositorio.CrearUsuario(jugador.idJugador, usuario, contrasenaHash);
 
-            resultado.RegistroExitoso = cuentaCreada;
-            resultado.Mensaje = cuentaCreada
-                ? "Cuenta registrada correctamente."
-                : "No se pudo registrar la cuenta. Intente más tarde.";
+            resultado.RegistroExitoso = true;
+            resultado.Mensaje = "Cuenta registrada correctamente.";
 
             return resultado;
         }

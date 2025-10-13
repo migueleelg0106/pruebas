@@ -14,18 +14,19 @@ namespace Servicios.Servicios
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(CuentaManejador));
 
         public CuentaManejador()
-            : this(new CuentaRepositorio())
+            : this(new JugadorRepositorio(), new UsuarioRepositorio(), new ClasificacionRepositorio())
         {
         }
 
-        public CuentaManejador(ICuentaRepositorio repositorioCuenta)
+        public CuentaManejador(
+            IJugadorRepositorio jugadorRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IClasificacionRepositorio clasificacionRepositorio)
         {
-            if (repositorioCuenta == null)
-            {
-                throw new ArgumentNullException(nameof(repositorioCuenta));
-            }
-
-            _registroServicio = new CuentaRegistroServicio(repositorioCuenta);
+            _registroServicio = new CuentaRegistroServicio(
+                jugadorRepositorio ?? throw new ArgumentNullException(nameof(jugadorRepositorio)),
+                usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio)),
+                clasificacionRepositorio ?? throw new ArgumentNullException(nameof(clasificacionRepositorio)));
         }
 
         public ResultadoRegistroCuentaDTO RegistrarCuenta(NuevaCuentaDTO nuevaCuenta)
