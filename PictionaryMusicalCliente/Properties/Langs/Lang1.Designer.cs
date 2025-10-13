@@ -81,9 +81,9 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         /// <summary>
         ///   Busca una cadena traducida similar a Aviso.
         /// </summary>
-        public static string alertaAviso {
+        public static string alertaTextoAviso {
             get {
-                return ResourceManager.GetString("alertaAviso", resourceCulture);
+                return ResourceManager.GetString("alertaTextoAviso", resourceCulture);
             }
         }
         
@@ -160,15 +160,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Total de puntos.
-        /// </summary>
-        public static string clasificacionTextoTotalPuntos {
-            get {
-                return ResourceManager.GetString("clasificacionTextoTotalPuntos", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Busca una cadena traducida similar a Ordenar por puntos.
         /// </summary>
         public static string clasificacionTextoOrdenarPuntos {
@@ -176,7 +167,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("clasificacionTextoOrdenarPuntos", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Ordenar por rondas.
         /// </summary>
@@ -185,7 +176,16 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("clasificacionTextoOrdenarRondas", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Total de puntos.
+        /// </summary>
+        public static string clasificacionTextoTotalPuntos {
+            get {
+                return ResourceManager.GetString("clasificacionTextoTotalPuntos", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Total de rondas ganadas.
         /// </summary>

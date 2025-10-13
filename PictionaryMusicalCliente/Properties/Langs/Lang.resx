@@ -408,7 +408,7 @@
   <data name="partidaTextoPartidaEnCurso" xml:space="preserve">
     <value>Partida en curso</value>
   </data>
-  <data name="alertaAviso" xml:space="preserve">
+  <data name="alertaTextoAviso" xml:space="preserve">
     <value>Aviso</value>
   </data>
 </root>
