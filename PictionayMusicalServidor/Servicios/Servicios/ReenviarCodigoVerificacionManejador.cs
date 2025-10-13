@@ -15,13 +15,25 @@ namespace Servicios.Servicios
         private static readonly ILog Bitacora = LogManager.GetLogger(typeof(ReenviarCodigoVerificacionManejador));
 
         public ReenviarCodigoVerificacionManejador()
-            : this(new CuentaRepositorio(), new CorreoCodigoVerificacionNotificador())
+            : this(
+                new JugadorRepositorio(),
+                new UsuarioRepositorio(),
+                new ClasificacionRepositorio(),
+                new CorreoCodigoVerificacionNotificador())
         {
         }
 
-        public ReenviarCodigoVerificacionManejador(ICuentaRepositorio repositorioCuenta, ICodigoVerificacionNotificador notificador)
+        public ReenviarCodigoVerificacionManejador(
+            IJugadorRepositorio jugadorRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IClasificacionRepositorio clasificacionRepositorio,
+            ICodigoVerificacionNotificador notificador)
         {
-            _servicio = new CodigoVerificacionServicio(repositorioCuenta, notificador);
+            _servicio = new CodigoVerificacionServicio(
+                jugadorRepositorio,
+                usuarioRepositorio,
+                clasificacionRepositorio,
+                notificador);
         }
 
         public ResultadoSolicitudCodigoDTO ReenviarCodigoVerificacion(ReenviarCodigoVerificacionDTO solicitud)

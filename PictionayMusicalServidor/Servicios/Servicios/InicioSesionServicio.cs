@@ -2,17 +2,20 @@ using Datos.DAL.Interfaces;
 using Datos.Modelo;
 using Servicios.Contratos.DTOs;
 using System;
-using System.Linq;
 
 namespace Servicios.Servicios
 {
     internal class InicioSesionServicio
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IRedSocialRepositorio _redSocialRepositorio;
 
-        public InicioSesionServicio(IUsuarioRepositorio usuarioRepositorio)
+        public InicioSesionServicio(
+            IUsuarioRepositorio usuarioRepositorio,
+            IRedSocialRepositorio redSocialRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
+            _redSocialRepositorio = redSocialRepositorio ?? throw new ArgumentNullException(nameof(redSocialRepositorio));
         }
 
         public ResultadoInicioSesionDTO IniciarSesion(CredencialesInicioSesionDTO credenciales)
@@ -79,7 +82,7 @@ namespace Servicios.Servicios
             };
         }
 
-        private static UsuarioDTO CrearUsuarioDto(Usuario usuario)
+        private UsuarioDTO CrearUsuarioDto(Usuario usuario)
         {
             if (usuario == null)
             {
@@ -87,7 +90,12 @@ namespace Servicios.Servicios
             }
 
             Jugador jugador = usuario.Jugador;
-            RedSocial redSocial = jugador?.RedSocial?.FirstOrDefault();
+            RedSocial redSocial = null;
+
+            if (jugador != null)
+            {
+                redSocial = _redSocialRepositorio.ObtenerPorJugadorId(jugador.idJugador);
+            }
 
             return new UsuarioDTO
             {

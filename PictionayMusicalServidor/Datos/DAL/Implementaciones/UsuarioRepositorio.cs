@@ -1,7 +1,6 @@
 using Datos.DAL.Interfaces;
 using Datos.Modelo;
 using Datos.Utilidades;
-using System;
 using System.Data.Entity;
 using System.Linq;
 
@@ -9,52 +8,67 @@ namespace Datos.DAL.Implementaciones
 {
     public class UsuarioRepositorio : IUsuarioRepositorio
     {
-        public Usuario ObtenerUsuarioPorIdentificador(string identificador)
+        public bool ExisteUsuario(string usuario)
         {
-            string identificadorNormalizado = identificador?.Trim();
-
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
-                Usuario usuario = contexto.Usuario
-                    .Include(u => u.Jugador.RedSocial)
-                    .FirstOrDefault(u => u.Nombre_Usuario == identificadorNormalizado);
+                return contexto.Usuario.Any(u => u.Nombre_Usuario == usuario);
+            }
+        }
 
-                if (usuario != null)
+        public Usuario CrearUsuario(int jugadorId, string usuario, string contrasenaHash)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                var entidad = new Usuario
                 {
-                    if (string.Equals(usuario.Nombre_Usuario, identificadorNormalizado, StringComparison.Ordinal))
-                    {
-                        return usuario;
-                    }
+                    Nombre_Usuario = usuario,
+                    Contrasena = contrasenaHash,
+                    Jugador_idJugador = jugadorId
+                };
 
-                    return null;
-                }
+                contexto.Usuario.Add(entidad);
+                contexto.SaveChanges();
 
-                Usuario usuarioPorCorreo = contexto.Usuario
-                    .Include(u => u.Jugador.RedSocial)
-                    .FirstOrDefault(u => u.Jugador.Correo == identificadorNormalizado);
+                return entidad;
+            }
+        }
 
-                if (usuarioPorCorreo != null &&
-                    string.Equals(usuarioPorCorreo.Jugador?.Correo, identificadorNormalizado, StringComparison.Ordinal))
-                {
-                    return usuarioPorCorreo;
-                }
-
-                return null;
+        public Usuario ObtenerUsuarioPorIdentificador(string identificador)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                return contexto.Usuario
+                    .Include(u => u.Jugador)
+                    .FirstOrDefault(u =>
+                        u.Nombre_Usuario == identificador ||
+                        (u.Jugador != null && u.Jugador.Correo == identificador));
             }
         }
 
         public Usuario ObtenerUsuarioPorId(int idUsuario)
         {
-            if (idUsuario <= 0)
-            {
-                return null;
-            }
-
             using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
             {
                 return contexto.Usuario
-                    .Include(u => u.Jugador.RedSocial)
+                    .Include(u => u.Jugador)
                     .FirstOrDefault(u => u.idUsuario == idUsuario);
+            }
+        }
+
+        public bool ActualizarContrasena(int idUsuario, string contrasenaHash)
+        {
+            using (var contexto = new BaseDatosPruebaEntities1(Conexion.ObtenerConexion()))
+            {
+                var usuario = contexto.Usuario.FirstOrDefault(u => u.idUsuario == idUsuario);
+
+                if (usuario == null)
+                {
+                    return false;
+                }
+
+                usuario.Contrasena = contrasenaHash;
+                return contexto.SaveChanges() > 0;
             }
         }
     }

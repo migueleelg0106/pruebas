@@ -1,4 +1,5 @@
 using Datos.DAL.Interfaces;
+using Datos.Modelo;
 using Servicios.Contratos.DTOs;
 using Servicios.Servicios.Utilidades;
 using System;
@@ -12,15 +13,15 @@ namespace Servicios.Servicios
     internal class RecuperacionCuentaServicio
     {
         private readonly ICodigoVerificacionNotificador _notificador;
-        private readonly ICuentaRepositorio _cuentaRepositorio;
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly RecuperacionCuentaStore _store;
         private static readonly TimeSpan DuracionCodigo = TimeSpan.FromMinutes(5);
         private static readonly TimeSpan TiempoEsperaReenvio = TimeSpan.FromMinutes(1);
         private static readonly TimeSpan DuracionTokenConfirmado = TimeSpan.FromMinutes(10);
 
-        public RecuperacionCuentaServicio(ICuentaRepositorio cuentaRepositorio, ICodigoVerificacionNotificador notificador)
+        public RecuperacionCuentaServicio(IUsuarioRepositorio usuarioRepositorio, ICodigoVerificacionNotificador notificador)
         {
-            _cuentaRepositorio = cuentaRepositorio ?? throw new ArgumentNullException(nameof(cuentaRepositorio));
+            _usuarioRepositorio = usuarioRepositorio ?? throw new ArgumentNullException(nameof(usuarioRepositorio));
             _notificador = notificador ?? throw new ArgumentNullException(nameof(notificador));
             _store = RecuperacionCuentaStore.Instancia;
         }
@@ -42,9 +43,20 @@ namespace Servicios.Servicios
             DateTime ahora = DateTime.UtcNow;
             _store.LimpiarExpirados(ahora);
 
-            if (!_cuentaRepositorio.TryObtenerCuentaPorIdentificador(solicitud.Identificador, out int idUsuario, out string correo))
+            Usuario usuario = _usuarioRepositorio.ObtenerUsuarioPorIdentificador(solicitud.Identificador);
+
+            if (usuario == null)
             {
                 resultado.Mensaje = "No se encontró una cuenta con el usuario o correo proporcionado.";
+                return resultado;
+            }
+
+            int idUsuario = usuario.idUsuario;
+            string correo = usuario.Jugador?.Correo;
+
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                resultado.Mensaje = "No se encontró un correo electrónico asociado a la cuenta.";
                 return resultado;
             }
 
@@ -255,7 +267,7 @@ namespace Servicios.Servicios
 
             string contrasenaHash = BCrypt.Net.BCrypt.HashPassword(solicitud.NuevaContrasena);
 
-            if (!_cuentaRepositorio.ActualizarContrasena(registro.UsuarioId, contrasenaHash))
+            if (!_usuarioRepositorio.ActualizarContrasena(registro.UsuarioId, contrasenaHash))
             {
                 resultado.Mensaje = "No fue posible actualizar la contraseña.";
                 return resultado;
