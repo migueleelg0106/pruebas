@@ -79,11 +79,137 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Aviso.
+        ///   Busca una cadena traducida similar a ADVERTENCIA.
         /// </summary>
         public static string alertaTextoAviso {
             get {
                 return ResourceManager.GetString("alertaTextoAviso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el código que enviamos para confirmar el cambio de contraseña..
+        /// </summary>
+        public static string avisoTextoCodigoDescripcionCambio {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoDescripcionCambio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el código de verificación enviado a {0}..
+        /// </summary>
+        public static string avisoTextoCodigoDescripcionCorreo {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoDescripcionCorreo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el código de verificación que enviamos a tu correo..
+        /// </summary>
+        public static string avisoTextoCodigoDescripcionGenerica {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoDescripcionGenerica", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el código que enviamos para restablecer tu contraseña..
+        /// </summary>
+        public static string avisoTextoCodigoDescripcionRecuperacion {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoDescripcionRecuperacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se envió un nuevo código a su correo electrónico..
+        /// </summary>
+        public static string avisoTextoCodigoReenviado {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoReenviado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código verificado correctamente..
+        /// </summary>
+        public static string avisoTextoCodigoVerificadoCorrecto {
+            get {
+                return ResourceManager.GetString("avisoTextoCodigoVerificadoCorrecto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Se mostrarán los datos actuales de la sesión..
+        /// </summary>
+        public static string avisoTextoComunicacionServidorSesion {
+            get {
+                return ResourceManager.GetString("avisoTextoComunicacionServidorSesion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña se actualizó correctamente..
+        /// </summary>
+        public static string avisoTextoContrasenaActualizada {
+            get {
+                return ResourceManager.GetString("avisoTextoContrasenaActualizada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a la red social.
+        /// </summary>
+        public static string avisoTextoNombreRedSocialGenerica {
+            get {
+                return ResourceManager.GetString("avisoTextoNombreRedSocialGenerica", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los datos del perfil se actualizaron correctamente..
+        /// </summary>
+        public static string avisoTextoPerfilActualizado {
+            get {
+                return ResourceManager.GetString("avisoTextoPerfilActualizado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No es posible reenviar el código todavía..
+        /// </summary>
+        public static string avisoTextoReenvioCodigoNoDisponible {
+            get {
+                return ResourceManager.GetString("avisoTextoReenvioCodigoNoDisponible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro completado exitosamente..
+        /// </summary>
+        public static string avisoTextoRegistroCompletado {
+            get {
+                return ResourceManager.GetString("avisoTextoRegistroCompletado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión..
+        /// </summary>
+        public static string avisoTextoServidorSesionDatos {
+            get {
+                return ResourceManager.GetString("avisoTextoServidorSesionDatos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder. Se mostrarán los datos actuales de la sesión..
+        /// </summary>
+        public static string avisoTextoServidorTiempoSesion {
+            get {
+                return ResourceManager.GetString("avisoTextoServidorTiempoSesion", resourceCulture);
             }
         }
         
@@ -250,6 +376,33 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo actualizar la contraseña. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoActualizarContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoActualizarContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo actualizar el perfil. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoActualizarPerfil {
+            get {
+                return ResourceManager.GetString("errorTextoActualizarPerfil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el apellido del jugador..
+        /// </summary>
+        public static string errorTextoApellidoJugadorRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoApellidoJugadorRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ocurrió un error al guardar los datos:.
         /// </summary>
         public static string errorTextoBaseDeDatosMensaje {
@@ -268,11 +421,137 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El {0} no debe superar {1} caracteres..
+        /// </summary>
+        public static string errorTextoCampoLongitudMaxima {
+            get {
+                return ResourceManager.GetString("errorTextoCampoLongitudMaxima", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el {0}..
+        /// </summary>
+        public static string errorTextoCampoRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoCampoRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código ingresado no es correcto o ha expirado..
+        /// </summary>
+        public static string errorTextoCodigoIncorrectoExpirado {
+            get {
+                return ResourceManager.GetString("errorTextoCodigoIncorrectoExpirado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el código de verificación enviado a su correo..
+        /// </summary>
+        public static string errorTextoCodigoVerificacionRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoCodigoVerificacionRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al consultar los avatares..
+        /// </summary>
+        public static string errorTextoComunicacionConsultarAvatares {
+            get {
+                return ResourceManager.GetString("errorTextoComunicacionConsultarAvatares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al obtener los avatares del servidor..
+        /// </summary>
+        public static string errorTextoComunicacionObtenerAvatares {
+            get {
+                return ResourceManager.GetString("errorTextoComunicacionObtenerAvatares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente más tarde..
+        /// </summary>
+        public static string errorTextoComunicacionServidorMasTarde {
+            get {
+                return ResourceManager.GetString("errorTextoComunicacionServidorMasTarde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoComunicacionServidorNuevamente {
+            get {
+                return ResourceManager.GetString("errorTextoComunicacionServidorNuevamente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor..
+        /// </summary>
+        public static string errorTextoComunicacionServidorSimple {
+            get {
+                return ResourceManager.GetString("errorTextoComunicacionServidorSimple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese y confirme la nueva contraseña..
+        /// </summary>
+        public static string errorTextoConfirmacionContrasenaRequerida {
+            get {
+                return ResourceManager.GetString("errorTextoConfirmacionContrasenaRequerida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe tener de 8 a 15 caracteres con al menos una mayúscula, un número y un carácter especial..
+        /// </summary>
+        public static string errorTextoContrasenaFormato {
+            get {
+                return ResourceManager.GetString("errorTextoContrasenaFormato", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese una contraseña..
+        /// </summary>
+        public static string errorTextoContrasenaRequerida {
+            get {
+                return ResourceManager.GetString("errorTextoContrasenaRequerida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las contraseñas no coinciden..
+        /// </summary>
+        public static string errorTextoContrasenasNoCoinciden {
+            get {
+                return ResourceManager.GetString("errorTextoContrasenasNoCoinciden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Correo electrónico en uso.
         /// </summary>
         public static string errorTextoCorreoEnUso {
             get {
                 return ResourceManager.GetString("errorTextoCorreoEnUso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese un correo electrónico válido..
+        /// </summary>
+        public static string errorTextoCorreoInvalido {
+            get {
+                return ResourceManager.GetString("errorTextoCorreoInvalido", resourceCulture);
             }
         }
         
@@ -286,11 +565,47 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese un correo electrónico..
+        /// </summary>
+        public static string errorTextoCorreoRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoCorreoRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el usuario o correo y la contraseña..
+        /// </summary>
+        public static string errorTextoCredencialesIncompletas {
+            get {
+                return ResourceManager.GetString("errorTextoCredencialesIncompletas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se pudo iniciar sesión.
         /// </summary>
         public static string errorTextoCredencialesTitulo {
             get {
                 return ResourceManager.GetString("errorTextoCredencialesTitulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontró la cuenta asociada a la sesión actual..
+        /// </summary>
+        public static string errorTextoCuentaNoEncontradaSesion {
+            get {
+                return ResourceManager.GetString("errorTextoCuentaNoEncontradaSesion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontró una cuenta con el usuario o correo proporcionado..
+        /// </summary>
+        public static string errorTextoCuentaNoRegistrada {
+            get {
+                return ResourceManager.GetString("errorTextoCuentaNoRegistrada", resourceCulture);
             }
         }
         
@@ -304,6 +619,87 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo determinar el usuario actual para cambiar la contraseña..
+        /// </summary>
+        public static string errorTextoDeterminarUsuarioCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoDeterminarUsuarioCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo enviar el código de verificación. Verifique la información e intente de nuevo..
+        /// </summary>
+        public static string errorTextoEnvioCodigoVerificacionDatos {
+            get {
+                return ResourceManager.GetString("errorTextoEnvioCodigoVerificacionDatos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible enviar el código de verificación. Intente más tarde..
+        /// </summary>
+        public static string errorTextoEnvioCodigoVerificacionMasTarde {
+            get {
+                return ResourceManager.GetString("errorTextoEnvioCodigoVerificacionMasTarde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un error al procesar la solicitud..
+        /// </summary>
+        public static string errorTextoErrorProcesarSolicitud {
+            get {
+                return ResourceManager.GetString("errorTextoErrorProcesarSolicitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el usuario o correo registrado para recuperar la contraseña..
+        /// </summary>
+        public static string errorTextoIdentificadorRecuperacionRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoIdentificadorRecuperacionRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El identificador de {0} no debe exceder {1} caracteres..
+        /// </summary>
+        public static string errorTextoIdentificadorRedSocialLongitud {
+            get {
+                return ResourceManager.GetString("errorTextoIdentificadorRedSocialLongitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo identificar el avatar seleccionado. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoIdentificarAvatar {
+            get {
+                return ResourceManager.GetString("errorTextoIdentificarAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo iniciar el proceso de cambio de contraseña. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoIniciarCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoIniciarCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo iniciar la recuperación de contraseña. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoIniciarRecuperacion {
+            get {
+                return ResourceManager.GetString("errorTextoIniciarRecuperacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se encontró la partida.
         /// </summary>
         public static string errorTextoNoEncuentraPartida {
@@ -313,11 +709,371 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el nombre del jugador..
+        /// </summary>
+        public static string errorTextoNombreJugadorRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoNombreJugadorRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese un nombre de usuario..
+        /// </summary>
+        public static string errorTextoNombreUsuarioRequerido {
+            get {
+                return ResourceManager.GetString("errorTextoNombreUsuarioRequerido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible obtener la información actualizada del perfil..
+        /// </summary>
+        public static string errorTextoPerfilActualizarInformacion {
+            get {
+                return ResourceManager.GetString("errorTextoPerfilActualizarInformacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un error al preparar la solicitud de cambio de contraseña..
+        /// </summary>
+        public static string errorTextoPrepararSolicitudCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoPrepararSolicitudCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible preparar la solicitud de inicio de sesión..
+        /// </summary>
+        public static string errorTextoPrepararSolicitudInicioSesion {
+            get {
+                return ResourceManager.GetString("errorTextoPrepararSolicitudInicioSesion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un problema al procesar la solicitud..
+        /// </summary>
+        public static string errorTextoProblemaProcesarSolicitud {
+            get {
+                return ResourceManager.GetString("errorTextoProblemaProcesarSolicitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de actualización..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudActualizacion {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudActualizacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de avatares..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudAvatares {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudAvatares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de cambio de contraseña..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de recuperación. Intente de nuevo..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudRecuperacion {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudRecuperacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de reenvío. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoProcesarSolicitudReenvio {
+            get {
+                return ResourceManager.GetString("errorTextoProcesarSolicitudReenvio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un avatar válido antes de guardar los cambios..
+        /// </summary>
+        public static string errorTextoSeleccionAvatarValido {
+            get {
+                return ResourceManager.GetString("errorTextoSeleccionAvatarValido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al actualizar la contraseña..
+        /// </summary>
+        public static string errorTextoServidorActualizarContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoServidorActualizarContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al actualizar el perfil..
+        /// </summary>
+        public static string errorTextoServidorActualizarPerfil {
+            get {
+                return ResourceManager.GetString("errorTextoServidorActualizarPerfil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para actualizar el catálogo de avatares..
+        /// </summary>
+        public static string errorTextoServidorCatalogoAvatares {
+            get {
+                return ResourceManager.GetString("errorTextoServidorCatalogoAvatares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo obtener el catálogo de avatares desde el servidor..
+        /// </summary>
+        public static string errorTextoServidorCatalogoAvataresDetalle {
+            get {
+                return ResourceManager.GetString("errorTextoServidorCatalogoAvataresDetalle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el código de verificación..
+        /// </summary>
+        public static string errorTextoServidorCodigoVerificacion {
+            get {
+                return ResourceManager.GetString("errorTextoServidorCodigoVerificacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo obtener la información del avatar seleccionado..
+        /// </summary>
+        public static string errorTextoServidorInformacionAvatar {
+            get {
+                return ResourceManager.GetString("errorTextoServidorInformacionAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al iniciar la recuperación de contraseña..
+        /// </summary>
+        public static string errorTextoServidorInicioRecuperacion {
+            get {
+                return ResourceManager.GetString("errorTextoServidorInicioRecuperacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al iniciar sesión..
+        /// </summary>
+        public static string errorTextoServidorInicioSesion {
+            get {
+                return ResourceManager.GetString("errorTextoServidorInicioSesion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Intente más tarde..
+        /// </summary>
+        public static string errorTextoServidorNoDisponible {
+            get {
+                return ResourceManager.GetString("errorTextoServidorNoDisponible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor no respondió a tiempo. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoServidorNoRespondioTiempo {
+            get {
+                return ResourceManager.GetString("errorTextoServidorNoRespondioTiempo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al obtener la información del perfil..
+        /// </summary>
+        public static string errorTextoServidorObtenerPerfil {
+            get {
+                return ResourceManager.GetString("errorTextoServidorObtenerPerfil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al reenviar el código..
+        /// </summary>
+        public static string errorTextoServidorReenviarCodigo {
+            get {
+                return ResourceManager.GetString("errorTextoServidorReenviarCodigo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se obtuvo respuesta del servidor. Intente más tarde..
+        /// </summary>
+        public static string errorTextoServidorSinRespuesta {
+            get {
+                return ResourceManager.GetString("errorTextoServidorSinRespuesta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el cambio de contraseña..
+        /// </summary>
+        public static string errorTextoServidorSolicitudCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoServidorSolicitudCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder. Intente más tarde..
+        /// </summary>
+        public static string errorTextoServidorTiempoAgotado {
+            get {
+                return ResourceManager.GetString("errorTextoServidorTiempoAgotado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al solicitar los avatares..
+        /// </summary>
+        public static string errorTextoServidorTiempoAvatares {
+            get {
+                return ResourceManager.GetString("errorTextoServidorTiempoAvatares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al validar el avatar..
+        /// </summary>
+        public static string errorTextoServidorTiempoValidarAvatar {
+            get {
+                return ResourceManager.GetString("errorTextoServidorTiempoValidarAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para validar el avatar seleccionado..
+        /// </summary>
+        public static string errorTextoServidorValidarAvatar {
+            get {
+                return ResourceManager.GetString("errorTextoServidorValidarAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor reportó un error al validar el código..
+        /// </summary>
+        public static string errorTextoServidorValidarCodigo {
+            get {
+                return ResourceManager.GetString("errorTextoServidorValidarCodigo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay una sesión activa. Inicie sesión nuevamente..
+        /// </summary>
+        public static string errorTextoSesionInactiva {
+            get {
+                return ResourceManager.GetString("errorTextoSesionInactiva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay una sesión activa para actualizar..
+        /// </summary>
+        public static string errorTextoSesionInactivaActualizar {
+            get {
+                return ResourceManager.GetString("errorTextoSesionInactivaActualizar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay una sesión activa para cambiar la contraseña..
+        /// </summary>
+        public static string errorTextoSesionInactivaCambioContrasena {
+            get {
+                return ResourceManager.GetString("errorTextoSesionInactivaCambioContrasena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo solicitar un nuevo código. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoSolicitarNuevoCodigo {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitarNuevoCodigo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La solicitud de verificación no es válida. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoSolicitudVerificacionInvalida {
+            get {
+                return ResourceManager.GetString("errorTextoSolicitudVerificacionInvalida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El token de recuperación es obligatorio..
+        /// </summary>
+        public static string errorTextoTokenRecuperacionObligatorio {
+            get {
+                return ResourceManager.GetString("errorTextoTokenRecuperacionObligatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El token de verificación es obligatorio..
+        /// </summary>
+        public static string errorTextoTokenVerificacionObligatorio {
+            get {
+                return ResourceManager.GetString("errorTextoTokenVerificacionObligatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Nombre de usuario en uso.
         /// </summary>
         public static string errorTextoUsuarioEnUso {
             get {
                 return ResourceManager.GetString("errorTextoUsuarioEnUso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La validación del código no está disponible en este momento..
+        /// </summary>
+        public static string errorTextoValidacionCodigoNoDisponible {
+            get {
+                return ResourceManager.GetString("errorTextoValidacionCodigoNoDisponible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo verificar el código. Intente nuevamente..
+        /// </summary>
+        public static string errorTextoVerificarCodigo {
+            get {
+                return ResourceManager.GetString("errorTextoVerificarCodigo", resourceCulture);
             }
         }
         
@@ -941,761 +1697,5 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("tituloTextoVentanaPrincipal", resourceCulture);
             }
         }
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingresa el código que enviamos para confirmar el cambio de contraseña..
-        /// </summary>
-        public static string avisoTextoCodigoDescripcionCambio {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoDescripcionCambio", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingresa el código de verificación enviado a {0}..
-        /// </summary>
-        public static string avisoTextoCodigoDescripcionCorreo {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoDescripcionCorreo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingresa el código de verificación que enviamos a tu correo..
-        /// </summary>
-        public static string avisoTextoCodigoDescripcionGenerica {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoDescripcionGenerica", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingresa el código que enviamos para restablecer tu contraseña..
-        /// </summary>
-        public static string avisoTextoCodigoDescripcionRecuperacion {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoDescripcionRecuperacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Se envió un nuevo código a su correo electrónico..
-        /// </summary>
-        public static string avisoTextoCodigoReenviado {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoReenviado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Código verificado correctamente..
-        /// </summary>
-        public static string avisoTextoCodigoVerificadoCorrecto {
-            get {
-                return ResourceManager.GetString("avisoTextoCodigoVerificadoCorrecto", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Se mostrarán los datos actuales de la sesión..
-        /// </summary>
-        public static string avisoTextoComunicacionServidorSesion {
-            get {
-                return ResourceManager.GetString("avisoTextoComunicacionServidorSesion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La contraseña se actualizó correctamente..
-        /// </summary>
-        public static string avisoTextoContrasenaActualizada {
-            get {
-                return ResourceManager.GetString("avisoTextoContrasenaActualizada", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a la red social.
-        /// </summary>
-        public static string avisoTextoNombreRedSocialGenerica {
-            get {
-                return ResourceManager.GetString("avisoTextoNombreRedSocialGenerica", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Los datos del perfil se actualizaron correctamente..
-        /// </summary>
-        public static string avisoTextoPerfilActualizado {
-            get {
-                return ResourceManager.GetString("avisoTextoPerfilActualizado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No es posible reenviar el código todavía..
-        /// </summary>
-        public static string avisoTextoReenvioCodigoNoDisponible {
-            get {
-                return ResourceManager.GetString("avisoTextoReenvioCodigoNoDisponible", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Registro completado exitosamente..
-        /// </summary>
-        public static string avisoTextoRegistroCompletado {
-            get {
-                return ResourceManager.GetString("avisoTextoRegistroCompletado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión..
-        /// </summary>
-        public static string avisoTextoServidorSesionDatos {
-            get {
-                return ResourceManager.GetString("avisoTextoServidorSesionDatos", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder. Se mostrarán los datos actuales de la sesión..
-        /// </summary>
-        public static string avisoTextoServidorTiempoSesion {
-            get {
-                return ResourceManager.GetString("avisoTextoServidorTiempoSesion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo actualizar la contraseña. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoActualizarContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoActualizarContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo actualizar el perfil. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoActualizarPerfil {
-            get {
-                return ResourceManager.GetString("errorTextoActualizarPerfil", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el apellido del jugador..
-        /// </summary>
-        public static string errorTextoApellidoJugadorRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoApellidoJugadorRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El {0} no debe superar {1} caracteres..
-        /// </summary>
-        public static string errorTextoCampoLongitudMaxima {
-            get {
-                return ResourceManager.GetString("errorTextoCampoLongitudMaxima", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el {0}..
-        /// </summary>
-        public static string errorTextoCampoRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoCampoRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El código ingresado no es correcto o ha expirado..
-        /// </summary>
-        public static string errorTextoCodigoIncorrectoExpirado {
-            get {
-                return ResourceManager.GetString("errorTextoCodigoIncorrectoExpirado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el código de verificación enviado a su correo..
-        /// </summary>
-        public static string errorTextoCodigoVerificacionRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoCodigoVerificacionRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al consultar los avatares..
-        /// </summary>
-        public static string errorTextoComunicacionConsultarAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionConsultarAvatares", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al obtener los avatares del servidor..
-        /// </summary>
-        public static string errorTextoComunicacionObtenerAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionObtenerAvatares", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente más tarde..
-        /// </summary>
-        public static string errorTextoComunicacionServidorMasTarde {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorMasTarde", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoComunicacionServidorNuevamente {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorNuevamente", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor..
-        /// </summary>
-        public static string errorTextoComunicacionServidorSimple {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorSimple", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese y confirme la nueva contraseña..
-        /// </summary>
-        public static string errorTextoConfirmacionContrasenaRequerida {
-            get {
-                return ResourceManager.GetString("errorTextoConfirmacionContrasenaRequerida", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La contraseña debe tener de 8 a 15 caracteres con al menos una mayúscula, un número y un carácter especial..
-        /// </summary>
-        public static string errorTextoContrasenaFormato {
-            get {
-                return ResourceManager.GetString("errorTextoContrasenaFormato", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese una contraseña..
-        /// </summary>
-        public static string errorTextoContrasenaRequerida {
-            get {
-                return ResourceManager.GetString("errorTextoContrasenaRequerida", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Las contraseñas no coinciden..
-        /// </summary>
-        public static string errorTextoContrasenasNoCoinciden {
-            get {
-                return ResourceManager.GetString("errorTextoContrasenasNoCoinciden", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese un correo electrónico válido..
-        /// </summary>
-        public static string errorTextoCorreoInvalido {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoInvalido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese un correo electrónico..
-        /// </summary>
-        public static string errorTextoCorreoRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el usuario o correo y la contraseña..
-        /// </summary>
-        public static string errorTextoCredencialesIncompletas {
-            get {
-                return ResourceManager.GetString("errorTextoCredencialesIncompletas", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se encontró la cuenta asociada a la sesión actual..
-        /// </summary>
-        public static string errorTextoCuentaNoEncontradaSesion {
-            get {
-                return ResourceManager.GetString("errorTextoCuentaNoEncontradaSesion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se encontró una cuenta con el usuario o correo proporcionado..
-        /// </summary>
-        public static string errorTextoCuentaNoRegistrada {
-            get {
-                return ResourceManager.GetString("errorTextoCuentaNoRegistrada", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo determinar el usuario actual para cambiar la contraseña..
-        /// </summary>
-        public static string errorTextoDeterminarUsuarioCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoDeterminarUsuarioCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo enviar el código de verificación. Verifique la información e intente de nuevo..
-        /// </summary>
-        public static string errorTextoEnvioCodigoVerificacionDatos {
-            get {
-                return ResourceManager.GetString("errorTextoEnvioCodigoVerificacionDatos", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible enviar el código de verificación. Intente más tarde..
-        /// </summary>
-        public static string errorTextoEnvioCodigoVerificacionMasTarde {
-            get {
-                return ResourceManager.GetString("errorTextoEnvioCodigoVerificacionMasTarde", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un error al procesar la solicitud..
-        /// </summary>
-        public static string errorTextoErrorProcesarSolicitud {
-            get {
-                return ResourceManager.GetString("errorTextoErrorProcesarSolicitud", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el usuario o correo registrado para recuperar la contraseña..
-        /// </summary>
-        public static string errorTextoIdentificadorRecuperacionRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoIdentificadorRecuperacionRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El identificador de {0} no debe exceder {1} caracteres..
-        /// </summary>
-        public static string errorTextoIdentificadorRedSocialLongitud {
-            get {
-                return ResourceManager.GetString("errorTextoIdentificadorRedSocialLongitud", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo identificar el avatar seleccionado. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoIdentificarAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoIdentificarAvatar", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo iniciar el proceso de cambio de contraseña. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoIniciarCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoIniciarCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo iniciar la recuperación de contraseña. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoIniciarRecuperacion {
-            get {
-                return ResourceManager.GetString("errorTextoIniciarRecuperacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el nombre del jugador..
-        /// </summary>
-        public static string errorTextoNombreJugadorRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoNombreJugadorRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese un nombre de usuario..
-        /// </summary>
-        public static string errorTextoNombreUsuarioRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoNombreUsuarioRequerido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible obtener la información actualizada del perfil..
-        /// </summary>
-        public static string errorTextoPerfilActualizarInformacion {
-            get {
-                return ResourceManager.GetString("errorTextoPerfilActualizarInformacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un error al preparar la solicitud de cambio de contraseña..
-        /// </summary>
-        public static string errorTextoPrepararSolicitudCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoPrepararSolicitudCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible preparar la solicitud de inicio de sesión..
-        /// </summary>
-        public static string errorTextoPrepararSolicitudInicioSesion {
-            get {
-                return ResourceManager.GetString("errorTextoPrepararSolicitudInicioSesion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema al procesar la solicitud..
-        /// </summary>
-        public static string errorTextoProblemaProcesarSolicitud {
-            get {
-                return ResourceManager.GetString("errorTextoProblemaProcesarSolicitud", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de actualización..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudActualizacion {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudActualizacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de avatares..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudAvatares", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de cambio de contraseña..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de recuperación. Intente de nuevo..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudRecuperacion {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudRecuperacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de reenvío. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudReenvio {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudReenvio", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Selecciona un avatar válido antes de guardar los cambios..
-        /// </summary>
-        public static string errorTextoSeleccionAvatarValido {
-            get {
-                return ResourceManager.GetString("errorTextoSeleccionAvatarValido", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al actualizar la contraseña..
-        /// </summary>
-        public static string errorTextoServidorActualizarContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoServidorActualizarContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al actualizar el perfil..
-        /// </summary>
-        public static string errorTextoServidorActualizarPerfil {
-            get {
-                return ResourceManager.GetString("errorTextoServidorActualizarPerfil", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para actualizar el catálogo de avatares..
-        /// </summary>
-        public static string errorTextoServidorCatalogoAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoServidorCatalogoAvatares", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo obtener el catálogo de avatares desde el servidor..
-        /// </summary>
-        public static string errorTextoServidorCatalogoAvataresDetalle {
-            get {
-                return ResourceManager.GetString("errorTextoServidorCatalogoAvataresDetalle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el código de verificación..
-        /// </summary>
-        public static string errorTextoServidorCodigoVerificacion {
-            get {
-                return ResourceManager.GetString("errorTextoServidorCodigoVerificacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo obtener la información del avatar seleccionado..
-        /// </summary>
-        public static string errorTextoServidorInformacionAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoServidorInformacionAvatar", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al iniciar la recuperación de contraseña..
-        /// </summary>
-        public static string errorTextoServidorInicioRecuperacion {
-            get {
-                return ResourceManager.GetString("errorTextoServidorInicioRecuperacion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al iniciar sesión..
-        /// </summary>
-        public static string errorTextoServidorInicioSesion {
-            get {
-                return ResourceManager.GetString("errorTextoServidorInicioSesion", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Intente más tarde..
-        /// </summary>
-        public static string errorTextoServidorNoDisponible {
-            get {
-                return ResourceManager.GetString("errorTextoServidorNoDisponible", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor no respondió a tiempo. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoServidorNoRespondioTiempo {
-            get {
-                return ResourceManager.GetString("errorTextoServidorNoRespondioTiempo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al obtener la información del perfil..
-        /// </summary>
-        public static string errorTextoServidorObtenerPerfil {
-            get {
-                return ResourceManager.GetString("errorTextoServidorObtenerPerfil", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al reenviar el código..
-        /// </summary>
-        public static string errorTextoServidorReenviarCodigo {
-            get {
-                return ResourceManager.GetString("errorTextoServidorReenviarCodigo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se obtuvo respuesta del servidor. Intente más tarde..
-        /// </summary>
-        public static string errorTextoServidorSinRespuesta {
-            get {
-                return ResourceManager.GetString("errorTextoServidorSinRespuesta", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el cambio de contraseña..
-        /// </summary>
-        public static string errorTextoServidorSolicitudCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoServidorSolicitudCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder. Intente más tarde..
-        /// </summary>
-        public static string errorTextoServidorTiempoAgotado {
-            get {
-                return ResourceManager.GetString("errorTextoServidorTiempoAgotado", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al solicitar los avatares..
-        /// </summary>
-        public static string errorTextoServidorTiempoAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoServidorTiempoAvatares", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al validar el avatar..
-        /// </summary>
-        public static string errorTextoServidorTiempoValidarAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoServidorTiempoValidarAvatar", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para validar el avatar seleccionado..
-        /// </summary>
-        public static string errorTextoServidorValidarAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoServidorValidarAvatar", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor reportó un error al validar el código..
-        /// </summary>
-        public static string errorTextoServidorValidarCodigo {
-            get {
-                return ResourceManager.GetString("errorTextoServidorValidarCodigo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa. Inicie sesión nuevamente..
-        /// </summary>
-        public static string errorTextoSesionInactiva {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactiva", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa para actualizar..
-        /// </summary>
-        public static string errorTextoSesionInactivaActualizar {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactivaActualizar", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa para cambiar la contraseña..
-        /// </summary>
-        public static string errorTextoSesionInactivaCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactivaCambioContrasena", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo solicitar un nuevo código. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoSolicitarNuevoCodigo {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitarNuevoCodigo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El token de recuperación es obligatorio..
-        /// </summary>
-        public static string errorTextoTokenRecuperacionObligatorio {
-            get {
-                return ResourceManager.GetString("errorTextoTokenRecuperacionObligatorio", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a El token de verificación es obligatorio..
-        /// </summary>
-        public static string errorTextoTokenVerificacionObligatorio {
-            get {
-                return ResourceManager.GetString("errorTextoTokenVerificacionObligatorio", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo verificar el código. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoVerificarCodigo {
-            get {
-                return ResourceManager.GetString("errorTextoVerificarCodigo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La solicitud de verificación no es válida. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoSolicitudVerificacionInvalida {
-            get {
-                return ResourceManager.GetString("errorTextoSolicitudVerificacionInvalida", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a La validación del código no está disponible en este momento..
-        /// </summary>
-        public static string errorTextoValidacionCodigoNoDisponible {
-            get {
-                return ResourceManager.GetString("errorTextoValidacionCodigoNoDisponible", resourceCulture);
-            }
-        }
-
     }
 }

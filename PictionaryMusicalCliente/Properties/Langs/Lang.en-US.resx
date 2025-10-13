@@ -418,7 +418,7 @@
     <value>Ongoing game</value>
   </data>
   <data name="alertaTextoAviso" xml:space="preserve">
-    <value>Warning</value>
+    <value>WARNING</value>
   </data>
   <data name="avisoTextoCodigoDescripcionCambio" xml:space="preserve">
     <value>Enter the code we sent to confirm the password change.</value>
