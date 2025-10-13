@@ -107,12 +107,12 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,0,5,0">
+                                    <Grid Margin="0,0,2,0">
                                         <ToggleButton x:Name="toggleRedSocial"
                                                       Style="{StaticResource RedSocialToggleButtonStyle}"
-                                                      Width="36" Height="36"
+                                                      Width="50" Height="50"
                                                       ToolTip="{Binding Nombre}">
-                                            <Image Source="{Binding RutaIcono}" Width="32" Height="32" />
+                                            <Image Source="{Binding RutaIcono}" Width="56" Height="56" />
                                         </ToggleButton>
                                         <Popup PlacementTarget="{Binding ElementName=toggleRedSocial}"
                                                Placement="Top"
