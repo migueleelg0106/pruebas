@@ -7,6 +7,6 @@ namespace Datos.DAL.Interfaces
     {
         Clasificacion CrearClasificacionInicial();
 
-        IList<ClasificacionJugadorInfo> ObtenerTopJugadores(int limite);
+        IList<Usuario> ObtenerTopJugadores(int limite);
     }
 }
