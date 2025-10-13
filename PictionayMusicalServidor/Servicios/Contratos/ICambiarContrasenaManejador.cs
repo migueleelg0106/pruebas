@@ -12,11 +12,11 @@ namespace Servicios.Contratos
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
-        ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(SolicitudReenviarCodigoRecuperacionDTO solicitud);
+        ResultadoSolicitudCodigoDTO ReenviarCodigoRecuperacion(ReenviarCodigoDTO solicitud);
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
-        ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDTO confirmacion);
+        ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoDTO confirmacion);
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]

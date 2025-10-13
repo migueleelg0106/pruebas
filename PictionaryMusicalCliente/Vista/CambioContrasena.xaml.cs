@@ -13,18 +13,18 @@ namespace PictionaryMusicalCliente
     public partial class CambioContrasena : Window
     {
         private static readonly Regex PatronContrasenaValida = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,15}$", RegexOptions.Compiled);
-        private readonly string _tokenRecuperacion;
+        private readonly string _tokenCodigo;
         public bool ContrasenaActualizada { get; private set; }
 
-        public CambioContrasena(string tokenRecuperacion, string identificador)
+        public CambioContrasena(string tokenCodigo, string identificador)
         {
-            if (string.IsNullOrWhiteSpace(tokenRecuperacion))
+            if (string.IsNullOrWhiteSpace(tokenCodigo))
             {
-                throw new ArgumentException(LangResources.Lang.errorTextoTokenRecuperacionObligatorio, nameof(tokenRecuperacion));
+                throw new ArgumentException(LangResources.Lang.errorTextoTokenCodigoObligatorio, nameof(tokenCodigo));
             }
 
             InitializeComponent();
-            _tokenRecuperacion = tokenRecuperacion;
+            _tokenCodigo = tokenCodigo;
             ContrasenaActualizada = false;
         }
 
@@ -64,7 +64,7 @@ namespace PictionaryMusicalCliente
                 {
                     var solicitud = new SolicitudActualizarContrasena
                     {
-                        TokenRecuperacion = _tokenRecuperacion,
+                        TokenCodigo = _tokenCodigo,
                         NuevaContrasena = nuevaContrasena
                     };
 

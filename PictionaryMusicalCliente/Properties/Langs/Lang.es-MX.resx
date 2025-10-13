@@ -623,14 +623,11 @@ aciertan o cuando se acaba el tiempo.
   <data name="errorTextoSolicitarNuevoCodigo" xml:space="preserve">
     <value>No se pudo solicitar un nuevo código. Intente nuevamente.</value>
   </data>
-  <data name="errorTextoTokenRecuperacionObligatorio" xml:space="preserve">
-    <value>El token de recuperación es obligatorio.</value>
+  <data name="errorTextoTokenCodigoObligatorio" xml:space="preserve">
+    <value>El token del código es obligatorio.</value>
   </data>
   <data name="errorTextoTiempoEsperaCodigo" xml:space="preserve">
     <value>Debe esperar {0} segundos para solicitar un nuevo código.</value>
-  </data>
-  <data name="errorTextoTokenVerificacionObligatorio" xml:space="preserve">
-    <value>El token de verificación es obligatorio.</value>
   </data>
   <data name="errorTextoVerificarCodigo" xml:space="preserve">
     <value>No se pudo verificar el código. Intente nuevamente.</value>

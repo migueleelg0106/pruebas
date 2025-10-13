@@ -12,7 +12,7 @@ namespace Servicios.Contratos
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
-        ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoVerificacionDTO confirmacion);
+        ResultadoRegistroCuentaDTO ConfirmarCodigoVerificacion(ConfirmarCodigoDTO confirmacion);
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
@@ -20,6 +20,6 @@ namespace Servicios.Contratos
 
         [OperationContract]
         [FaultContract(typeof(ErrorDetalleServicioDTO))]
-        ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoRecuperacionDTO confirmacion);
+        ResultadoOperacionDTO ConfirmarCodigoRecuperacion(ConfirmarCodigoDTO confirmacion);
     }
 }

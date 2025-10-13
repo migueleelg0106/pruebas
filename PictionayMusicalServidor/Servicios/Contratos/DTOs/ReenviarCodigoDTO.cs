@@ -3,9 +3,9 @@ using System.Runtime.Serialization;
 namespace Servicios.Contratos.DTOs
 {
     [DataContract]
-    public class SolicitudReenviarCodigoRecuperacionDTO
+    public class ReenviarCodigoDTO
     {
         [DataMember]
-        public string TokenRecuperacion { get; set; }
+        public string TokenCodigo { get; set; }
     }
 }

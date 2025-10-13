@@ -63,9 +63,9 @@ namespace PictionaryMusicalCliente.Servicios
 
         public async Task<ResultadoSolicitudCodigo> ReenviarCodigoVerificacionAsync(SolicitudReenviarCodigo solicitud)
         {
-            var dto = new SrvReenv.ReenviarCodigoVerificacionDTO
+            var dto = new SrvReenv.ReenviarCodigoDTO
             {
-                TokenVerificacion = solicitud.TokenVerificacion
+                TokenCodigo = solicitud.TokenCodigo
             };
 
             SrvReenv.ResultadoSolicitudCodigoDTO resultadoDto = await _reenviarCodigo.ReenviarCodigoVerificacionAsync(dto);
@@ -74,9 +74,9 @@ namespace PictionaryMusicalCliente.Servicios
 
         public async Task<ResultadoRegistroCuenta> ConfirmarCodigoVerificacionAsync(SolicitudConfirmarCodigo solicitud)
         {
-            var dto = new SrvCod.ConfirmarCodigoVerificacionDTO
+            var dto = new SrvCod.ConfirmarCodigoDTO
             {
-                TokenVerificacion = solicitud.TokenVerificacion,
+                TokenCodigo = solicitud.TokenCodigo,
                 CodigoIngresado = solicitud.Codigo
             };
 
@@ -149,9 +149,9 @@ namespace PictionaryMusicalCliente.Servicios
             return ConvertirResultadoSolicitudRecuperacion(resultadoDto);
         }
 
-        public async Task<ResultadoSolicitudCodigo> ReenviarCodigoRecuperacionAsync(SolicitudReenviarCodigoRecuperacion solicitud)
+        public async Task<ResultadoSolicitudCodigo> ReenviarCodigoRecuperacionAsync(SolicitudReenviarCodigo solicitud)
         {
-            SrvReenv.SolicitudReenviarCodigoRecuperacionDTO dto = CrearSolicitudReenviarCodigoRecuperacionDto(solicitud);
+            SrvReenv.ReenviarCodigoDTO dto = CrearSolicitudReenviarCodigoDto(solicitud);
 
             if (dto == null)
             {
@@ -162,9 +162,9 @@ namespace PictionaryMusicalCliente.Servicios
             return ConvertirResultadoSolicitudCodigo(resultadoDto);
         }
 
-        public async Task<ResultadoOperacion> ConfirmarCodigoRecuperacionAsync(SolicitudConfirmarCodigoRecuperacion solicitud)
+        public async Task<ResultadoOperacion> ConfirmarCodigoRecuperacionAsync(SolicitudConfirmarCodigo solicitud)
         {
-            SrvCod.ConfirmarCodigoRecuperacionDTO dto = CrearConfirmarCodigoRecuperacionDto(solicitud);
+            SrvCod.ConfirmarCodigoDTO dto = CrearConfirmarCodigoDto(solicitud);
 
             if (dto == null)
             {
@@ -430,43 +430,43 @@ namespace PictionaryMusicalCliente.Servicios
             };
         }
 
-        private static SrvReenv.SolicitudReenviarCodigoRecuperacionDTO CrearSolicitudReenviarCodigoRecuperacionDto(SolicitudReenviarCodigoRecuperacion solicitud)
+        private static SrvReenv.ReenviarCodigoDTO CrearSolicitudReenviarCodigoDto(SolicitudReenviarCodigo solicitud)
         {
-            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion))
+            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenCodigo))
             {
                 return null;
             }
 
-            return new SrvReenv.SolicitudReenviarCodigoRecuperacionDTO
+            return new SrvReenv.ReenviarCodigoDTO
             {
-                TokenRecuperacion = solicitud.TokenRecuperacion
+                TokenCodigo = solicitud.TokenCodigo
             };
         }
 
-        private static SrvCod.ConfirmarCodigoRecuperacionDTO CrearConfirmarCodigoRecuperacionDto(SolicitudConfirmarCodigoRecuperacion solicitud)
+        private static SrvCod.ConfirmarCodigoDTO CrearConfirmarCodigoDto(SolicitudConfirmarCodigo solicitud)
         {
-            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion) || string.IsNullOrWhiteSpace(solicitud.Codigo))
+            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenCodigo) || string.IsNullOrWhiteSpace(solicitud.Codigo))
             {
                 return null;
             }
 
-            return new SrvCod.ConfirmarCodigoRecuperacionDTO
+            return new SrvCod.ConfirmarCodigoDTO
             {
-                TokenRecuperacion = solicitud.TokenRecuperacion,
+                TokenCodigo = solicitud.TokenCodigo,
                 CodigoIngresado = solicitud.Codigo
             };
         }
 
         private static ActualizarContrasenaDto CrearActualizarContrasenaDto(SolicitudActualizarContrasena solicitud)
         {
-            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenRecuperacion) || string.IsNullOrWhiteSpace(solicitud.NuevaContrasena))
+            if (solicitud == null || string.IsNullOrWhiteSpace(solicitud.TokenCodigo) || string.IsNullOrWhiteSpace(solicitud.NuevaContrasena))
             {
                 return null;
             }
 
             return new ActualizarContrasenaDto
             {
-                TokenRecuperacion = solicitud.TokenRecuperacion,
+                TokenCodigo = solicitud.TokenCodigo,
                 NuevaContrasena = solicitud.NuevaContrasena
             };
         }
@@ -478,10 +478,9 @@ namespace PictionaryMusicalCliente.Servicios
                 : CrearResultadoSolicitudCodigo(
                     resultadoDto.CodigoEnviado,
                     resultadoDto.Mensaje,
-                    resultadoDto.TokenVerificacion,
+                    resultadoDto.TokenCodigo,
                     resultadoDto.CorreoYaRegistrado,
-                    resultadoDto.UsuarioYaRegistrado,
-                    null);
+                    resultadoDto.UsuarioYaRegistrado);
         }
 
         private static ResultadoSolicitudCodigo ConvertirResultadoSolicitudCodigo(SrvReenv.ResultadoSolicitudCodigoDTO resultadoDto)
@@ -491,10 +490,9 @@ namespace PictionaryMusicalCliente.Servicios
                 : CrearResultadoSolicitudCodigo(
                     resultadoDto.CodigoEnviado,
                     resultadoDto.Mensaje,
-                    resultadoDto.TokenVerificacion,
+                    resultadoDto.TokenCodigo,
                     resultadoDto.CorreoYaRegistrado,
-                    resultadoDto.UsuarioYaRegistrado,
-                    null);
+                    resultadoDto.UsuarioYaRegistrado);
         }
 
         private static ResultadoSolicitudRecuperacion ConvertirResultadoSolicitudRecuperacion(SrvCod.ResultadoSolicitudRecuperacionDTO resultadoDto)
@@ -506,7 +504,7 @@ namespace PictionaryMusicalCliente.Servicios
                     CodigoEnviado = resultadoDto.CodigoEnviado,
                     CuentaEncontrada = resultadoDto.CuentaEncontrada,
                     Mensaje = resultadoDto.Mensaje,
-                    TokenRecuperacion = resultadoDto.TokenRecuperacion,
+                    TokenCodigo = resultadoDto.TokenCodigo,
                     CorreoDestino = resultadoDto.CorreoDestino
                 };
         }
@@ -550,16 +548,15 @@ namespace PictionaryMusicalCliente.Servicios
                 .ToList();
         }
 
-        private static ResultadoSolicitudCodigo CrearResultadoSolicitudCodigo(bool codigoEnviado, string mensaje, string token, bool correoYaRegistrado, bool usuarioYaRegistrado, string tokenRecuperacion)
+        private static ResultadoSolicitudCodigo CrearResultadoSolicitudCodigo(bool codigoEnviado, string mensaje, string token, bool correoYaRegistrado, bool usuarioYaRegistrado)
         {
             return new ResultadoSolicitudCodigo
             {
                 CodigoEnviado = codigoEnviado,
                 Mensaje = mensaje,
-                TokenVerificacion = token,
+                TokenCodigo = token,
                 CorreoYaRegistrado = correoYaRegistrado,
-                UsuarioYaRegistrado = usuarioYaRegistrado,
-                TokenRecuperacion = tokenRecuperacion
+                UsuarioYaRegistrado = usuarioYaRegistrado
             };
         }
 

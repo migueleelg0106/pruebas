@@ -12,7 +12,7 @@ namespace PictionaryMusicalCliente
 {
     public partial class VerificarCodigo : Window
     {
-        private string _tokenVerificacion;
+        private string _tokenCodigo;
         private readonly string _correoDestino;
         private readonly string _textoOriginalReenviar;
         private readonly DispatcherTimer _temporizador;
@@ -25,20 +25,20 @@ namespace PictionaryMusicalCliente
         public bool RegistroCompletado => OperacionCompletada;
 
         public VerificarCodigo(
-            string tokenVerificacion,
+            string tokenCodigo,
             string correoDestino,
             Func<string, Task<ResultadoOperacion>> confirmarCodigoAsync = null,
             Func<Task<ResultadoSolicitudCodigo>> reenviarCodigoAsync = null,
             string descripcionPersonalizada = null)
         {
-            if (string.IsNullOrWhiteSpace(tokenVerificacion))
+            if (string.IsNullOrWhiteSpace(tokenCodigo))
             {
-                throw new ArgumentException(LangResources.Lang.errorTextoTokenVerificacionObligatorio, nameof(tokenVerificacion));
+                throw new ArgumentException(LangResources.Lang.errorTextoTokenCodigoObligatorio, nameof(tokenCodigo));
             }
 
             InitializeComponent();
 
-            _tokenVerificacion = tokenVerificacion;
+            _tokenCodigo = tokenCodigo;
             _correoDestino = correoDestino ?? string.Empty;
             _textoOriginalReenviar = botonReenviarCodigo.Content?.ToString() ?? LangResources.Lang.cambiarContraseñaTextoReenviarCodigo;
             _temporizador = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
@@ -181,7 +181,7 @@ namespace PictionaryMusicalCliente
             {
                 var solicitud = new SolicitudConfirmarCodigo
                 {
-                    TokenVerificacion = _tokenVerificacion,
+                    TokenCodigo = _tokenCodigo,
                     Codigo = codigo
                 };
 
@@ -195,7 +195,7 @@ namespace PictionaryMusicalCliente
             {
                 var solicitud = new SolicitudReenviarCodigo
                 {
-                    TokenVerificacion = _tokenVerificacion
+                    TokenCodigo = _tokenCodigo
                 };
 
                 return await proxy.ReenviarCodigoVerificacionAsync(solicitud);
@@ -223,9 +223,9 @@ namespace PictionaryMusicalCliente
 
                 if (resultado.CodigoEnviado)
                 {
-                    if (!string.IsNullOrWhiteSpace(resultado.TokenVerificacion))
+                    if (!string.IsNullOrWhiteSpace(resultado.TokenCodigo))
                     {
-                        _tokenVerificacion = resultado.TokenVerificacion;
+                        _tokenCodigo = resultado.TokenCodigo;
                     }
 
                     _siguienteReenvioPermitido = DateTime.UtcNow.AddMinutes(1);

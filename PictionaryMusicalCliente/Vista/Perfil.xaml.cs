@@ -422,7 +422,7 @@ namespace PictionaryMusicalCliente
                         return;
                     }
 
-                    if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenRecuperacion))
+                    if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenCodigo))
                     {
                         string mensajeCodigo = MensajeServidorHelper.Localizar(
                             resultado.Mensaje,
@@ -431,14 +431,14 @@ namespace PictionaryMusicalCliente
                         return;
                     }
 
-                    string tokenRecuperacion = resultado.TokenRecuperacion;
+                    string tokenCodigo = resultado.TokenCodigo;
                     string correoDestino = resultado.CorreoDestino;
 
                     async Task<ResultadoOperacion> ConfirmarCodigoAsync(string codigo)
                     {
-                        var confirmacion = new SolicitudConfirmarCodigoRecuperacion
+                        var confirmacion = new SolicitudConfirmarCodigo
                         {
-                            TokenRecuperacion = tokenRecuperacion,
+                            TokenCodigo = tokenCodigo,
                             Codigo = codigo
                         };
 
@@ -447,23 +447,16 @@ namespace PictionaryMusicalCliente
 
                     async Task<ResultadoSolicitudCodigo> ReenviarCodigoAsync()
                     {
-                        var reenvio = new SolicitudReenviarCodigoRecuperacion
+                        var reenvio = new SolicitudReenviarCodigo
                         {
-                            TokenRecuperacion = tokenRecuperacion
+                            TokenCodigo = tokenCodigo
                         };
 
                         ResultadoSolicitudCodigo resultadoReenvio = await proxy.ReenviarCodigoRecuperacionAsync(reenvio);
 
-                        if (resultadoReenvio != null)
+                        if (resultadoReenvio != null && !string.IsNullOrWhiteSpace(resultadoReenvio.TokenCodigo))
                         {
-                            if (!string.IsNullOrWhiteSpace(resultadoReenvio.TokenVerificacion))
-                            {
-                                tokenRecuperacion = resultadoReenvio.TokenVerificacion;
-                            }
-                            else if (!string.IsNullOrWhiteSpace(resultadoReenvio.TokenRecuperacion))
-                            {
-                                tokenRecuperacion = resultadoReenvio.TokenRecuperacion;
-                            }
+                            tokenCodigo = resultadoReenvio.TokenCodigo;
                         }
 
                         return resultadoReenvio;
@@ -472,7 +465,7 @@ namespace PictionaryMusicalCliente
                     Mouse.OverrideCursor = null;
 
                     var ventanaVerificacion = new VerificarCodigo(
-                        tokenRecuperacion,
+                        tokenCodigo,
                         correoDestino,
                         ConfirmarCodigoAsync,
                         ReenviarCodigoAsync,
@@ -487,7 +480,7 @@ namespace PictionaryMusicalCliente
 
                     Mouse.OverrideCursor = null;
 
-                    var ventanaCambio = new CambioContrasena(tokenRecuperacion, identificador);
+                    var ventanaCambio = new CambioContrasena(tokenCodigo, identificador);
                     ventanaCambio.ShowDialog();
                 }
             }
