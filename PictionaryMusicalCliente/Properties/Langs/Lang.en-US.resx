@@ -652,10 +652,10 @@
     <value>Select a valid avatar before saving the changes.</value>
   </data>
   <data name="errorTextoServidorActualizarContrasena" xml:space="preserve">
-    <value>The server reported an error while updating the password.</value>
+    <value>There was an error while updating the password.</value>
   </data>
   <data name="errorTextoServidorActualizarPerfil" xml:space="preserve">
-    <value>The server reported an error while updating the profile.</value>
+    <value>There was an error while updating the profile.</value>
   </data>
   <data name="errorTextoServidorCatalogoAvatares" xml:space="preserve">
     <value>The server could not be contacted to update the avatar catalog.</value>
@@ -664,16 +664,16 @@
     <value>The avatar catalog could not be retrieved from the server.</value>
   </data>
   <data name="errorTextoServidorCodigoVerificacion" xml:space="preserve">
-    <value>The server reported an error while requesting the verification code.</value>
+    <value>There was an error while requesting the verification code.</value>
   </data>
   <data name="errorTextoServidorInformacionAvatar" xml:space="preserve">
     <value>Information for the selected avatar could not be obtained.</value>
   </data>
   <data name="errorTextoServidorInicioRecuperacion" xml:space="preserve">
-    <value>The server reported an error while starting the password recovery.</value>
+    <value>There was an error while starting the password recovery.</value>
   </data>
   <data name="errorTextoServidorInicioSesion" xml:space="preserve">
-    <value>The server reported an error while signing in.</value>
+    <value>There was an error while signing in.</value>
   </data>
   <data name="errorTextoServidorNoDisponible" xml:space="preserve">
     <value>The server could not be reached. Please try again later.</value>
@@ -682,16 +682,16 @@
     <value>The server did not respond in time. Please try again.</value>
   </data>
   <data name="errorTextoServidorObtenerPerfil" xml:space="preserve">
-    <value>The server reported an error while retrieving the profile information.</value>
+    <value>There was an error while retrieving the profile information.</value>
   </data>
   <data name="errorTextoServidorReenviarCodigo" xml:space="preserve">
-    <value>The server reported an error while resending the code.</value>
+    <value>There was an error while resending the code.</value>
   </data>
   <data name="errorTextoServidorSinRespuesta" xml:space="preserve">
     <value>No response was received from the server. Please try again later.</value>
   </data>
   <data name="errorTextoServidorSolicitudCambioContrasena" xml:space="preserve">
-    <value>The server reported an error while requesting the password change.</value>
+    <value>There was an error while requesting the password change.</value>
   </data>
   <data name="errorTextoServidorTiempoAgotado" xml:space="preserve">
     <value>The server took too long to respond. Please try again later.</value>
@@ -706,7 +706,7 @@
     <value>The server could not be contacted to validate the selected avatar.</value>
   </data>
   <data name="errorTextoServidorValidarCodigo" xml:space="preserve">
-    <value>The server reported an error while validating the code.</value>
+    <value>There was an error while validating the code.</value>
   </data>
   <data name="errorTextoSesionInactiva" xml:space="preserve">
     <value>There is no active session. Please sign in again.</value>
