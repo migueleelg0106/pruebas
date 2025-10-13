@@ -54,14 +54,14 @@ namespace PictionaryMusicalCliente
 
             if (!PatronCorreoValido.IsMatch(correo))
             {
-                new Avisos("Ingrese un correo electrónico válido.").ShowDialog();
+                new Avisos(Lang.errorTextoCorreoInvalido).ShowDialog();
                 bloqueTextoCorreo.Focus();
                 return;
             }
 
             if (!PatronContrasenaValida.IsMatch(contrasena))
             {
-                new Avisos("La contraseña debe tener de 8 a 15 caracteres con al menos una mayúscula, un número y un carácter especial.").ShowDialog();
+                new Avisos(Lang.errorTextoContrasenaFormato).ShowDialog();
                 bloqueContrasenaContrasena.Focus();
                 return;
             }
@@ -76,7 +76,7 @@ namespace PictionaryMusicalCliente
 
             if (!avatarId.HasValue)
             {
-                new Avisos("No se pudo identificar el avatar seleccionado. Intente nuevamente.").ShowDialog();
+                new Avisos(Lang.errorTextoIdentificarAvatar).ShowDialog();
                 return;
             }
 
@@ -103,29 +103,29 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al solicitar el código de verificación.");
+                    Lang.errorTextoServidorCodigoVerificacion);
                 new Avisos(mensaje).ShowDialog();
                 return;
             }
             catch (CommunicationException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(Lang.errorTextoServidorNoDisponible).ShowDialog();
                 return;
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                new Avisos(Lang.errorTextoServidorTiempoAgotado).ShowDialog();
                 return;
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(Lang.errorTextoServidorNoDisponible).ShowDialog();
                 return;
             }
 
             if (resultadoCodigo == null)
             {
-                new Avisos("Ocurrió un problema al procesar la solicitud.").ShowDialog();
+                new Avisos(Lang.errorTextoProblemaProcesarSolicitud).ShowDialog();
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace PictionaryMusicalCliente
             if (!resultadoCodigo.CodigoEnviado)
             {
                 string mensajeError = string.IsNullOrWhiteSpace(resultadoCodigo.Mensaje)
-                    ? "No se pudo enviar el código de verificación. Verifique la información e intente de nuevo."
+                    ? Lang.errorTextoEnvioCodigoVerificacionDatos
                     : resultadoCodigo.Mensaje;
 
                 new Avisos(mensajeError).ShowDialog();
@@ -157,35 +157,35 @@ namespace PictionaryMusicalCliente
         {
             if (string.IsNullOrWhiteSpace(usuario))
             {
-                new Avisos("Ingrese un nombre de usuario.").ShowDialog();
+                new Avisos(Lang.errorTextoNombreUsuarioRequerido).ShowDialog();
                 bloqueTextoUsuario.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                new Avisos("Ingrese el nombre del jugador.").ShowDialog();
+                new Avisos(Lang.errorTextoNombreJugadorRequerido).ShowDialog();
                 bloqueTextoNombre.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
             {
-                new Avisos("Ingrese el apellido del jugador.").ShowDialog();
+                new Avisos(Lang.errorTextoApellidoJugadorRequerido).ShowDialog();
                 bloqueTextoApellido.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(correo))
             {
-                new Avisos("Ingrese un correo electrónico.").ShowDialog();
+                new Avisos(Lang.errorTextoCorreoRequerido).ShowDialog();
                 bloqueTextoCorreo.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(contrasena))
             {
-                new Avisos("Ingrese una contraseña.").ShowDialog();
+                new Avisos(Lang.errorTextoContrasenaRequerida).ShowDialog();
                 bloqueContrasenaContrasena.Focus();
                 return false;
             }
@@ -241,24 +241,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "No se pudo obtener la información del avatar seleccionado.");
+                    Lang.errorTextoServidorInformacionAvatar);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor para validar el avatar seleccionado.").ShowDialog();
+                new Avisos(Lang.errorTextoServidorValidarAvatar).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder al validar el avatar.").ShowDialog();
+                new Avisos(Lang.errorTextoServidorTiempoValidarAvatar).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación al consultar los avatares.").ShowDialog();
+                new Avisos(Lang.errorTextoComunicacionConsultarAvatares).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible procesar la solicitud de avatares.").ShowDialog();
+                new Avisos(Lang.errorTextoProcesarSolicitudAvatares).ShowDialog();
             }
 
             return null;

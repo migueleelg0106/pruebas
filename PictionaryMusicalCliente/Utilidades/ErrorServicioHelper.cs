@@ -1,6 +1,7 @@
 using System;
 using System.ServiceModel;
 using PictionaryMusicalCliente.Servicios;
+using LangResources = PictionaryMusicalCliente.Properties.Langs;
 
 namespace PictionaryMusicalCliente.Utilidades
 {
@@ -23,7 +24,7 @@ namespace PictionaryMusicalCliente.Utilidades
             }
 
             return string.IsNullOrWhiteSpace(mensajePredeterminado)
-                ? "Ocurrió un error al procesar la solicitud."
+                ? LangResources.Lang.errorTextoErrorProcesarSolicitud
                 : mensajePredeterminado;
         }
     }

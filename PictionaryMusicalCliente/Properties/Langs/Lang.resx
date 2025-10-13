@@ -411,4 +411,256 @@
   <data name="alertaTextoAviso" xml:space="preserve">
     <value>Aviso</value>
   </data>
+  <data name="avisoTextoCodigoDescripcionCambio" xml:space="preserve">
+    <value>Ingresa el código que enviamos para confirmar el cambio de contraseña.</value>
+  </data>
+  <data name="avisoTextoCodigoDescripcionCorreo" xml:space="preserve">
+    <value>Ingresa el código de verificación enviado a {0}.</value>
+  </data>
+  <data name="avisoTextoCodigoDescripcionGenerica" xml:space="preserve">
+    <value>Ingresa el código de verificación que enviamos a tu correo.</value>
+  </data>
+  <data name="avisoTextoCodigoDescripcionRecuperacion" xml:space="preserve">
+    <value>Ingresa el código que enviamos para restablecer tu contraseña.</value>
+  </data>
+  <data name="avisoTextoCodigoReenviado" xml:space="preserve">
+    <value>Se envió un nuevo código a su correo electrónico.</value>
+  </data>
+  <data name="avisoTextoCodigoVerificadoCorrecto" xml:space="preserve">
+    <value>Código verificado correctamente.</value>
+  </data>
+  <data name="avisoTextoContrasenaActualizada" xml:space="preserve">
+    <value>La contraseña se actualizó correctamente.</value>
+  </data>
+  <data name="avisoTextoNombreRedSocialGenerica" xml:space="preserve">
+    <value>la red social</value>
+  </data>
+  <data name="avisoTextoPerfilActualizado" xml:space="preserve">
+    <value>Los datos del perfil se actualizaron correctamente.</value>
+  </data>
+  <data name="avisoTextoReenvioCodigoNoDisponible" xml:space="preserve">
+    <value>No es posible reenviar el código todavía.</value>
+  </data>
+  <data name="avisoTextoRegistroCompletado" xml:space="preserve">
+    <value>Registro completado exitosamente.</value>
+  </data>
+  <data name="avisoTextoServidorSesionDatos" xml:space="preserve">
+    <value>No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión.</value>
+  </data>
+  <data name="avisoTextoServidorTiempoSesion" xml:space="preserve">
+    <value>El servidor tardó demasiado en responder. Se mostrarán los datos actuales de la sesión.</value>
+  </data>
+  <data name="avisoTextoComunicacionServidorSesion" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación con el servidor. Se mostrarán los datos actuales de la sesión.</value>
+  </data>
+  <data name="errorTextoActualizarContrasena" xml:space="preserve">
+    <value>No se pudo actualizar la contraseña. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoActualizarPerfil" xml:space="preserve">
+    <value>No se pudo actualizar el perfil. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoApellidoJugadorRequerido" xml:space="preserve">
+    <value>Ingrese el apellido del jugador.</value>
+  </data>
+  <data name="errorTextoCampoLongitudMaxima" xml:space="preserve">
+    <value>El {0} no debe superar {1} caracteres.</value>
+  </data>
+  <data name="errorTextoCampoRequerido" xml:space="preserve">
+    <value>Ingrese el {0}.</value>
+  </data>
+  <data name="errorTextoCodigoIncorrectoExpirado" xml:space="preserve">
+    <value>El código ingresado no es correcto o ha expirado.</value>
+  </data>
+  <data name="errorTextoCodigoVerificacionRequerido" xml:space="preserve">
+    <value>Ingrese el código de verificación enviado a su correo.</value>
+  </data>
+  <data name="errorTextoComunicacionConsultarAvatares" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación al consultar los avatares.</value>
+  </data>
+  <data name="errorTextoComunicacionObtenerAvatares" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación al obtener los avatares del servidor.</value>
+  </data>
+  <data name="errorTextoComunicacionServidorMasTarde" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación con el servidor. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoComunicacionServidorNuevamente" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación con el servidor. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoComunicacionServidorSimple" xml:space="preserve">
+    <value>Ocurrió un problema de comunicación con el servidor.</value>
+  </data>
+  <data name="errorTextoContrasenaFormato" xml:space="preserve">
+    <value>La contraseña debe tener de 8 a 15 caracteres con al menos una mayúscula, un número y un carácter especial.</value>
+  </data>
+  <data name="errorTextoContrasenaRequerida" xml:space="preserve">
+    <value>Ingrese una contraseña.</value>
+  </data>
+  <data name="errorTextoConfirmacionContrasenaRequerida" xml:space="preserve">
+    <value>Ingrese y confirme la nueva contraseña.</value>
+  </data>
+  <data name="errorTextoContrasenasNoCoinciden" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="errorTextoCorreoInvalido" xml:space="preserve">
+    <value>Ingrese un correo electrónico válido.</value>
+  </data>
+  <data name="errorTextoCorreoRequerido" xml:space="preserve">
+    <value>Ingrese un correo electrónico.</value>
+  </data>
+  <data name="errorTextoCredencialesIncompletas" xml:space="preserve">
+    <value>Ingrese el usuario o correo y la contraseña.</value>
+  </data>
+  <data name="errorTextoCuentaNoEncontradaSesion" xml:space="preserve">
+    <value>No se encontró la cuenta asociada a la sesión actual.</value>
+  </data>
+  <data name="errorTextoCuentaNoRegistrada" xml:space="preserve">
+    <value>No se encontró una cuenta con el usuario o correo proporcionado.</value>
+  </data>
+  <data name="errorTextoDeterminarUsuarioCambioContrasena" xml:space="preserve">
+    <value>No se pudo determinar el usuario actual para cambiar la contraseña.</value>
+  </data>
+  <data name="errorTextoEnvioCodigoVerificacionDatos" xml:space="preserve">
+    <value>No se pudo enviar el código de verificación. Verifique la información e intente de nuevo.</value>
+  </data>
+  <data name="errorTextoEnvioCodigoVerificacionMasTarde" xml:space="preserve">
+    <value>No fue posible enviar el código de verificación. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoErrorProcesarSolicitud" xml:space="preserve">
+    <value>Ocurrió un error al procesar la solicitud.</value>
+  </data>
+  <data name="errorTextoIdentificarAvatar" xml:space="preserve">
+    <value>No se pudo identificar el avatar seleccionado. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoIdentificadorRecuperacionRequerido" xml:space="preserve">
+    <value>Ingrese el usuario o correo registrado para recuperar la contraseña.</value>
+  </data>
+  <data name="errorTextoIdentificadorRedSocialLongitud" xml:space="preserve">
+    <value>El identificador de {0} no debe exceder {1} caracteres.</value>
+  </data>
+  <data name="errorTextoIniciarCambioContrasena" xml:space="preserve">
+    <value>No se pudo iniciar el proceso de cambio de contraseña. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoIniciarRecuperacion" xml:space="preserve">
+    <value>No se pudo iniciar la recuperación de contraseña. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoNombreJugadorRequerido" xml:space="preserve">
+    <value>Ingrese el nombre del jugador.</value>
+  </data>
+  <data name="errorTextoNombreUsuarioRequerido" xml:space="preserve">
+    <value>Ingrese un nombre de usuario.</value>
+  </data>
+  <data name="errorTextoPerfilActualizarInformacion" xml:space="preserve">
+    <value>No fue posible obtener la información actualizada del perfil.</value>
+  </data>
+  <data name="errorTextoPrepararSolicitudCambioContrasena" xml:space="preserve">
+    <value>Ocurrió un error al preparar la solicitud de cambio de contraseña.</value>
+  </data>
+  <data name="errorTextoPrepararSolicitudInicioSesion" xml:space="preserve">
+    <value>No fue posible preparar la solicitud de inicio de sesión.</value>
+  </data>
+  <data name="errorTextoProblemaProcesarSolicitud" xml:space="preserve">
+    <value>Ocurrió un problema al procesar la solicitud.</value>
+  </data>
+  <data name="errorTextoProcesarSolicitudActualizacion" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de actualización.</value>
+  </data>
+  <data name="errorTextoProcesarSolicitudAvatares" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de avatares.</value>
+  </data>
+  <data name="errorTextoProcesarSolicitudCambioContrasena" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de cambio de contraseña.</value>
+  </data>
+  <data name="errorTextoProcesarSolicitudRecuperacion" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de recuperación. Intente de nuevo.</value>
+  </data>
+  <data name="errorTextoProcesarSolicitudReenvio" xml:space="preserve">
+    <value>No fue posible procesar la solicitud de reenvío. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoSeleccionAvatarValido" xml:space="preserve">
+    <value>Selecciona un avatar válido antes de guardar los cambios.</value>
+  </data>
+  <data name="errorTextoServidorActualizarContrasena" xml:space="preserve">
+    <value>El servidor reportó un error al actualizar la contraseña.</value>
+  </data>
+  <data name="errorTextoServidorActualizarPerfil" xml:space="preserve">
+    <value>El servidor reportó un error al actualizar el perfil.</value>
+  </data>
+  <data name="errorTextoServidorCatalogoAvatares" xml:space="preserve">
+    <value>No se pudo contactar al servidor para actualizar el catálogo de avatares.</value>
+  </data>
+  <data name="errorTextoServidorCatalogoAvataresDetalle" xml:space="preserve">
+    <value>No se pudo obtener el catálogo de avatares desde el servidor.</value>
+  </data>
+  <data name="errorTextoServidorCodigoVerificacion" xml:space="preserve">
+    <value>El servidor reportó un error al solicitar el código de verificación.</value>
+  </data>
+  <data name="errorTextoServidorInformacionAvatar" xml:space="preserve">
+    <value>No se pudo obtener la información del avatar seleccionado.</value>
+  </data>
+  <data name="errorTextoServidorInicioRecuperacion" xml:space="preserve">
+    <value>El servidor reportó un error al iniciar la recuperación de contraseña.</value>
+  </data>
+  <data name="errorTextoServidorInicioSesion" xml:space="preserve">
+    <value>El servidor reportó un error al iniciar sesión.</value>
+  </data>
+  <data name="errorTextoServidorNoDisponible" xml:space="preserve">
+    <value>No se pudo contactar al servidor. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoServidorNoRespondioTiempo" xml:space="preserve">
+    <value>El servidor no respondió a tiempo. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoServidorObtenerPerfil" xml:space="preserve">
+    <value>El servidor reportó un error al obtener la información del perfil.</value>
+  </data>
+  <data name="errorTextoServidorReenviarCodigo" xml:space="preserve">
+    <value>El servidor reportó un error al reenviar el código.</value>
+  </data>
+  <data name="errorTextoServidorSinRespuesta" xml:space="preserve">
+    <value>No se obtuvo respuesta del servidor. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoServidorSolicitudCambioContrasena" xml:space="preserve">
+    <value>El servidor reportó un error al solicitar el cambio de contraseña.</value>
+  </data>
+  <data name="errorTextoServidorTiempoAgotado" xml:space="preserve">
+    <value>El servidor tardó demasiado en responder. Intente más tarde.</value>
+  </data>
+  <data name="errorTextoServidorTiempoAvatares" xml:space="preserve">
+    <value>El servidor tardó demasiado en responder al solicitar los avatares.</value>
+  </data>
+  <data name="errorTextoServidorTiempoValidarAvatar" xml:space="preserve">
+    <value>El servidor tardó demasiado en responder al validar el avatar.</value>
+  </data>
+  <data name="errorTextoServidorValidarAvatar" xml:space="preserve">
+    <value>No se pudo contactar al servidor para validar el avatar seleccionado.</value>
+  </data>
+  <data name="errorTextoServidorValidarCodigo" xml:space="preserve">
+    <value>El servidor reportó un error al validar el código.</value>
+  </data>
+  <data name="errorTextoSesionInactiva" xml:space="preserve">
+    <value>No hay una sesión activa. Inicie sesión nuevamente.</value>
+  </data>
+  <data name="errorTextoSesionInactivaActualizar" xml:space="preserve">
+    <value>No hay una sesión activa para actualizar.</value>
+  </data>
+  <data name="errorTextoSesionInactivaCambioContrasena" xml:space="preserve">
+    <value>No hay una sesión activa para cambiar la contraseña.</value>
+  </data>
+  <data name="errorTextoSolicitarNuevoCodigo" xml:space="preserve">
+    <value>No se pudo solicitar un nuevo código. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoTokenRecuperacionObligatorio" xml:space="preserve">
+    <value>El token de recuperación es obligatorio.</value>
+  </data>
+  <data name="errorTextoTokenVerificacionObligatorio" xml:space="preserve">
+    <value>El token de verificación es obligatorio.</value>
+  </data>
+  <data name="errorTextoVerificarCodigo" xml:space="preserve">
+    <value>No se pudo verificar el código. Intente nuevamente.</value>
+  </data>
+  <data name="errorTextoValidacionCodigoNoDisponible" xml:space="preserve">
+    <value>La validación del código no está disponible en este momento.</value>
+  </data>
+  <data name="errorTextoSolicitudVerificacionInvalida" xml:space="preserve">
+    <value>La solicitud de verificación no es válida. Intente nuevamente.</value>
+  </data>
 </root>

@@ -16,6 +16,7 @@ using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
 using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Utilidades;
+using LangResources = PictionaryMusicalCliente.Properties.Langs;
 
 namespace PictionaryMusicalCliente
 {
@@ -55,7 +56,7 @@ namespace PictionaryMusicalCliente
 
             if (_usuarioSesion == null)
             {
-                new Avisos("No hay una sesión activa. Inicie sesión nuevamente.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoSesionInactiva).ShowDialog();
                 Close();
                 return;
             }
@@ -77,24 +78,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al obtener la información del perfil.");
+                    LangResources.Lang.errorTextoServidorObtenerPerfil);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión.").ShowDialog();
+                new Avisos(LangResources.Lang.avisoTextoServidorSesionDatos).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Se mostrarán los datos actuales de la sesión.").ShowDialog();
+                new Avisos(LangResources.Lang.avisoTextoServidorTiempoSesion).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación con el servidor. Se mostrarán los datos actuales de la sesión.").ShowDialog();
+                new Avisos(LangResources.Lang.avisoTextoComunicacionServidorSesion).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible obtener la información actualizada del perfil.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoPerfilActualizarInformacion).ShowDialog();
             }
 
             _avatarActual = ObtenerAvatarPorId(_usuarioSesion.AvatarId);
@@ -133,24 +134,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "No se pudo obtener el catálogo de avatares desde el servidor.");
+                    LangResources.Lang.errorTextoServidorCatalogoAvataresDetalle);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor para actualizar el catálogo de avatares.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorCatalogoAvatares).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder al solicitar los avatares.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorTiempoAvatares).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación al obtener los avatares del servidor.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoComunicacionObtenerAvatares).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible procesar la solicitud de avatares.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudAvatares).ShowDialog();
             }
 
             _catalogoAvatares = avataresLocales;
@@ -352,13 +353,13 @@ namespace PictionaryMusicalCliente
         {
             if (string.IsNullOrWhiteSpace(valor))
             {
-                new Avisos($"Ingrese el {descripcionCampo}.").ShowDialog();
+                new Avisos(string.Format(LangResources.Lang.errorTextoCampoRequerido, descripcionCampo)).ShowDialog();
                 return false;
             }
 
             if (valor.Length > LongitudMaximaNombre)
             {
-                new Avisos($"El {descripcionCampo} no debe superar {LongitudMaximaNombre} caracteres.").ShowDialog();
+                new Avisos(string.Format(LangResources.Lang.errorTextoCampoLongitudMaxima, descripcionCampo, LongitudMaximaNombre)).ShowDialog();
                 return false;
             }
 
@@ -371,7 +372,7 @@ namespace PictionaryMusicalCliente
 
             if (_usuarioSesion == null)
             {
-                new Avisos("No hay una sesión activa para cambiar la contraseña.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoSesionInactivaCambioContrasena).ShowDialog();
                 Close();
                 return;
             }
@@ -382,7 +383,7 @@ namespace PictionaryMusicalCliente
 
             if (string.IsNullOrWhiteSpace(identificador))
             {
-                new Avisos("No se pudo determinar el usuario actual para cambiar la contraseña.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoDeterminarUsuarioCambioContrasena).ShowDialog();
                 return;
             }
 
@@ -407,14 +408,14 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos("No se pudo iniciar el proceso de cambio de contraseña. Intente nuevamente.").ShowDialog();
+                        new Avisos(LangResources.Lang.errorTextoIniciarCambioContrasena).ShowDialog();
                         return;
                     }
 
                     if (!resultado.CuentaEncontrada)
                     {
                         string mensajeCuenta = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? "No se encontró la cuenta asociada a la sesión actual."
+                            ? LangResources.Lang.errorTextoCuentaNoEncontradaSesion
                             : resultado.Mensaje;
                         new Avisos(mensajeCuenta).ShowDialog();
                         return;
@@ -423,7 +424,7 @@ namespace PictionaryMusicalCliente
                     if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenRecuperacion))
                     {
                         string mensajeCodigo = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? "No fue posible enviar el código de verificación. Intente más tarde."
+                            ? LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde
                             : resultado.Mensaje;
                         new Avisos(mensajeCodigo).ShowDialog();
                         return;
@@ -474,7 +475,7 @@ namespace PictionaryMusicalCliente
                         correoDestino,
                         ConfirmarCodigoAsync,
                         ReenviarCodigoAsync,
-                        "Ingresa el código que enviamos para confirmar el cambio de contraseña.");
+                        LangResources.Lang.avisoTextoCodigoDescripcionCambio);
 
                     ventanaVerificacion.ShowDialog();
 
@@ -493,24 +494,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al solicitar el cambio de contraseña.");
+                    LangResources.Lang.errorTextoServidorSolicitudCambioContrasena);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente nuevamente.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible procesar la solicitud de cambio de contraseña.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudCambioContrasena).ShowDialog();
             }
             finally
             {
@@ -527,7 +528,7 @@ namespace PictionaryMusicalCliente
         {
             if (_usuarioSesion == null)
             {
-                new Avisos("No hay una sesión activa para actualizar.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoSesionInactivaActualizar).ShowDialog();
                 Close();
                 return;
             }
@@ -535,13 +536,13 @@ namespace PictionaryMusicalCliente
             string nombre = bloqueTextoNombre.Text?.Trim();
             string apellido = bloqueTextoApellido.Text?.Trim();
 
-            if (!ValidarTexto(nombre, "nombre"))
+            if (!ValidarTexto(nombre, LangResources.Lang.globalTextoNombre.ToLowerInvariant()))
             {
                 bloqueTextoNombre.Focus();
                 return;
             }
 
-            if (!ValidarTexto(apellido, "apellido"))
+            if (!ValidarTexto(apellido, LangResources.Lang.globalTextoApellido.ToLowerInvariant()))
             {
                 bloqueTextoApellido.Focus();
                 return;
@@ -551,7 +552,7 @@ namespace PictionaryMusicalCliente
 
             if (avatar == null || avatar.Id <= 0)
             {
-                new Avisos("Selecciona un avatar válido antes de guardar los cambios.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoSeleccionAvatarValido).ShowDialog();
                 return;
             }
 
@@ -592,7 +593,7 @@ namespace PictionaryMusicalCliente
 
                     if (resultado == null)
                     {
-                        new Avisos("No se pudo actualizar el perfil. Intente nuevamente.").ShowDialog();
+                        new Avisos(LangResources.Lang.errorTextoActualizarPerfil).ShowDialog();
                         return;
                     }
 
@@ -605,14 +606,14 @@ namespace PictionaryMusicalCliente
                         ActualizarCampos();
 
                         string mensaje = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                            ? "Los datos del perfil se actualizaron correctamente."
+                            ? LangResources.Lang.avisoTextoPerfilActualizado
                             : resultado.Mensaje;
                         new Avisos(mensaje).ShowDialog();
                         return;
                     }
 
                     string mensajeFinal = string.IsNullOrWhiteSpace(resultado.Mensaje)
-                        ? "No fue posible actualizar el perfil."
+                        ? LangResources.Lang.errorTextoActualizarPerfil
                         : resultado.Mensaje;
                     new Avisos(mensajeFinal).ShowDialog();
                 }
@@ -621,24 +622,24 @@ namespace PictionaryMusicalCliente
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
-                    "El servidor reportó un error al actualizar el perfil.");
+                    LangResources.Lang.errorTextoServidorActualizarPerfil);
                 new Avisos(mensaje).ShowDialog();
             }
             catch (EndpointNotFoundException)
             {
-                new Avisos("No se pudo contactar al servidor. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorNoDisponible).ShowDialog();
             }
             catch (TimeoutException)
             {
-                new Avisos("El servidor tardó demasiado en responder. Intente más tarde.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoServidorTiempoAgotado).ShowDialog();
             }
             catch (CommunicationException)
             {
-                new Avisos("Ocurrió un problema de comunicación con el servidor. Intente nuevamente.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoComunicacionServidorNuevamente).ShowDialog();
             }
             catch (InvalidOperationException)
             {
-                new Avisos("No fue posible procesar la solicitud de actualización.").ShowDialog();
+                new Avisos(LangResources.Lang.errorTextoProcesarSolicitudActualizacion).ShowDialog();
             }
             finally
             {
@@ -830,7 +831,13 @@ namespace PictionaryMusicalCliente
 
             if (texto.Length > LongitudMaximaRedSocial)
             {
-                mensajeError = $"El identificador de {nombreRed ?? "la red social"} no debe exceder {LongitudMaximaRedSocial} caracteres.";
+                string descripcionRed = string.IsNullOrWhiteSpace(nombreRed)
+                    ? LangResources.Lang.avisoTextoNombreRedSocialGenerica
+                    : nombreRed;
+                mensajeError = string.Format(
+                    LangResources.Lang.errorTextoIdentificadorRedSocialLongitud,
+                    descripcionRed,
+                    LongitudMaximaRedSocial);
                 return null;
             }
 
