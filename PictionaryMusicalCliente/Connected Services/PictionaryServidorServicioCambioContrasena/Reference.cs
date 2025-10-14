@@ -234,9 +234,6 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCambioContrasena {
         private string TokenCodigoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TokenCodigoField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool UsuarioYaRegistradoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -284,19 +281,6 @@ namespace PictionaryMusicalCliente.PictionaryServidorServicioCambioContrasena {
                 if ((object.ReferenceEquals(this.MensajeField, value) != true)) {
                     this.MensajeField = value;
                     this.RaisePropertyChanged("Mensaje");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TokenCodigo {
-            get {
-                return this.TokenCodigoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokenCodigoField, value) != true)) {
-                    this.TokenCodigoField = value;
-                    this.RaisePropertyChanged("TokenCodigo");
                 }
             }
         }
