@@ -239,14 +239,20 @@ namespace Servicios.Servicios
 
             if (!_registroStore.TryGet(token, out registro))
             {
-                resultado?.Mensaje = "No se encontró una solicitud de verificación activa.";
+                if (resultado != null)
+                {
+                    resultado.Mensaje = "No se encontró una solicitud de verificación activa.";
+                }
                 return false;
             }
 
             if (registro.EstaExpirado(ahora))
             {
                 _registroStore.TryRemove(token);
-                resultado?.Mensaje = "El código de verificación ha expirado. Inicie el proceso nuevamente.";
+                if (resultado != null)
+                {
+                    resultado.Mensaje = "El código de verificación ha expirado. Inicie el proceso nuevamente.";
+                }
                 return false;
             }
 
