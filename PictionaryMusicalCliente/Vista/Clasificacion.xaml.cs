@@ -4,7 +4,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
-using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Utilidades;
 using ClasificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioClasificacion;
 
