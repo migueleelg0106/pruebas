@@ -165,6 +165,9 @@
   <data name="globalTextoNombre" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="globalTextoRedSocial" xml:space="preserve">
+    <value>Red social</value>
+  </data>
   <data name="globalTextoSeleccionarAvatar" xml:space="preserve">
     <value>Seleccionar un avatar</value>
   </data>
@@ -455,6 +458,9 @@
   </data>
   <data name="errorTextoCampoLongitudMaxima" xml:space="preserve">
     <value>El {0} no debe superar {1} caracteres.</value>
+  </data>
+  <data name="errorTextoCampoObligatorio" xml:space="preserve">
+    <value>El {0} es obligatorio.</value>
   </data>
   <data name="errorTextoCodigoIncorrectoExpirado" xml:space="preserve">
     <value>El código ingresado no es correcto o ha expirado.</value>
