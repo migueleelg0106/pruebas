@@ -40,7 +40,7 @@ namespace PictionaryMusicalCliente
 
             _tokenCodigo = tokenCodigo;
             _correoDestino = correoDestino ?? string.Empty;
-            _textoOriginalReenviar = botonReenviarCodigo.Content?.ToString() ?? LangResources.Lang.cambiarContraseñaTextoReenviarCodigo;
+            _textoOriginalReenviar = botonReenviarCodigo.Content?.ToString() ?? LangResources.Lang.cambiarContrasenaTextoReenviarCodigo;
             _temporizador = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             _temporizador.Tick += TemporizadorTick;
 

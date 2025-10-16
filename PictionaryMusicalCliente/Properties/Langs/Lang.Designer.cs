@@ -757,7 +757,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         /// </summary>
         public static string cambiarContrasenaTextoIngresaNuevaContraseña {
             get {
-                return ResourceManager.GetString("cambiarContrasenaTextoIngresaNuevaContraseña", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoIngresaNuevaContrasena", resourceCulture);
             }
         }
 
@@ -766,7 +766,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         /// </summary>
         public static string cambiarContrasenaTextoConfirmeContraseña {
             get {
-                return ResourceManager.GetString("cambiarContrasenaTextoConfirmeContraseña", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoConfirmeContrasena", resourceCulture);
             }
         }
 
