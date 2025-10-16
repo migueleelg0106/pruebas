@@ -20,12 +20,12 @@
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>[base64 mime encoded serialized .NET Framework object]</value>
-  </data>
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
-  </data>
+    </data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -150,7 +150,7 @@
   <data name="globalTextoCancelar" xml:space="preserve">
     <value>CANCELAR</value>
   </data>
-  <data name="globalTextoContraseña" xml:space="preserve">
+  <data name="globalTextoContrasena" xml:space="preserve">
     <value>Contraseña</value>
   </data>
   <data name="globalTextoCorreo" xml:space="preserve">
@@ -159,7 +159,7 @@
   <data name="globalTextoCrearCuenta" xml:space="preserve">
     <value>CREAR CUENTA</value>
   </data>
-  <data name="globalTextoEspecificaContraseña" xml:space="preserve">
+  <data name="globalTextoEspecificaContrasena" xml:space="preserve">
     <value>La contraseña debe tener mínimo 8 caracteres y máximo 15, así como contener mínimo una mayúscula, un número y un carácter especial</value>
   </data>
   <data name="globalTextoNombre" xml:space="preserve">
@@ -190,7 +190,7 @@
     <value>ENTRAR COMO INVITADO
 (¡EL PROGRESO NO SE GUARDARÁ!)</value>
   </data>
-  <data name="inicioSesionTextoOlvidasteContraseña" xml:space="preserve">
+  <data name="inicioSesionTextoOlvidasteContrasena" xml:space="preserve">
     <value>¿Olvidaste tu contraseña?</value>
   </data>
   <data name="TagEspañol" xml:space="preserve">
@@ -350,7 +350,7 @@ aciertan o cuando se acaba el tiempo.
   <data name="perfilTextoRedesSociales" xml:space="preserve">
     <value>Agrega alguna red social:</value>
   </data>
-  <data name="perfilTextoCambiarContraseña" xml:space="preserve">
+  <data name="perfilTextoCambiarContrasena" xml:space="preserve">
     <value>CAMBIAR CONTRASEÑA</value>
   </data>
   <data name="perfilTextoGuardarCambios" xml:space="preserve">

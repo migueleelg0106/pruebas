@@ -137,7 +137,7 @@
                         </ItemsControl>
                     </StackPanel>
 
-                    <Button Grid.Row="2" Grid.Column="1" Content="{x:Static language:Lang.perfilTextoCambiarContraseña}" 
+                    <Button Grid.Row="2" Grid.Column="1" Content="{x:Static language:Lang.perfilTextoCambiarContrasena}" 
                             FontFamily="Comic Sans MS" Margin="10,0,0,0"
                             Background="White" BorderBrush="Black" Height="45" VerticalAlignment="Bottom" Click="BotonCambiarContraseña"/>
                 </Grid>

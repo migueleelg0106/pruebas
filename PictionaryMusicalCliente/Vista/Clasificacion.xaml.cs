@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using PictionaryMusicalCliente.Utilidades;
 using ClasificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioClasificacion;
+using PictionaryMusicalCliente.Servicios;
 
 namespace PictionaryMusicalCliente
 {

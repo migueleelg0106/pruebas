@@ -756,7 +756,7 @@ namespace PictionaryMusicalCliente
             if (!ValidacionEntradaHelper.TieneLongitudValidaRedSocial(texto))
             {
                 string descripcionRed = string.IsNullOrWhiteSpace(nombreRed)
-                    ? LangResources.Lang.avisoTextoNombreRedSocialGenerica
+                    ? LangResources.Lang.errorTextoCampoLongitudMaxima
                     : nombreRed;
                 mensajeError = string.Format(
                     LangResources.Lang.errorTextoIdentificadorRedSocialLongitud,
