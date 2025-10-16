@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Práctica_WPF_con_Entity_Framework.Properties.Langs {
+namespace PictionaryMusicalCliente.Properties.Langs {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Práctica_WPF_con_Entity_Framework.Properties.Langs {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Práctica_WPF_con_Entity_Framework.Properties.Langs.Lang", typeof(Lang).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PictionaryMusicalCliente.Properties.Langs.Lang", typeof(Lang).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
