@@ -3,10 +3,10 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using PictionaryMusicalCliente.Modelo;
-using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
+using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
+using ReenvioSrv = PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion;
 
 namespace PictionaryMusicalCliente
 {
@@ -16,8 +16,8 @@ namespace PictionaryMusicalCliente
         private readonly string _correoDestino;
         private readonly string _textoOriginalReenviar;
         private readonly DispatcherTimer _temporizador;
-        private readonly Func<string, Task<ResultadoOperacion>> _confirmarCodigoFunc;
-        private readonly Func<Task<ResultadoSolicitudCodigo>> _solicitarReenvioFunc;
+        private readonly Func<string, Task<ConfirmacionResultado>> _confirmarCodigoFunc;
+        private readonly Func<Task<ReenvioResultado>> _solicitarReenvioFunc;
         private readonly string _descripcionPersonalizada;
         private DateTime _siguienteReenvioPermitido;
 
@@ -27,8 +27,8 @@ namespace PictionaryMusicalCliente
         public VerificarCodigo(
             string tokenCodigo,
             string correoDestino,
-            Func<string, Task<ResultadoOperacion>> confirmarCodigoAsync = null,
-            Func<Task<ResultadoSolicitudCodigo>> reenviarCodigoAsync = null,
+            Func<string, Task<ConfirmacionResultado>> confirmarCodigoAsync = null,
+            Func<Task<ReenvioResultado>> reenviarCodigoAsync = null,
             string descripcionPersonalizada = null)
         {
             if (string.IsNullOrWhiteSpace(tokenCodigo))
@@ -90,7 +90,7 @@ namespace PictionaryMusicalCliente
                     return;
                 }
 
-                ResultadoOperacion resultado = await _confirmarCodigoFunc(codigoIngresado);
+                ConfirmacionResultado resultado = await _confirmarCodigoFunc(codigoIngresado);
 
                 if (resultado == null)
                 {
@@ -115,7 +115,7 @@ namespace PictionaryMusicalCliente
 
                 AvisoHelper.Mostrar(mensajeError);
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -157,49 +157,35 @@ namespace PictionaryMusicalCliente
             Close();
         }
 
-        private async Task<ResultadoOperacion> ConfirmarCodigoRegistroAsync(string codigo)
+        private async Task<ConfirmacionResultado> ConfirmarCodigoRegistroAsync(string codigo)
         {
-            ResultadoRegistroCuenta resultado = await ConfirmarCodigoRegistroCoreAsync(codigo);
+            CodigoVerificacionSrv.ResultadoRegistroCuentaDTO resultado = await CodigoVerificacionServicioHelper.ConfirmarCodigoRegistroAsync(
+                _tokenCodigo,
+                codigo);
 
             if (resultado == null)
             {
                 return null;
             }
 
-            return new ResultadoOperacion
-            {
-                OperacionExitosa = resultado.RegistroExitoso,
-                Mensaje = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    resultado.RegistroExitoso ? LangResources.Lang.avisoTextoRegistroCompletado : null)
-            };
+            return new ConfirmacionResultado(
+                resultado.RegistroExitoso,
+                resultado.Mensaje);
         }
 
-        private async Task<ResultadoRegistroCuenta> ConfirmarCodigoRegistroCoreAsync(string codigo)
+        private async Task<ReenvioResultado> ReenviarCodigoRegistroAsync()
         {
-            using (var proxy = new ServidorProxy())
+            ReenvioSrv.ResultadoSolicitudCodigoDTO resultado = await CodigoVerificacionServicioHelper.ReenviarCodigoRegistroAsync(_tokenCodigo);
+
+            if (resultado == null)
             {
-                var solicitud = new SolicitudConfirmarCodigo
-                {
-                    TokenCodigo = _tokenCodigo,
-                    Codigo = codigo
-                };
-
-                return await proxy.ConfirmarCodigoVerificacionAsync(solicitud);
+                return null;
             }
-        }
 
-        private async Task<ResultadoSolicitudCodigo> ReenviarCodigoRegistroAsync()
-        {
-            using (var proxy = new ServidorProxy())
-            {
-                var solicitud = new SolicitudReenviarCodigo
-                {
-                    TokenCodigo = _tokenCodigo
-                };
-
-                return await proxy.ReenviarCodigoVerificacionAsync(solicitud);
-            }
+            return new ReenvioResultado(
+                resultado.CodigoEnviado,
+                resultado.Mensaje,
+                resultado.TokenCodigo);
         }
 
         private async Task ManejarReenvioCodigoAsync()
@@ -213,7 +199,7 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                ResultadoSolicitudCodigo resultado = await _solicitarReenvioFunc();
+                ReenvioResultado resultado = await _solicitarReenvioFunc();
 
                 if (resultado == null)
                 {
@@ -242,7 +228,7 @@ namespace PictionaryMusicalCliente
 
                 AvisoHelper.Mostrar(mensajeError);
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -310,6 +296,32 @@ namespace PictionaryMusicalCliente
             {
                 _temporizador.Start();
             }
+        }
+
+        public sealed class ConfirmacionResultado
+        {
+            public ConfirmacionResultado(bool operacionExitosa, string mensaje)
+            {
+                OperacionExitosa = operacionExitosa;
+                Mensaje = mensaje;
+            }
+
+            public bool OperacionExitosa { get; }
+            public string Mensaje { get; }
+        }
+
+        public sealed class ReenvioResultado
+        {
+            public ReenvioResultado(bool codigoEnviado, string mensaje, string tokenCodigo)
+            {
+                CodigoEnviado = codigoEnviado;
+                Mensaje = mensaje;
+                TokenCodigo = tokenCodigo;
+            }
+
+            public bool CodigoEnviado { get; }
+            public string Mensaje { get; }
+            public string TokenCodigo { get; }
         }
     }
 }

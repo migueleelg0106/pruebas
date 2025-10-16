@@ -8,8 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Properties.Langs;
-using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Utilidades;
+using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;
+using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
 
 namespace PictionaryMusicalCliente
 {
@@ -89,26 +90,23 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            var solicitud = new SolicitudRegistrarUsuario
+            var solicitud = new CodigoVerificacionSrv.NuevaCuentaDTO
             {
                 Usuario = usuario,
                 Correo = correo,
                 Nombre = nombre,
                 Apellido = apellido,
-                ContrasenaPlano = contrasena,
+                Contrasena = contrasena,
                 AvatarId = avatarId.Value
             };
 
-            ResultadoSolicitudCodigo resultadoCodigo;
+            CodigoVerificacionSrv.ResultadoSolicitudCodigoDTO resultadoCodigo;
 
             try
             {
-                using (var proxy = new ServidorProxy())
-                {
-                    resultadoCodigo = await proxy.SolicitarCodigoVerificacionAsync(solicitud);
-                }
+                resultadoCodigo = await CodigoVerificacionServicioHelper.SolicitarCodigoRegistroAsync(solicitud);
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -253,28 +251,28 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                using (var proxy = new ServidorProxy())
+                var cliente = new AvataresSrv.CatalogoAvataresClient("BasicHttpBinding_ICatalogoAvatares");
+                AvataresSrv.AvatarDTO[] avatares = await WcfClientHelper.UsarAsync(
+                    cliente,
+                    c => c.ObtenerAvataresDisponiblesAsync());
+
+                if (avatares == null)
                 {
-                    var avatares = await proxy.ObtenerAvataresAsync();
+                    return null;
+                }
 
-                    if (avatares == null)
+                foreach (AvataresSrv.AvatarDTO avatar in avatares)
+                {
+                    string rutaAvatar = NormalizarRutaParaComparacion(avatar?.RutaRelativa);
+
+                    if (!string.IsNullOrEmpty(rutaAvatar)
+                        && string.Equals(rutaAvatar, rutaSeleccionada, StringComparison.OrdinalIgnoreCase))
                     {
-                        return null;
-                    }
-
-                    foreach (ObjetoAvatar avatar in avatares)
-                    {
-                        string rutaAvatar = NormalizarRutaParaComparacion(avatar.RutaRelativa);
-
-                        if (!string.IsNullOrEmpty(rutaAvatar)
-                            && string.Equals(rutaAvatar, rutaSeleccionada, StringComparison.OrdinalIgnoreCase))
-                        {
-                            return avatar.Id;
-                        }
+                        return avatar.Id;
                     }
                 }
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,

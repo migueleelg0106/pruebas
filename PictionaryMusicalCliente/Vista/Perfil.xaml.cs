@@ -14,9 +14,12 @@ using System.Text;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
-using PictionaryMusicalCliente.Servicios;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
+using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;
+using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
+using ReenvioSrv = PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion;
+using PerfilSrv = PictionaryMusicalCliente.PictionaryServidorServicioPerfil;
 
 namespace PictionaryMusicalCliente
 {
@@ -63,10 +66,14 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                using (var proxy = new ServidorProxy())
-                {
-                    UsuarioAutenticado perfilActualizado = await proxy.ObtenerPerfilAsync(_usuarioSesion.IdUsuario);
+                var cliente = new PerfilSrv.PerfilManejadorClient("BasicHttpBinding_IPerfilManejador");
+                PerfilSrv.UsuarioDTO perfilDto = await WcfClientHelper.UsarAsync(
+                    cliente,
+                    c => c.ObtenerPerfilAsync(_usuarioSesion.IdUsuario));
 
+                if (perfilDto != null)
+                {
+                    UsuarioAutenticado perfilActualizado = UsuarioMapper.CrearDesde(perfilDto);
                     if (perfilActualizado != null)
                     {
                         SesionUsuarioActual.Instancia.EstablecerUsuario(perfilActualizado);
@@ -74,7 +81,7 @@ namespace PictionaryMusicalCliente
                     }
                 }
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -114,23 +121,25 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                using (var proxy = new ServidorProxy())
+                var cliente = new AvataresSrv.CatalogoAvataresClient("BasicHttpBinding_ICatalogoAvatares");
+                AvataresSrv.AvatarDTO[] avataresServidor = await WcfClientHelper.UsarAsync(
+                    cliente,
+                    c => c.ObtenerAvataresDisponiblesAsync());
+
+                IReadOnlyList<ObjetoAvatar> avataresRemotos = AvatarServicioHelper.Convertir(avataresServidor);
+
+                if (avataresRemotos != null && avataresRemotos.Count > 0)
                 {
-                    List<ObjetoAvatar> avataresServidor = await proxy.ObtenerAvataresAsync();
+                    IReadOnlyList<ObjetoAvatar> avataresSincronizados = SincronizarCatalogoLocal(avataresRemotos, avataresLocales);
 
-                    if (avataresServidor != null && avataresServidor.Count > 0)
+                    if (avataresSincronizados != null && avataresSincronizados.Count > 0)
                     {
-                        IReadOnlyList<ObjetoAvatar> avataresSincronizados = SincronizarCatalogoLocal(avataresServidor, avataresLocales);
-
-                        if (avataresSincronizados != null && avataresSincronizados.Count > 0)
-                        {
-                            _catalogoAvatares = avataresSincronizados;
-                            return;
-                        }
+                        _catalogoAvatares = avataresSincronizados;
+                        return;
                     }
                 }
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -398,93 +407,95 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                using (var proxy = new ServidorProxy())
+                CodigoVerificacionSrv.ResultadoSolicitudRecuperacionDTO resultado = await CodigoVerificacionServicioHelper.SolicitarCodigoRecuperacionAsync(identificador);
+
+                if (resultado == null)
                 {
-                    var solicitud = new SolicitudRecuperarCuenta
-                    {
-                        Identificador = identificador
-                    };
+                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoIniciarCambioContrasena);
+                    return;
+                }
 
-                    ResultadoSolicitudRecuperacion resultado = await proxy.SolicitarCodigoRecuperacionAsync(solicitud);
+                if (!resultado.CuentaEncontrada)
+                {
+                    string mensajeCuenta = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
+                    AvisoHelper.Mostrar(mensajeCuenta);
+                    return;
+                }
 
-                    if (resultado == null)
-                    {
-                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoIniciarCambioContrasena);
-                        return;
-                    }
+                if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenCodigo))
+                {
+                    string mensajeCodigo = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde);
+                    AvisoHelper.Mostrar(mensajeCodigo);
+                    return;
+                }
 
-                    if (!resultado.CuentaEncontrada)
-                    {
-                        string mensajeCuenta = MensajeServidorHelper.Localizar(
-                            resultado.Mensaje,
-                            LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
-                        AvisoHelper.Mostrar(mensajeCuenta);
-                        return;
-                    }
+                string tokenCodigo = resultado.TokenCodigo;
+                string correoDestino = resultado.CorreoDestino;
 
-                    if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenCodigo))
-                    {
-                        string mensajeCodigo = MensajeServidorHelper.Localizar(
-                            resultado.Mensaje,
-                            LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde);
-                        AvisoHelper.Mostrar(mensajeCodigo);
-                        return;
-                    }
-
-                    string tokenCodigo = resultado.TokenCodigo;
-                    string correoDestino = resultado.CorreoDestino;
-
-                    async Task<ResultadoOperacion> ConfirmarCodigoAsync(string codigo)
-                    {
-                        var confirmacion = new SolicitudConfirmarCodigo
-                        {
-                            TokenCodigo = tokenCodigo,
-                            Codigo = codigo
-                        };
-
-                        return await proxy.ConfirmarCodigoRecuperacionAsync(confirmacion);
-                    }
-
-                    async Task<ResultadoSolicitudCodigo> ReenviarCodigoAsync()
-                    {
-                        var reenvio = new SolicitudReenviarCodigo
-                        {
-                            TokenCodigo = tokenCodigo
-                        };
-
-                        ResultadoSolicitudCodigo resultadoReenvio = await proxy.ReenviarCodigoRecuperacionAsync(reenvio);
-
-                        if (resultadoReenvio != null && !string.IsNullOrWhiteSpace(resultadoReenvio.TokenCodigo))
-                        {
-                            tokenCodigo = resultadoReenvio.TokenCodigo;
-                        }
-
-                        return resultadoReenvio;
-                    }
-
-                    Mouse.OverrideCursor = null;
-
-                    var ventanaVerificacion = new VerificarCodigo(
+                async Task<VerificarCodigo.ConfirmacionResultado> ConfirmarCodigoAsync(string codigo)
+                {
+                    CodigoVerificacionSrv.ResultadoOperacionDTO resultadoConfirmacion = await CodigoVerificacionServicioHelper.ConfirmarCodigoRecuperacionAsync(
                         tokenCodigo,
-                        correoDestino,
-                        ConfirmarCodigoAsync,
-                        ReenviarCodigoAsync,
-                        LangResources.Lang.avisoTextoCodigoDescripcionCambio);
+                        codigo);
 
-                    ventanaVerificacion.ShowDialog();
-
-                    if (!ventanaVerificacion.OperacionCompletada)
+                    if (resultadoConfirmacion == null)
                     {
-                        return;
+                        return null;
                     }
 
-                    Mouse.OverrideCursor = null;
+                    return new VerificarCodigo.ConfirmacionResultado(
+                        resultadoConfirmacion.OperacionExitosa,
+                        resultadoConfirmacion.Mensaje);
+                }
 
-                    var ventanaCambio = new CambioContrasena(tokenCodigo, identificador);
-                    ventanaCambio.ShowDialog();
+                async Task<VerificarCodigo.ReenvioResultado> ReenviarCodigoAsync()
+                {
+                    ReenvioSrv.ResultadoSolicitudCodigoDTO resultadoReenvio = await CodigoVerificacionServicioHelper.ReenviarCodigoRecuperacionAsync(tokenCodigo);
+
+                    if (resultadoReenvio != null && !string.IsNullOrWhiteSpace(resultadoReenvio.TokenCodigo))
+                    {
+                        tokenCodigo = resultadoReenvio.TokenCodigo;
+                    }
+
+                    return resultadoReenvio == null
+                        ? null
+                        : new VerificarCodigo.ReenvioResultado(
+                            resultadoReenvio.CodigoEnviado,
+                            resultadoReenvio.Mensaje,
+                            resultadoReenvio.TokenCodigo);
+                }
+
+                Mouse.OverrideCursor = null;
+
+                var ventanaVerificacion = new VerificarCodigo(
+                    tokenCodigo,
+                    correoDestino,
+                    ConfirmarCodigoAsync,
+                    ReenviarCodigoAsync,
+                    LangResources.Lang.avisoTextoCodigoDescripcionCambio);
+
+                ventanaVerificacion.ShowDialog();
+
+                if (!ventanaVerificacion.OperacionCompletada)
+                {
+                    return;
+                }
+
+                var ventanaCambio = new CambioContrasena(tokenCodigo, identificador);
+                bool? resultadoCambio = ventanaCambio.ShowDialog();
+
+                if (ventanaCambio.ContrasenaActualizada || resultadoCambio == true)
+                {
+                    bloqueContrasenaActual.Clear();
+                    bloqueContrasenaNueva.Clear();
+                    bloqueContrasenaConfirmacion.Clear();
                 }
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
@@ -573,7 +584,7 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            var solicitud = new SolicitudActualizarPerfil
+            var solicitud = new PerfilSrv.ActualizarPerfilDTO
             {
                 UsuarioId = _usuarioSesion.IdUsuario,
                 Nombre = nombre,
@@ -595,38 +606,38 @@ namespace PictionaryMusicalCliente
 
             try
             {
-                using (var proxy = new ServidorProxy())
+                var cliente = new PerfilSrv.PerfilManejadorClient("BasicHttpBinding_IPerfilManejador");
+                PerfilSrv.ResultadoOperacionDTO resultado = await WcfClientHelper.UsarAsync(
+                    cliente,
+                    c => c.ActualizarPerfilAsync(solicitud));
+
+                if (resultado == null)
                 {
-                    ResultadoOperacion resultado = await proxy.ActualizarPerfilAsync(solicitud);
-
-                    if (resultado == null)
-                    {
-                        AvisoHelper.Mostrar(LangResources.Lang.errorTextoActualizarPerfil);
-                        return;
-                    }
-
-                    if (resultado.OperacionExitosa)
-                    {
-                        SesionUsuarioActual.Instancia.ActualizarDatosPersonales(nombre, apellido, solicitud.AvatarId, instagram, facebook, x, discord);
-                        _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
-                        _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? avatar;
-                        _avatarSeleccionado = _avatarActual;
-                        ActualizarCampos();
-
-                        string mensaje = MensajeServidorHelper.Localizar(
-                            resultado.Mensaje,
-                            LangResources.Lang.avisoTextoPerfilActualizado);
-                        AvisoHelper.Mostrar(mensaje);
-                        return;
-                    }
-
-                    string mensajeFinal = MensajeServidorHelper.Localizar(
-                        resultado.Mensaje,
-                        LangResources.Lang.errorTextoActualizarPerfil);
-                    AvisoHelper.Mostrar(mensajeFinal);
+                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoActualizarPerfil);
+                    return;
                 }
+
+                if (resultado.OperacionExitosa)
+                {
+                    SesionUsuarioActual.Instancia.ActualizarDatosPersonales(nombre, apellido, solicitud.AvatarId, instagram, facebook, x, discord);
+                    _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
+                    _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? avatar;
+                    _avatarSeleccionado = _avatarActual;
+                    ActualizarCampos();
+
+                    string mensaje = MensajeServidorHelper.Localizar(
+                        resultado.Mensaje,
+                        LangResources.Lang.avisoTextoPerfilActualizado);
+                    AvisoHelper.Mostrar(mensaje);
+                    return;
+                }
+
+                string mensajeFinal = MensajeServidorHelper.Localizar(
+                    resultado.Mensaje,
+                    LangResources.Lang.errorTextoActualizarPerfil);
+                AvisoHelper.Mostrar(mensajeFinal);
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
