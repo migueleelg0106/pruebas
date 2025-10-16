@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using System.Text;
 using PictionaryMusicalCliente.Modelo;
@@ -386,8 +385,8 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            RestablecerEstadoCampo(bloqueTextoNombre);
-            RestablecerEstadoCampo(bloqueTextoApellido);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
 
             string nombre = bloqueTextoNombre.Text?.Trim();
             string apellido = bloqueTextoApellido.Text?.Trim();
@@ -401,7 +400,7 @@ namespace PictionaryMusicalCliente
                     nombre,
                     LangResources.Lang.globalTextoNombre.ToLowerInvariant()))
             {
-                MarcarCampoInvalido(bloqueTextoNombre);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
                 bloqueTextoNombre.Focus();
                 return;
             }
@@ -410,7 +409,7 @@ namespace PictionaryMusicalCliente
                     apellido,
                     LangResources.Lang.globalTextoApellido.ToLowerInvariant()))
             {
-                MarcarCampoInvalido(bloqueTextoApellido);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
                 bloqueTextoApellido.Focus();
                 return;
             }
@@ -711,7 +710,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoNombre;
                 }
-                MarcarCampoInvalido(bloqueTextoNombre);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
@@ -721,7 +720,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoApellido;
                 }
-                MarcarCampoInvalido(bloqueTextoApellido);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
             }
 
             if (hayError)
@@ -732,28 +731,6 @@ namespace PictionaryMusicalCliente
             }
 
             return true;
-        }
-
-        private static void RestablecerEstadoCampo(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.ClearValue(Control.BorderBrushProperty);
-            control.ClearValue(Control.BorderThicknessProperty);
-        }
-
-        private static void MarcarCampoInvalido(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.BorderBrush = Brushes.Red;
-            control.BorderThickness = new Thickness(2);
         }
 
         private void EtiquetaSeleccionarAvatar(object sender, MouseButtonEventArgs e)
