@@ -355,27 +355,6 @@ namespace PictionaryMusicalCliente
             return _catalogoAvatares?.FirstOrDefault(a => a.Id == avatarId);
         }
 
-        private static bool ValidarTexto(
-            string valor,
-            string descripcionCampo)
-        {
-            if (string.IsNullOrWhiteSpace(valor))
-            {
-                return false;
-            }
-
-            if (!ValidacionEntradaHelper.TieneLongitudValidaNombre(valor))
-            {
-                AvisoHelper.Mostrar(string.Format(
-                    LangResources.Lang.errorTextoCampoLongitudMaxima,
-                    descripcionCampo,
-                    ValidacionEntradaHelper.LongitudMaximaNombre));
-                return false;
-            }
-
-            return true;
-        }
-
         private async void BotonGuardarCambios(object sender, RoutedEventArgs e)
         {
             if (_usuarioSesion == null)
@@ -388,31 +367,29 @@ namespace PictionaryMusicalCliente
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
 
-            string nombre = bloqueTextoNombre.Text?.Trim();
-            string apellido = bloqueTextoApellido.Text?.Trim();
+            ValidacionEntradaHelper.ResultadoValidacion resultadoNombre = ValidacionEntradaHelper.ValidarNombre(bloqueTextoNombre.Text);
 
-            if (!ValidarCamposObligatoriosPerfil(nombre, apellido))
-            {
-                return;
-            }
-
-            if (!ValidarTexto(
-                    nombre,
-                    LangResources.Lang.globalTextoNombre.ToLowerInvariant()))
+            if (!resultadoNombre.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
+                AvisoHelper.Mostrar(resultadoNombre.MensajeError);
                 bloqueTextoNombre.Focus();
                 return;
             }
 
-            if (!ValidarTexto(
-                    apellido,
-                    LangResources.Lang.globalTextoApellido.ToLowerInvariant()))
+            string nombre = resultadoNombre.ValorNormalizado;
+
+            ValidacionEntradaHelper.ResultadoValidacion resultadoApellido = ValidacionEntradaHelper.ValidarApellido(bloqueTextoApellido.Text);
+
+            if (!resultadoApellido.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
+                AvisoHelper.Mostrar(resultadoApellido.MensajeError);
                 bloqueTextoApellido.Focus();
                 return;
             }
+
+            string apellido = resultadoApellido.ValorNormalizado;
 
             ObjetoAvatar avatar = _avatarSeleccionado ?? _avatarActual;
 
@@ -698,41 +675,6 @@ namespace PictionaryMusicalCliente
             Close();
         }
 
-        private bool ValidarCamposObligatoriosPerfil(string nombre, string apellido)
-        {
-            bool hayError = false;
-            Control primerCampo = null;
-
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoNombre;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
-            }
-
-            if (string.IsNullOrWhiteSpace(apellido))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoApellido;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
-            }
-
-            if (hayError)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
-                primerCampo?.Focus();
-                return false;
-            }
-
-            return true;
-        }
-
         private void EtiquetaSeleccionarAvatar(object sender, MouseButtonEventArgs e)
         {
             IReadOnlyCollection<ObjetoAvatar> catalogo = _catalogoAvatares ?? CatalogoAvataresLocales.ObtenerAvatares();
@@ -881,43 +823,16 @@ namespace PictionaryMusicalCliente
 
         private static string PrepararValorRedSocial(string identificador, string nombreRed, out string mensajeError)
         {
+            ValidacionEntradaHelper.ResultadoValidacion resultado = ValidacionEntradaHelper.ValidarRedSocial(identificador, nombreRed);
+
+            if (!resultado.EsValido)
+            {
+                mensajeError = resultado.MensajeError;
+                return null;
+            }
+
             mensajeError = null;
-
-            if (string.IsNullOrWhiteSpace(identificador))
-            {
-                return null;
-            }
-
-            string texto = identificador.Trim();
-
-            if (string.Equals(texto, "@", StringComparison.Ordinal))
-            {
-                return null;
-            }
-
-            if (texto.StartsWith("@", StringComparison.Ordinal))
-            {
-                string contenido = texto.Substring(1);
-
-                if (string.IsNullOrWhiteSpace(contenido))
-                {
-                    return null;
-                }
-            }
-
-            if (!ValidacionEntradaHelper.TieneLongitudValidaRedSocial(texto))
-            {
-                string descripcionRed = string.IsNullOrWhiteSpace(nombreRed)
-                    ? LangResources.Lang.errorTextoCampoLongitudMaxima
-                    : nombreRed;
-                mensajeError = string.Format(
-                    LangResources.Lang.errorTextoIdentificadorRedSocialLongitud,
-                    descripcionRed,
-                    ValidacionEntradaHelper.LongitudMaximaRedSocial);
-                return null;
-            }
-
-            return texto;
+            return resultado.ValorNormalizado;
         }
 
         private sealed class CambioContrasenaContexto

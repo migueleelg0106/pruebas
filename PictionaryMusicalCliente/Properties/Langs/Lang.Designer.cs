@@ -437,7 +437,16 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("errorTextoCampoLongitudMaxima", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a El {0} es obligatorio..
+        /// </summary>
+        public static string errorTextoCampoObligatorio {
+            get {
+                return ResourceManager.GetString("errorTextoCampoObligatorio", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a Hay datos inválidos o campos vacíos, por favor verifique sus datos..
         /// </summary>
@@ -1175,7 +1184,16 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("globalTextoNombre", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Red social.
+        /// </summary>
+        public static string globalTextoRedSocial {
+            get {
+                return ResourceManager.GetString("globalTextoRedSocial", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a REGRESAR.
         /// </summary>

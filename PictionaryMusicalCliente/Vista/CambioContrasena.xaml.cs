@@ -45,22 +45,16 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            if (!ValidacionEntradaHelper.EsContrasenaValida(nuevaContrasena))
+            ValidacionEntradaHelper.ResultadoValidacion resultadoContrasena = ValidacionEntradaHelper.ValidarContrasena(nuevaContrasena);
+
+            if (!resultadoContrasena.EsValido)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoContrasenaFormato);
+                AvisoHelper.Mostrar(resultadoContrasena.MensajeError);
                 bloqueContrasenaNueva.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(nuevaContrasena))
-            {
-                AvisoHelper.Mostrar(string.Format(
-                    LangResources.Lang.errorTextoCampoLongitudMaxima,
-                    LangResources.Lang.globalTextoContrasena.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaContrasena));
-                bloqueContrasenaNueva.Focus();
-                return;
-            }
+            nuevaContrasena = resultadoContrasena.ValorNormalizado;
 
             botonConfirmarContrasena.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;

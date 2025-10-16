@@ -34,12 +34,6 @@ namespace PictionaryMusicalCliente
 
         private async void Boton_CrearCuenta(object sender, RoutedEventArgs e)
         {
-            string usuario = bloqueTextoUsuario.Text?.Trim();
-            string correo = bloqueTextoCorreo.Text?.Trim();
-            string nombre = bloqueTextoNombre.Text?.Trim();
-            string apellido = bloqueTextoApellido.Text?.Trim();
-            string contrasena = bloqueContrasenaContrasena.Password;
-
             textoErrorUsuario.Visibility = Visibility.Collapsed;
             textoErrorCorreo.Visibility = Visibility.Collapsed;
 
@@ -49,81 +43,65 @@ namespace PictionaryMusicalCliente
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
             ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaContrasena);
 
-            if (!ValidarCamposObligatorios(usuario, correo, nombre, apellido, contrasena))
-            {
-                return;
-            }
+            ValidacionEntradaHelper.ResultadoValidacion resultadoUsuario = ValidacionEntradaHelper.ValidarUsuario(bloqueTextoUsuario.Text);
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(usuario))
+            if (!resultadoUsuario.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-                AvisoHelper.Mostrar(string.Format(
-                    Lang.errorTextoCampoLongitudMaxima,
-                    Lang.globalTextoUsuario.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaNombreUsuario));
+                AvisoHelper.Mostrar(resultadoUsuario.MensajeError);
                 bloqueTextoUsuario.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaNombre(nombre))
+            string usuario = resultadoUsuario.ValorNormalizado;
+
+            ValidacionEntradaHelper.ResultadoValidacion resultadoNombre = ValidacionEntradaHelper.ValidarNombre(bloqueTextoNombre.Text);
+
+            if (!resultadoNombre.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
-                AvisoHelper.Mostrar(string.Format(
-                    Lang.errorTextoCampoLongitudMaxima,
-                    Lang.globalTextoNombre.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaNombre));
+                AvisoHelper.Mostrar(resultadoNombre.MensajeError);
                 bloqueTextoNombre.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaApellido(apellido))
+            string nombre = resultadoNombre.ValorNormalizado;
+
+            ValidacionEntradaHelper.ResultadoValidacion resultadoApellido = ValidacionEntradaHelper.ValidarApellido(bloqueTextoApellido.Text);
+
+            if (!resultadoApellido.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
-                AvisoHelper.Mostrar(string.Format(
-                    Lang.errorTextoCampoLongitudMaxima,
-                    Lang.globalTextoApellido.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaApellido));
+                AvisoHelper.Mostrar(resultadoApellido.MensajeError);
                 bloqueTextoApellido.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(correo))
+            string apellido = resultadoApellido.ValorNormalizado;
+
+            ValidacionEntradaHelper.ResultadoValidacion resultadoCorreo = ValidacionEntradaHelper.ValidarCorreo(bloqueTextoCorreo.Text);
+
+            if (!resultadoCorreo.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
-                AvisoHelper.Mostrar(string.Format(
-                    Lang.errorTextoCampoLongitudMaxima,
-                    Lang.globalTextoCorreo.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaCorreo));
+                AvisoHelper.Mostrar(resultadoCorreo.MensajeError);
                 bloqueTextoCorreo.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.EsCorreoValido(correo))
-            {
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
-                AvisoHelper.Mostrar(Lang.errorTextoCorreoInvalido);
-                bloqueTextoCorreo.Focus();
-                return;
-            }
+            string correo = resultadoCorreo.ValorNormalizado;
 
-            if (!ValidacionEntradaHelper.EsContrasenaValida(contrasena))
+            ValidacionEntradaHelper.ResultadoValidacion resultadoContrasena = ValidacionEntradaHelper.ValidarContrasena(bloqueContrasenaContrasena.Password);
+
+            if (!resultadoContrasena.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
-                AvisoHelper.Mostrar(Lang.errorTextoContrasenaFormato);
+                AvisoHelper.Mostrar(resultadoContrasena.MensajeError);
                 bloqueContrasenaContrasena.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
-            {
-                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
-                AvisoHelper.Mostrar(string.Format(
-                    Lang.errorTextoCampoLongitudMaxima,
-                    Lang.globalTextoContrasena.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaContrasena));
-                bloqueContrasenaContrasena.Focus();
-                return;
-            }
+            string contrasena = resultadoContrasena.ValorNormalizado;
 
             if (_avatarSeleccionado == null)
             {
@@ -211,71 +189,6 @@ namespace PictionaryMusicalCliente
         }
 
         private void Boton_Cancelar(object sender, RoutedEventArgs e) => Close();
-
-        private bool ValidarCamposObligatorios(string usuario, string correo, string nombre, string apellido, string contrasena)
-        {
-            bool hayError = false;
-            Control primerCampo = null;
-
-            if (string.IsNullOrWhiteSpace(usuario))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoUsuario;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-            }
-
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoNombre;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
-            }
-
-            if (string.IsNullOrWhiteSpace(apellido))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoApellido;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
-            }
-
-            if (string.IsNullOrWhiteSpace(correo))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueTextoCorreo;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
-            }
-
-            if (string.IsNullOrWhiteSpace(contrasena))
-            {
-                hayError = true;
-                if (primerCampo == null)
-                {
-                    primerCampo = bloqueContrasenaContrasena;
-                }
-                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
-            }
-
-            if (hayError)
-            {
-                AvisoHelper.Mostrar(Lang.errorTextoCamposInvalidosGenerico);
-                primerCampo?.Focus();
-                return false;
-            }
-
-            return true;
-        }
 
         private void MostrarAvatarSeleccionado()
         {

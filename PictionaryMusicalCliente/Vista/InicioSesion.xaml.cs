@@ -49,68 +49,31 @@ namespace PictionaryMusicalCliente
 
         private async void BotonEntrar(object sender, RoutedEventArgs e)
         {
-            string identificador = bloqueTextoUsuario.Text;
-            string contrasena = bloqueContrasenaContrasena.Password;
-
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
             ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaContrasena);
+            ValidacionEntradaHelper.ResultadoValidacion resultadoIdentificador = ValidacionEntradaHelper.ValidarIdentificadorInicioSesion(bloqueTextoUsuario.Text);
 
-            bool hayCamposInvalidos = false;
-
-            string identificadorNormalizado = identificador?.Trim();
-
-            if (!ValidacionEntradaHelper.EsCampoObligatorioValido(identificadorNormalizado))
-            {
-                hayCamposInvalidos = true;
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-            }
-
-            if (!ValidacionEntradaHelper.EsCampoObligatorioValido(contrasena))
-            {
-                hayCamposInvalidos = true;
-                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
-            }
-
-            if (hayCamposInvalidos)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(identificadorNormalizado) && identificadorNormalizado.Contains("@"))
-            {
-                if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(identificadorNormalizado))
-                {
-                    ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-                    AvisoHelper.Mostrar(string.Format(
-                        LangResources.Lang.errorTextoCampoLongitudMaxima,
-                        LangResources.Lang.globalTextoCorreo.ToLowerInvariant(),
-                        ValidacionEntradaHelper.LongitudMaximaCorreo));
-                    bloqueTextoUsuario.Focus();
-                    return;
-                }
-            }
-            else if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(identificadorNormalizado))
+            if (!resultadoIdentificador.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-                AvisoHelper.Mostrar(string.Format(
-                    LangResources.Lang.errorTextoCampoLongitudMaxima,
-                    LangResources.Lang.globalTextoUsuario.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaNombreUsuario));
+                AvisoHelper.Mostrar(resultadoIdentificador.MensajeError);
                 bloqueTextoUsuario.Focus();
                 return;
             }
 
-            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
+            string identificadorNormalizado = resultadoIdentificador.ValorNormalizado;
+
+            ValidacionEntradaHelper.ResultadoValidacion resultadoContrasena = ValidacionEntradaHelper.ValidarContrasena(bloqueContrasenaContrasena.Password);
+
+            if (!resultadoContrasena.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
-                AvisoHelper.Mostrar(string.Format(
-                    LangResources.Lang.errorTextoCampoLongitudMaxima,
-                    LangResources.Lang.globalTextoContrasena.ToLowerInvariant(),
-                    ValidacionEntradaHelper.LongitudMaximaContrasena));
+                AvisoHelper.Mostrar(resultadoContrasena.MensajeError);
                 bloqueContrasenaContrasena.Focus();
                 return;
             }
+
+            string contrasena = resultadoContrasena.ValorNormalizado;
 
             Button boton = sender as Button;
 
@@ -207,17 +170,19 @@ namespace PictionaryMusicalCliente
 
         private async void LabelOlvidasteContraseña(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            string identificador = bloqueTextoUsuario.Text?.Trim();
-
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
 
-            if (string.IsNullOrWhiteSpace(identificador))
+            ValidacionEntradaHelper.ResultadoValidacion resultadoIdentificador = ValidacionEntradaHelper.ValidarIdentificadorInicioSesion(bloqueTextoUsuario.Text);
+
+            if (!resultadoIdentificador.EsValido)
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
+                AvisoHelper.Mostrar(resultadoIdentificador.MensajeError);
                 bloqueTextoUsuario.Focus();
                 return;
             }
+
+            string identificador = resultadoIdentificador.ValorNormalizado;
 
             Label etiqueta = sender as Label;
             if (etiqueta != null)
