@@ -94,21 +94,16 @@
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
     <Compile Include="Servicios\DialogService.cs" />
     <Compile Include="Sesiones\SesionUsuarioActual.cs" />
+    <Compile Include="Utilidades\AvatarImagenHelper.cs" />
     <Compile Include="Utilidades\AvatarServicioHelper.cs" />
+    <Compile Include="Utilidades\AvisoHelper.cs" />
     <Compile Include="Utilidades\CodigoVerificacionServicioHelper.cs" />
     <Compile Include="Utilidades\ErrorServicioHelper.cs" />
-    <Compile Include="Utilidades\AvisoHelper.cs" />
     <Compile Include="Utilidades\MensajeServidorHelper.cs" />
     <Compile Include="Utilidades\UsuarioMapper.cs" />
-    <Compile Include="Utilidades\WcfClientHelper.cs" />
     <Compile Include="Utilidades\ValidacionEntradaHelper.cs" />
+    <Compile Include="Utilidades\WcfClientHelper.cs" />
     <Compile Include="VistaModelo\CrearCuenta.cs" />
-    <Compile Include="Vista\AjustesPartida.xaml.cs">
-      <DependentUpon>AjustesPartida.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\ConfirmacionSalirPartida.xaml.cs">
-      <DependentUpon>ConfirmacionSalirPartida.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Connected Services\PictionaryServidorServicioAvatares\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -120,114 +115,18 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\PictionaryServidorServicioCuenta\VerificacionExtensions.cs" />
-    <Compile Include="Vista\ExpulsarJugador.xaml.cs">
-      <DependentUpon>ExpulsarJugador.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\InvitarAmigos.xaml.cs">
-      <DependentUpon>InvitarAmigos.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Utilidades\AvatarImagenHelper.cs" />
-    <Compile Include="Vista\SeleccionarAvatar.xaml.cs">
-      <DependentUpon>SeleccionarAvatar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\UnirsePartidaInvitado.xaml.cs">
-      <DependentUpon>UnirsePartidaInvitado.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\VentanaJuego.xaml.cs">
-      <DependentUpon>VentanaJuego.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\VerificarCodigo.xaml.cs">
-      <DependentUpon>VerificarCodigo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\Avisos.xaml.cs">
-      <DependentUpon>Avisos.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Vista\Ajustes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\AjustesPartida.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\BuscarAmigo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\CambioContrasena.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\CerrarSesion.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Clasificacion.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\ComoJugar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\ConfirmacionSalirPartida.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\CrearCuenta.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\EliminarAmigo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\ExpulsarJugador.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\InicioSesion.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Invitaciones.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\InvitarAmigos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Perfil.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\SeleccionarAvatar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Solicitudes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\UnirsePartidaInvitado.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\VentanaJuego.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\VentanaPrincipal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="Vista\Ajustes.xaml.cs">
-      <DependentUpon>Ajustes.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Vista\Ajustes.xaml.cs">
+      <DependentUpon>Ajustes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\AjustesPartida.xaml.cs">
+      <DependentUpon>AjustesPartida.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\Avisos.xaml.cs">
+      <DependentUpon>Avisos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\BuscarAmigo.xaml.cs">
       <DependentUpon>BuscarAmigo.xaml</DependentUpon>
@@ -244,11 +143,17 @@
     <Compile Include="Vista\ComoJugar.xaml.cs">
       <DependentUpon>ComoJugar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\ConfirmacionSalirPartida.xaml.cs">
+      <DependentUpon>ConfirmacionSalirPartida.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\CrearCuenta.xaml.cs">
       <DependentUpon>CrearCuenta.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\EliminarAmigo.xaml.cs">
       <DependentUpon>EliminarAmigo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\ExpulsarJugador.xaml.cs">
+      <DependentUpon>ExpulsarJugador.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\InicioSesion.xaml.cs">
       <DependentUpon>InicioSesion.xaml</DependentUpon>
@@ -256,24 +161,31 @@
     <Compile Include="Vista\Invitaciones.xaml.cs">
       <DependentUpon>Invitaciones.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\InvitarAmigos.xaml.cs">
+      <DependentUpon>InvitarAmigos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\Perfil.xaml.cs">
       <DependentUpon>Perfil.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\SeleccionarAvatar.xaml.cs">
+      <DependentUpon>SeleccionarAvatar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\Solicitudes.xaml.cs">
       <DependentUpon>Solicitudes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\UnirsePartidaInvitado.xaml.cs">
+      <DependentUpon>UnirsePartidaInvitado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\VentanaJuego.xaml.cs">
+      <DependentUpon>VentanaJuego.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\VentanaPrincipal.xaml.cs">
       <DependentUpon>VentanaPrincipal.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Vista\VerificarCodigo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Avisos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Vista\VerificarCodigo.xaml.cs">
+      <DependentUpon>VerificarCodigo.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -580,6 +492,96 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Vista\Ajustes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\AjustesPartida.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\Avisos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\BuscarAmigo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\CambioContrasena.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\CerrarSesion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\Clasificacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\ComoJugar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\ConfirmacionSalirPartida.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\CrearCuenta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\EliminarAmigo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\ExpulsarJugador.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\InicioSesion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\Invitaciones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\InvitarAmigos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\Perfil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\SeleccionarAvatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\Solicitudes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\UnirsePartidaInvitado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\VentanaJuego.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\VentanaPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Vista\VerificarCodigo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

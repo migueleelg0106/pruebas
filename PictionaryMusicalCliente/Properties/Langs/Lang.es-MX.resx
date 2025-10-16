@@ -356,11 +356,11 @@ aciertan o cuando se acaba el tiempo.
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>GUARDAR CAMBIOS</value>
   </data>
-  <data name="cambiarContrasenaTextoIngresaNuevaContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoIngresaNuevaContrasena" xml:space="preserve">
     <value>Ingrese la nueva contraseña: 
 </value>
   </data>
-  <data name="cambiarContrasenaTextoConfirmeContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoConfirmeContrasena" xml:space="preserve">
     <value>Confirme su contraseña
 </value>
   </data>
@@ -368,7 +368,7 @@ aciertan o cuando se acaba el tiempo.
     <value>Ingrese el código de verificación enviado a su correo:
 </value>
   </data>
-  <data name="cambiarContraseñaTextoVerificar" xml:space="preserve">
+  <data name="cambiarContrasenaTextoVerificar" xml:space="preserve">
     <value>VERIFICAR</value>
   </data>
   <data name="cambiarContrasenaTextoReenviarCodigo" xml:space="preserve">

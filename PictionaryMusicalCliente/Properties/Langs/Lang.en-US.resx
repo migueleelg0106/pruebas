@@ -354,11 +354,11 @@
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>SAVE CHANGES</value>
   </data>
-  <data name="cambiarContrasenaTextoIngresaNuevaContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoIngresaNuevaContrasena" xml:space="preserve">
     <value>Enter your new password:
 </value>
   </data>
-  <data name="cambiarContrasenaTextoConfirmeContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoConfirmeContrasena" xml:space="preserve">
     <value>Confirm your password:
 </value>
   </data>
@@ -366,7 +366,7 @@
     <value>Enter the verification code sent to your email:
 </value>
   </data>
-  <data name="cambiarContraseñaTextoVerificar" xml:space="preserve">
+  <data name="cambiarContrasenaTextoVerificar" xml:space="preserve">
     <value>VERIFY</value>
   </data>
   <data name="cambiarContrasenaTextoReenviarCodigo" xml:space="preserve">
