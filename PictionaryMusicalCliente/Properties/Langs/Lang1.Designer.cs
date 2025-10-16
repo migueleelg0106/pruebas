@@ -178,15 +178,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a la red social.
-        /// </summary>
-        public static string avisoTextoNombreRedSocialGenerica {
-            get {
-                return ResourceManager.GetString("avisoTextoNombreRedSocialGenerica", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Los datos del perfil se actualizaron correctamente..
         /// </summary>
         public static string avisoTextoPerfilActualizado {
@@ -194,16 +185,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
                 return ResourceManager.GetString("avisoTextoPerfilActualizado", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Hay datos inválidos o campos vacíos, por favor verifique sus datos..
-        /// </summary>
-        public static string errorTextoCamposInvalidosGenerico {
-            get {
-                return ResourceManager.GetString("errorTextoCamposInvalidosGenerico", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a No es posible reenviar el código todavía..
         /// </summary>
@@ -219,15 +201,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string avisoTextoRegistroCompletado {
             get {
                 return ResourceManager.GetString("avisoTextoRegistroCompletado", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Se mostrarán los datos actuales de la sesión..
-        /// </summary>
-        public static string avisoTextoServidorSesionDatos {
-            get {
-                return ResourceManager.GetString("avisoTextoServidorSesionDatos", resourceCulture);
             }
         }
         
@@ -421,15 +394,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el apellido del jugador..
-        /// </summary>
-        public static string errorTextoApellidoJugadorRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoApellidoJugadorRequerido", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a El apellido es obligatorio y no debe exceder 50 caracteres..
         /// </summary>
         public static string errorTextoApellidoObligatorioLongitud {
@@ -475,11 +439,11 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el {0}..
+        ///   Busca una cadena traducida similar a Hay datos inválidos o campos vacíos, por favor verifique sus datos..
         /// </summary>
-        public static string errorTextoCampoRequerido {
+        public static string errorTextoCamposInvalidosGenerico {
             get {
-                return ResourceManager.GetString("errorTextoCampoRequerido", resourceCulture);
+                return ResourceManager.GetString("errorTextoCamposInvalidosGenerico", resourceCulture);
             }
         }
         
@@ -511,51 +475,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al consultar los avatares..
-        /// </summary>
-        public static string errorTextoComunicacionConsultarAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionConsultarAvatares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación al obtener los avatares del servidor..
-        /// </summary>
-        public static string errorTextoComunicacionObtenerAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionObtenerAvatares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente más tarde..
-        /// </summary>
-        public static string errorTextoComunicacionServidorMasTarde {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorMasTarde", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoComunicacionServidorNuevamente {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorNuevamente", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor..
-        /// </summary>
-        public static string errorTextoComunicacionServidorSimple {
-            get {
-                return ResourceManager.GetString("errorTextoComunicacionServidorSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Ingrese y confirme la nueva contraseña..
         /// </summary>
         public static string errorTextoConfirmacionContrasenaRequerida {
@@ -570,15 +489,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoContrasenaFormato {
             get {
                 return ResourceManager.GetString("errorTextoContrasenaFormato", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese una contraseña..
-        /// </summary>
-        public static string errorTextoContrasenaRequerida {
-            get {
-                return ResourceManager.GetString("errorTextoContrasenaRequerida", resourceCulture);
             }
         }
         
@@ -615,42 +525,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoCorreoRecuperacion {
             get {
                 return ResourceManager.GetString("errorTextoCorreoRecuperacion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese un correo electrónico..
-        /// </summary>
-        public static string errorTextoCorreoRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoRequerido", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El correo o usuario ya está registrado..
-        /// </summary>
-        public static string errorTextoCorreoUsuarioRegistrado {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrado", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El correo y el usuario ya están registrados..
-        /// </summary>
-        public static string errorTextoCorreoUsuarioRegistrados {
-            get {
-                return ResourceManager.GetString("errorTextoCorreoUsuarioRegistrados", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el usuario o correo y la contraseña..
-        /// </summary>
-        public static string errorTextoCredencialesIncompletas {
-            get {
-                return ResourceManager.GetString("errorTextoCredencialesIncompletas", resourceCulture);
             }
         }
         
@@ -736,7 +610,7 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un error al procesar la solicitud..
+        ///   Busca una cadena traducida similar a Ocurrió un problema al procesar la solicitud..
         /// </summary>
         public static string errorTextoErrorProcesarSolicitud {
             get {
@@ -817,29 +691,11 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese el nombre del jugador..
-        /// </summary>
-        public static string errorTextoNombreJugadorRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoNombreJugadorRequerido", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a El nombre es obligatorio y no debe exceder 50 caracteres..
         /// </summary>
         public static string errorTextoNombreObligatorioLongitud {
             get {
                 return ResourceManager.GetString("errorTextoNombreObligatorioLongitud", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ingrese un nombre de usuario..
-        /// </summary>
-        public static string errorTextoNombreUsuarioRequerido {
-            get {
-                return ResourceManager.GetString("errorTextoNombreUsuarioRequerido", resourceCulture);
             }
         }
         
@@ -858,69 +714,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoPrepararSolicitudCambioContrasena {
             get {
                 return ResourceManager.GetString("errorTextoPrepararSolicitudCambioContrasena", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible preparar la solicitud de inicio de sesión..
-        /// </summary>
-        public static string errorTextoPrepararSolicitudInicioSesion {
-            get {
-                return ResourceManager.GetString("errorTextoPrepararSolicitudInicioSesion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Ocurrió un problema al procesar la solicitud..
-        /// </summary>
-        public static string errorTextoProblemaProcesarSolicitud {
-            get {
-                return ResourceManager.GetString("errorTextoProblemaProcesarSolicitud", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de actualización..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudActualizacion {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudActualizacion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de avatares..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudAvatares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de cambio de contraseña..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudCambioContrasena", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de recuperación. Intente de nuevo..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudRecuperacion {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudRecuperacion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible procesar la solicitud de reenvío. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoProcesarSolicitudReenvio {
-            get {
-                return ResourceManager.GetString("errorTextoProcesarSolicitudReenvio", resourceCulture);
             }
         }
         
@@ -970,24 +763,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para actualizar el catálogo de avatares..
-        /// </summary>
-        public static string errorTextoServidorCatalogoAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoServidorCatalogoAvatares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo obtener el catálogo de avatares desde el servidor..
-        /// </summary>
-        public static string errorTextoServidorCatalogoAvataresDetalle {
-            get {
-                return ResourceManager.GetString("errorTextoServidorCatalogoAvataresDetalle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el código de verificación..
         /// </summary>
         public static string errorTextoServidorCodigoVerificacion {
@@ -1024,20 +799,11 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor. Intente más tarde..
+        ///   Busca una cadena traducida similar a Ocurrió un problema de comunicación con el servidor. Intente más tarde..
         /// </summary>
         public static string errorTextoServidorNoDisponible {
             get {
                 return ResourceManager.GetString("errorTextoServidorNoDisponible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor no respondió a tiempo. Intente nuevamente..
-        /// </summary>
-        public static string errorTextoServidorNoRespondioTiempo {
-            get {
-                return ResourceManager.GetString("errorTextoServidorNoRespondioTiempo", resourceCulture);
             }
         }
         
@@ -1060,15 +826,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No se obtuvo respuesta del servidor. Intente más tarde..
-        /// </summary>
-        public static string errorTextoServidorSinRespuesta {
-            get {
-                return ResourceManager.GetString("errorTextoServidorSinRespuesta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a El servidor reportó un error al solicitar el cambio de contraseña..
         /// </summary>
         public static string errorTextoServidorSolicitudCambioContrasena {
@@ -1078,38 +835,11 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder. Intente más tarde..
+        ///   Busca una cadena traducida similar a El servidor tardó demasiado tiempo en responder. Intente más tarde..
         /// </summary>
         public static string errorTextoServidorTiempoAgotado {
             get {
                 return ResourceManager.GetString("errorTextoServidorTiempoAgotado", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al solicitar los avatares..
-        /// </summary>
-        public static string errorTextoServidorTiempoAvatares {
-            get {
-                return ResourceManager.GetString("errorTextoServidorTiempoAvatares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El servidor tardó demasiado en responder al validar el avatar..
-        /// </summary>
-        public static string errorTextoServidorTiempoValidarAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoServidorTiempoValidarAvatar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No se pudo contactar al servidor para validar el avatar seleccionado..
-        /// </summary>
-        public static string errorTextoServidorValidarAvatar {
-            get {
-                return ResourceManager.GetString("errorTextoServidorValidarAvatar", resourceCulture);
             }
         }
         
@@ -1119,33 +849,6 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         public static string errorTextoServidorValidarCodigo {
             get {
                 return ResourceManager.GetString("errorTextoServidorValidarCodigo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa. Inicie sesión nuevamente..
-        /// </summary>
-        public static string errorTextoSesionInactiva {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactiva", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa para actualizar..
-        /// </summary>
-        public static string errorTextoSesionInactivaActualizar {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactivaActualizar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a No hay una sesión activa para cambiar la contraseña..
-        /// </summary>
-        public static string errorTextoSesionInactivaCambioContrasena {
-            get {
-                return ResourceManager.GetString("errorTextoSesionInactivaCambioContrasena", resourceCulture);
             }
         }
         
@@ -1386,9 +1089,9 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         /// <summary>
         ///   Busca una cadena traducida similar a Contraseña.
         /// </summary>
-        public static string globalTextoContraseña {
+        public static string globalTextoContrasena {
             get {
-                return ResourceManager.GetString("globalTextoContraseña", resourceCulture);
+                return ResourceManager.GetString("globalTextoContrasena", resourceCulture);
             }
         }
         
