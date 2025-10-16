@@ -1,12 +1,11 @@
-using PictionaryMusicalCliente.Modelo;
-using PictionaryMusicalCliente.Servicios;
-using PictionaryMusicalCliente.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
+using PictionaryMusicalCliente.Utilidades;
+using ClasificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioClasificacion;
 
 namespace PictionaryMusicalCliente
 {
@@ -16,7 +15,7 @@ namespace PictionaryMusicalCliente
     public partial class Clasificacion : Window
     {
         private readonly IDialogService _dialogService;
-        private List<EntradaClasificacion> _clasificacionOriginal;
+        private List<ClasificacionSrv.ClasificacionUsuarioDTO> _clasificacionOriginal;
 
         public Clasificacion()
         {
@@ -38,13 +37,17 @@ namespace PictionaryMusicalCliente
         {
             try
             {
-                using (var proxy = new ServidorProxy())
-                {
-                    _clasificacionOriginal = await proxy.ObtenerClasificacionAsync();
-                    TablaClasificacion.ItemsSource = _clasificacionOriginal;
-                }
+                var cliente = new ClasificacionSrv.ClasificacionManejadorClient(
+                    "BasicHttpBinding_IClasificacionManejador");
+
+                ClasificacionSrv.ClasificacionUsuarioDTO[] clasificacion = await WcfClientHelper.UsarAsync(
+                    cliente,
+                    c => c.ObtenerTopJugadoresAsync());
+
+                _clasificacionOriginal = clasificacion?.ToList();
+                TablaClasificacion.ItemsSource = _clasificacionOriginal;
             }
-            catch (FaultException<ServidorProxy.ErrorDetalleServicio> ex)
+            catch (FaultException ex)
             {
                 string mensaje = ErrorServicioHelper.ObtenerMensaje(
                     ex,
