@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using PictionaryMusicalCliente.Utilidades;
@@ -11,7 +10,6 @@ namespace PictionaryMusicalCliente
 {
     public partial class CambioContrasena : Window
     {
-        private static readonly Regex PatronContrasenaValida = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,15}$", RegexOptions.Compiled);
         private readonly string _tokenCodigo;
         public bool ContrasenaActualizada { get; private set; }
 
@@ -47,9 +45,19 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            if (!PatronContrasenaValida.IsMatch(nuevaContrasena))
+            if (!ValidacionEntradaHelper.EsContrasenaValida(nuevaContrasena))
             {
                 AvisoHelper.Mostrar(LangResources.Lang.errorTextoContrasenaFormato);
+                bloqueContrasenaNueva.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(nuevaContrasena))
+            {
+                AvisoHelper.Mostrar(string.Format(
+                    LangResources.Lang.errorTextoCampoLongitudMaxima,
+                    LangResources.Lang.globalTextoContrasena.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaContrasena));
                 bloqueContrasenaNueva.Focus();
                 return;
             }

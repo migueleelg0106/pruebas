@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,9 +15,6 @@ namespace PictionaryMusicalCliente
 {
     public partial class CrearCuenta : Window
     {
-        private static readonly Regex PatronCorreoValido = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
-        private static readonly Regex PatronContrasenaValida = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,15}$", RegexOptions.Compiled);
-
         private ObjetoAvatar _avatarSeleccionado;
 
         public CrearCuenta()
@@ -60,7 +56,51 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            if (!PatronCorreoValido.IsMatch(correo))
+            if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(usuario))
+            {
+                MarcarCampoInvalido(bloqueTextoUsuario);
+                AvisoHelper.Mostrar(string.Format(
+                    Lang.errorTextoCampoLongitudMaxima,
+                    Lang.globalTextoUsuario.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaNombreUsuario));
+                bloqueTextoUsuario.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaNombre(nombre))
+            {
+                MarcarCampoInvalido(bloqueTextoNombre);
+                AvisoHelper.Mostrar(string.Format(
+                    Lang.errorTextoCampoLongitudMaxima,
+                    Lang.globalTextoNombre.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaNombre));
+                bloqueTextoNombre.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaApellido(apellido))
+            {
+                MarcarCampoInvalido(bloqueTextoApellido);
+                AvisoHelper.Mostrar(string.Format(
+                    Lang.errorTextoCampoLongitudMaxima,
+                    Lang.globalTextoApellido.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaApellido));
+                bloqueTextoApellido.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(correo))
+            {
+                MarcarCampoInvalido(bloqueTextoCorreo);
+                AvisoHelper.Mostrar(string.Format(
+                    Lang.errorTextoCampoLongitudMaxima,
+                    Lang.globalTextoCorreo.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaCorreo));
+                bloqueTextoCorreo.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.EsCorreoValido(correo))
             {
                 MarcarCampoInvalido(bloqueTextoCorreo);
                 AvisoHelper.Mostrar(Lang.errorTextoCorreoInvalido);
@@ -68,10 +108,21 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            if (!PatronContrasenaValida.IsMatch(contrasena))
+            if (!ValidacionEntradaHelper.EsContrasenaValida(contrasena))
             {
                 MarcarCampoInvalido(bloqueContrasenaContrasena);
                 AvisoHelper.Mostrar(Lang.errorTextoContrasenaFormato);
+                bloqueContrasenaContrasena.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
+            {
+                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                AvisoHelper.Mostrar(string.Format(
+                    Lang.errorTextoCampoLongitudMaxima,
+                    Lang.globalTextoContrasena.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaContrasena));
                 bloqueContrasenaContrasena.Focus();
                 return;
             }
