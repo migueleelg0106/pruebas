@@ -3,8 +3,6 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Utilidades;
@@ -45,11 +43,11 @@ namespace PictionaryMusicalCliente
             textoErrorUsuario.Visibility = Visibility.Collapsed;
             textoErrorCorreo.Visibility = Visibility.Collapsed;
 
-            RestablecerEstadoCampo(bloqueTextoUsuario);
-            RestablecerEstadoCampo(bloqueTextoCorreo);
-            RestablecerEstadoCampo(bloqueTextoNombre);
-            RestablecerEstadoCampo(bloqueTextoApellido);
-            RestablecerEstadoCampo(bloqueContrasenaContrasena);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoCorreo);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaContrasena);
 
             if (!ValidarCamposObligatorios(usuario, correo, nombre, apellido, contrasena))
             {
@@ -58,7 +56,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(usuario))
             {
-                MarcarCampoInvalido(bloqueTextoUsuario);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
                 AvisoHelper.Mostrar(string.Format(
                     Lang.errorTextoCampoLongitudMaxima,
                     Lang.globalTextoUsuario.ToLowerInvariant(),
@@ -69,7 +67,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaNombre(nombre))
             {
-                MarcarCampoInvalido(bloqueTextoNombre);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
                 AvisoHelper.Mostrar(string.Format(
                     Lang.errorTextoCampoLongitudMaxima,
                     Lang.globalTextoNombre.ToLowerInvariant(),
@@ -80,7 +78,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaApellido(apellido))
             {
-                MarcarCampoInvalido(bloqueTextoApellido);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
                 AvisoHelper.Mostrar(string.Format(
                     Lang.errorTextoCampoLongitudMaxima,
                     Lang.globalTextoApellido.ToLowerInvariant(),
@@ -91,7 +89,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(correo))
             {
-                MarcarCampoInvalido(bloqueTextoCorreo);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
                 AvisoHelper.Mostrar(string.Format(
                     Lang.errorTextoCampoLongitudMaxima,
                     Lang.globalTextoCorreo.ToLowerInvariant(),
@@ -102,7 +100,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.EsCorreoValido(correo))
             {
-                MarcarCampoInvalido(bloqueTextoCorreo);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
                 AvisoHelper.Mostrar(Lang.errorTextoCorreoInvalido);
                 bloqueTextoCorreo.Focus();
                 return;
@@ -110,7 +108,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.EsContrasenaValida(contrasena))
             {
-                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
                 AvisoHelper.Mostrar(Lang.errorTextoContrasenaFormato);
                 bloqueContrasenaContrasena.Focus();
                 return;
@@ -118,7 +116,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
             {
-                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
                 AvisoHelper.Mostrar(string.Format(
                     Lang.errorTextoCampoLongitudMaxima,
                     Lang.globalTextoContrasena.ToLowerInvariant(),
@@ -226,7 +224,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoUsuario;
                 }
-                MarcarCampoInvalido(bloqueTextoUsuario);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
             if (string.IsNullOrWhiteSpace(nombre))
@@ -236,7 +234,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoNombre;
                 }
-                MarcarCampoInvalido(bloqueTextoNombre);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
@@ -246,7 +244,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoApellido;
                 }
-                MarcarCampoInvalido(bloqueTextoApellido);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
             }
 
             if (string.IsNullOrWhiteSpace(correo))
@@ -256,7 +254,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueTextoCorreo;
                 }
-                MarcarCampoInvalido(bloqueTextoCorreo);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
             }
 
             if (string.IsNullOrWhiteSpace(contrasena))
@@ -266,7 +264,7 @@ namespace PictionaryMusicalCliente
                 {
                     primerCampo = bloqueContrasenaContrasena;
                 }
-                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
             }
 
             if (hayError)
@@ -281,14 +279,9 @@ namespace PictionaryMusicalCliente
 
         private void MostrarAvatarSeleccionado()
         {
-            if (_avatarSeleccionado == null)
-            {
-                imagenAvatarSeleccionado.ImageSource = null;
-                return;
-            }
-
-            ImageSource imagen = ObtenerImagenDesdeAvatar(_avatarSeleccionado);
-            imagenAvatarSeleccionado.ImageSource = imagen;
+            imagenAvatarSeleccionado.ImageSource = _avatarSeleccionado == null
+                ? null
+                : AvatarImagenHelper.CrearImagen(_avatarSeleccionado);
         }
 
         private async Task<int?> ObtenerIdAvatarSeleccionadoAsync()
@@ -350,48 +343,6 @@ namespace PictionaryMusicalCliente
             return null;
         }
 
-        private static ImageSource ObtenerImagenDesdeAvatar(ObjetoAvatar avatar)
-        {
-            if (avatar == null)
-            {
-                return null;
-            }
-
-            if (!string.IsNullOrWhiteSpace(avatar.ImagenUriAbsoluta)
-                && Uri.TryCreate(avatar.ImagenUriAbsoluta, UriKind.Absolute, out Uri uriRemota))
-            {
-                return new BitmapImage(uriRemota);
-            }
-
-            if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
-            {
-                string rutaNormalizada = NormalizarRutaLocal(avatar.RutaRelativa);
-
-                if (Uri.TryCreate($"pack://application:,,,/{rutaNormalizada}", UriKind.Absolute, out Uri uriRecurso))
-                {
-                    try
-                    {
-                        return new BitmapImage(uriRecurso);
-                    }
-                    catch
-                    {
-                        // Se intentará con la ruta relativa simple.
-                    }
-                }
-
-                try
-                {
-                    return new BitmapImage(new Uri($"/{rutaNormalizada}", UriKind.Relative));
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
         private static string NormalizarRutaLocal(string ruta)
         {
             if (string.IsNullOrWhiteSpace(ruta))
@@ -414,26 +365,6 @@ namespace PictionaryMusicalCliente
                 : rutaNormalizada.ToLowerInvariant();
         }
 
-        private static void RestablecerEstadoCampo(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.ClearValue(Control.BorderBrushProperty);
-            control.ClearValue(Control.BorderThicknessProperty);
-        }
-
-        private static void MarcarCampoInvalido(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.BorderBrush = Brushes.Red;
-            control.BorderThickness = new Thickness(2);
-        }
+        
     }
 }

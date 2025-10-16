@@ -10,8 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Sesiones;
@@ -54,8 +52,8 @@ namespace PictionaryMusicalCliente
             string identificador = bloqueTextoUsuario.Text;
             string contrasena = bloqueContrasenaContrasena.Password;
 
-            RestablecerEstadoCampo(bloqueTextoUsuario);
-            RestablecerEstadoCampo(bloqueContrasenaContrasena);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaContrasena);
 
             bool hayCamposInvalidos = false;
 
@@ -64,13 +62,13 @@ namespace PictionaryMusicalCliente
             if (!ValidacionEntradaHelper.EsCampoObligatorioValido(identificadorNormalizado))
             {
                 hayCamposInvalidos = true;
-                MarcarCampoInvalido(bloqueTextoUsuario);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
             if (!ValidacionEntradaHelper.EsCampoObligatorioValido(contrasena))
             {
                 hayCamposInvalidos = true;
-                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
             }
 
             if (hayCamposInvalidos)
@@ -83,7 +81,7 @@ namespace PictionaryMusicalCliente
             {
                 if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(identificadorNormalizado))
                 {
-                    MarcarCampoInvalido(bloqueTextoUsuario);
+                    ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
                     AvisoHelper.Mostrar(string.Format(
                         LangResources.Lang.errorTextoCampoLongitudMaxima,
                         LangResources.Lang.globalTextoCorreo.ToLowerInvariant(),
@@ -94,7 +92,7 @@ namespace PictionaryMusicalCliente
             }
             else if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(identificadorNormalizado))
             {
-                MarcarCampoInvalido(bloqueTextoUsuario);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
                 AvisoHelper.Mostrar(string.Format(
                     LangResources.Lang.errorTextoCampoLongitudMaxima,
                     LangResources.Lang.globalTextoUsuario.ToLowerInvariant(),
@@ -105,7 +103,7 @@ namespace PictionaryMusicalCliente
 
             if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
             {
-                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaContrasena);
                 AvisoHelper.Mostrar(string.Format(
                     LangResources.Lang.errorTextoCampoLongitudMaxima,
                     LangResources.Lang.globalTextoContrasena.ToLowerInvariant(),
@@ -211,11 +209,11 @@ namespace PictionaryMusicalCliente
         {
             string identificador = bloqueTextoUsuario.Text?.Trim();
 
-            RestablecerEstadoCampo(bloqueTextoUsuario);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
 
             if (string.IsNullOrWhiteSpace(identificador))
             {
-                MarcarCampoInvalido(bloqueTextoUsuario);
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
                 AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
                 bloqueTextoUsuario.Focus();
                 return;
@@ -349,26 +347,5 @@ namespace PictionaryMusicalCliente
             }
         }
 
-        private static void RestablecerEstadoCampo(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.ClearValue(Control.BorderBrushProperty);
-            control.ClearValue(Control.BorderThicknessProperty);
-        }
-
-        private static void MarcarCampoInvalido(Control control)
-        {
-            if (control == null)
-            {
-                return;
-            }
-
-            control.BorderBrush = Brushes.Red;
-            control.BorderThickness = new Thickness(2);
-        }
     }
 }
