@@ -59,13 +59,15 @@ namespace PictionaryMusicalCliente
 
             bool hayCamposInvalidos = false;
 
-            if (string.IsNullOrWhiteSpace(identificador))
+            string identificadorNormalizado = identificador?.Trim();
+
+            if (!ValidacionEntradaHelper.EsCampoObligatorioValido(identificadorNormalizado))
             {
                 hayCamposInvalidos = true;
                 MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
-            if (string.IsNullOrWhiteSpace(contrasena))
+            if (!ValidacionEntradaHelper.EsCampoObligatorioValido(contrasena))
             {
                 hayCamposInvalidos = true;
                 MarcarCampoInvalido(bloqueContrasenaContrasena);
@@ -74,6 +76,41 @@ namespace PictionaryMusicalCliente
             if (hayCamposInvalidos)
             {
                 AvisoHelper.Mostrar(LangResources.Lang.errorTextoCamposInvalidosGenerico);
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(identificadorNormalizado) && identificadorNormalizado.Contains("@"))
+            {
+                if (!ValidacionEntradaHelper.TieneLongitudValidaCorreo(identificadorNormalizado))
+                {
+                    MarcarCampoInvalido(bloqueTextoUsuario);
+                    AvisoHelper.Mostrar(string.Format(
+                        LangResources.Lang.errorTextoCampoLongitudMaxima,
+                        LangResources.Lang.globalTextoCorreo.ToLowerInvariant(),
+                        ValidacionEntradaHelper.LongitudMaximaCorreo));
+                    bloqueTextoUsuario.Focus();
+                    return;
+                }
+            }
+            else if (!ValidacionEntradaHelper.TieneLongitudValidaUsuario(identificadorNormalizado))
+            {
+                MarcarCampoInvalido(bloqueTextoUsuario);
+                AvisoHelper.Mostrar(string.Format(
+                    LangResources.Lang.errorTextoCampoLongitudMaxima,
+                    LangResources.Lang.globalTextoUsuario.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaNombreUsuario));
+                bloqueTextoUsuario.Focus();
+                return;
+            }
+
+            if (!ValidacionEntradaHelper.TieneLongitudValidaContrasena(contrasena))
+            {
+                MarcarCampoInvalido(bloqueContrasenaContrasena);
+                AvisoHelper.Mostrar(string.Format(
+                    LangResources.Lang.errorTextoCampoLongitudMaxima,
+                    LangResources.Lang.globalTextoContrasena.ToLowerInvariant(),
+                    ValidacionEntradaHelper.LongitudMaximaContrasena));
+                bloqueContrasenaContrasena.Focus();
                 return;
             }
 
@@ -90,7 +127,7 @@ namespace PictionaryMusicalCliente
             {
                 var solicitud = new InicioSesionSrv.CredencialesInicioSesionDTO
                 {
-                    Identificador = identificador.Trim(),
+                    Identificador = identificadorNormalizado,
                     Contrasena = contrasena
                 };
 

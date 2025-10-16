@@ -101,6 +101,7 @@
     <Compile Include="Utilidades\MensajeServidorHelper.cs" />
     <Compile Include="Utilidades\UsuarioMapper.cs" />
     <Compile Include="Utilidades\WcfClientHelper.cs" />
+    <Compile Include="Utilidades\ValidacionEntradaHelper.cs" />
     <Compile Include="VistaModelo\CrearCuenta.cs" />
     <Compile Include="Vista\AjustesPartida.xaml.cs">
       <DependentUpon>AjustesPartida.xaml</DependentUpon>

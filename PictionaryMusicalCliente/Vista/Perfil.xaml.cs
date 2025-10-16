@@ -28,8 +28,6 @@ namespace PictionaryMusicalCliente
     /// </summary>
     public partial class Perfil : Window
     {
-        private const int LongitudMaximaNombre = 50;
-        private const int LongitudMaximaRedSocial = 50;
 
         private IReadOnlyList<ObjetoAvatar> _catalogoAvatares;
         private UsuarioAutenticado _usuarioSesion;
@@ -367,9 +365,12 @@ namespace PictionaryMusicalCliente
                 return false;
             }
 
-            if (valor.Length > LongitudMaximaNombre)
+            if (!ValidacionEntradaHelper.TieneLongitudValidaNombre(valor))
             {
-                AvisoHelper.Mostrar(string.Format(LangResources.Lang.errorTextoCampoLongitudMaxima, descripcionCampo, LongitudMaximaNombre));
+                AvisoHelper.Mostrar(string.Format(
+                    LangResources.Lang.errorTextoCampoLongitudMaxima,
+                    descripcionCampo,
+                    ValidacionEntradaHelper.LongitudMaximaNombre));
                 return false;
             }
 
@@ -905,7 +906,7 @@ namespace PictionaryMusicalCliente
                 }
             }
 
-            if (texto.Length > LongitudMaximaRedSocial)
+            if (!ValidacionEntradaHelper.TieneLongitudValidaRedSocial(texto))
             {
                 string descripcionRed = string.IsNullOrWhiteSpace(nombreRed)
                     ? LangResources.Lang.avisoTextoNombreRedSocialGenerica
@@ -913,7 +914,7 @@ namespace PictionaryMusicalCliente
                 mensajeError = string.Format(
                     LangResources.Lang.errorTextoIdentificadorRedSocialLongitud,
                     descripcionRed,
-                    LongitudMaximaRedSocial);
+                    ValidacionEntradaHelper.LongitudMaximaRedSocial);
                 return null;
             }
 
