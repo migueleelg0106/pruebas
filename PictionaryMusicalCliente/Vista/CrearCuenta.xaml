@@ -108,13 +108,13 @@
 
                 <!-- Fila 3: Contraseña -->
                 <StackPanel Grid.Row="3" Margin="10,5,10,0">
-                    <Label Content="{x:Static language:Lang.globalTextoContraseña}"
+                    <Label Content="{x:Static language:Lang.globalTextoContrasena}"
                            ContentStringFormat="{}{0}:" FontWeight="Bold" FontFamily="Comic Sans MS"/>
                     <PasswordBox x:Name="bloqueContrasenaContrasena" Height="25" FontFamily="Comic Sans MS"/>
                 </StackPanel>
 
                 <!-- Reglas contraseña -->
-                <TextBlock Text="{x:Static language:Lang.globalTextoEspecificaContraseña}"
+                <TextBlock Text="{x:Static language:Lang.globalTextoEspecificaContrasena}"
                            FontSize="11" Foreground="Blue" TextWrapping="Wrap"
                            Margin="10,10,10,0" Grid.Row="4"/>
 
