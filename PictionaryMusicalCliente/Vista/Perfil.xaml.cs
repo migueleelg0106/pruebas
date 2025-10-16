@@ -192,7 +192,7 @@ namespace PictionaryMusicalCliente
                 .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
             Dictionary<string, ObjetoAvatar> localesPorRuta = localesValidos
-                .GroupBy(avatar => NormalizarRuta(avatar.RutaRelativa))
+                .GroupBy(avatar => AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatar.RutaRelativa))
                 .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
             var asignados = new HashSet<ObjetoAvatar>();
@@ -254,7 +254,7 @@ namespace PictionaryMusicalCliente
 
             if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.RutaRelativa))
             {
-                string rutaNormalizada = NormalizarRuta(avatarServidor.RutaRelativa);
+                string rutaNormalizada = AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatarServidor.RutaRelativa);
 
                 if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
                     && !asignados.Contains(coincidenciaRuta))
@@ -297,13 +297,6 @@ namespace PictionaryMusicalCliente
             }
 
             return builder.ToString();
-        }
-
-        private static string NormalizarRuta(string ruta)
-        {
-            return string.IsNullOrWhiteSpace(ruta)
-                ? string.Empty
-                : ruta.Trim().Replace("\\", "/").ToLowerInvariant();
         }
 
         private void InicializarRedesSociales()

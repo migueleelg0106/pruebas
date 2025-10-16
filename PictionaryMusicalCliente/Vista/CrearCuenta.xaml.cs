@@ -204,7 +204,7 @@ namespace PictionaryMusicalCliente
                 return null;
             }
 
-            string rutaSeleccionada = NormalizarRutaParaComparacion(_avatarSeleccionado.RutaRelativa);
+            string rutaSeleccionada = AvatarRutaHelper.NormalizarRutaParaComparacion(_avatarSeleccionado.RutaRelativa);
 
             try
             {
@@ -220,7 +220,7 @@ namespace PictionaryMusicalCliente
 
                 foreach (AvataresSrv.AvatarDTO avatar in avatares)
                 {
-                    string rutaAvatar = NormalizarRutaParaComparacion(avatar?.RutaRelativa);
+                    string rutaAvatar = AvatarRutaHelper.NormalizarRutaParaComparacion(avatar?.RutaRelativa);
 
                     if (!string.IsNullOrEmpty(rutaAvatar)
                         && string.Equals(rutaAvatar, rutaSeleccionada, StringComparison.OrdinalIgnoreCase))
@@ -256,28 +256,6 @@ namespace PictionaryMusicalCliente
             return null;
         }
 
-        private static string NormalizarRutaLocal(string ruta)
-        {
-            if (string.IsNullOrWhiteSpace(ruta))
-            {
-                return null;
-            }
 
-            string rutaNormalizada = ruta
-                .TrimStart('/')
-                .Replace('\\', '/');
-
-            return rutaNormalizada;
-        }
-
-        private static string NormalizarRutaParaComparacion(string ruta)
-        {
-            string rutaNormalizada = NormalizarRutaLocal(ruta);
-            return string.IsNullOrWhiteSpace(rutaNormalizada)
-                ? null
-                : rutaNormalizada.ToLowerInvariant();
-        }
-
-        
     }
 }
