@@ -354,22 +354,22 @@
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>SAVE CHANGES</value>
   </data>
-  <data name="cambiarContraseñaTextoIngresaNuevaContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoIngresaNuevaContraseña" xml:space="preserve">
     <value>Enter your new password:
 </value>
   </data>
-  <data name="cambiarContraseñaTextoConfirmeContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoConfirmeContraseña" xml:space="preserve">
     <value>Confirm your password:
 </value>
   </data>
-  <data name="cambiarContraseñaTextoCodigoVerificacion" xml:space="preserve">
+  <data name="cambiarContrasenaTextoCodigoVerificacion" xml:space="preserve">
     <value>Enter the verification code sent to your email:
 </value>
   </data>
   <data name="cambiarContraseñaTextoVerificar" xml:space="preserve">
     <value>VERIFY</value>
   </data>
-  <data name="cambiarContraseñaTextoReenviarCodigo" xml:space="preserve">
+  <data name="cambiarContrasenaTextoReenviarCodigo" xml:space="preserve">
     <value>RESEND CODE</value>
   </data>
   <data name="partidaAdminTextoIniciarPartida" xml:space="preserve">

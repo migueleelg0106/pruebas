@@ -234,36 +234,36 @@ namespace PictionaryMusicalCliente.Properties.Langs {
         /// <summary>
         ///   Busca una cadena traducida similar a Ingrese el código de verificación enviado a su correo:.
         /// </summary>
-        public static string cambiarContraseñaTextoCodigoVerificacion {
+        public static string cambiarContrasenaTextoCodigoVerificacion {
             get {
-                return ResourceManager.GetString("cambiarContraseñaTextoCodigoVerificacion", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoCodigoVerificacion", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a Confirme su contraseña.
         /// </summary>
-        public static string cambiarContraseñaTextoConfirmeContraseña {
+        public static string cambiarContrasenaTextoConfirmeContraseña {
             get {
-                return ResourceManager.GetString("cambiarContraseñaTextoConfirmeContraseña", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoConfirmeContraseña", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a Ingrese la nueva contraseña: .
         /// </summary>
-        public static string cambiarContraseñaTextoIngresaNuevaContraseña {
+        public static string cambiarContrasenaTextoIngresaNuevaContraseña {
             get {
-                return ResourceManager.GetString("cambiarContraseñaTextoIngresaNuevaContraseña", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoIngresaNuevaContraseña", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a REENVIAR CÓDIGO.
         /// </summary>
-        public static string cambiarContraseñaTextoReenviarCodigo {
+        public static string cambiarContrasenaTextoReenviarCodigo {
             get {
-                return ResourceManager.GetString("cambiarContraseñaTextoReenviarCodigo", resourceCulture);
+                return ResourceManager.GetString("cambiarContrasenaTextoReenviarCodigo", resourceCulture);
             }
         }
         

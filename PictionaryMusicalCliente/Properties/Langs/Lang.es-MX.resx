@@ -356,22 +356,22 @@ aciertan o cuando se acaba el tiempo.
   <data name="perfilTextoGuardarCambios" xml:space="preserve">
     <value>GUARDAR CAMBIOS</value>
   </data>
-  <data name="cambiarContraseñaTextoIngresaNuevaContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoIngresaNuevaContraseña" xml:space="preserve">
     <value>Ingrese la nueva contraseña: 
 </value>
   </data>
-  <data name="cambiarContraseñaTextoConfirmeContraseña" xml:space="preserve">
+  <data name="cambiarContrasenaTextoConfirmeContraseña" xml:space="preserve">
     <value>Confirme su contraseña
 </value>
   </data>
-  <data name="cambiarContraseñaTextoCodigoVerificacion" xml:space="preserve">
+  <data name="cambiarContrasenaTextoCodigoVerificacion" xml:space="preserve">
     <value>Ingrese el código de verificación enviado a su correo:
 </value>
   </data>
   <data name="cambiarContraseñaTextoVerificar" xml:space="preserve">
     <value>VERIFICAR</value>
   </data>
-  <data name="cambiarContraseñaTextoReenviarCodigo" xml:space="preserve">
+  <data name="cambiarContrasenaTextoReenviarCodigo" xml:space="preserve">
     <value>REENVIAR CÓDIGO</value>
   </data>
   <data name="partidaAdminTextoIniciarPartida" xml:space="preserve">
