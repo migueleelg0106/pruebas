@@ -638,14 +638,18 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     localesValidos,
                     localesPorNombreNormalizado,
                     localesPorRuta,
-                    asignados);
+                    asignados,
+                    out bool esCoincidenciaExacta);
 
                 if (avatarLocal == null)
                 {
                     continue;
                 }
 
-                asignados.Add(avatarLocal);
+                if (!esCoincidenciaExacta)
+                {
+                    asignados.Add(avatarLocal);
+                }
 
                 resultado.Add(new ObjetoAvatar
                 {
@@ -664,14 +668,22 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             List<ObjetoAvatar> localesValidos,
             Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado,
             Dictionary<string, ObjetoAvatar> localesPorRuta,
-            HashSet<ObjetoAvatar> asignados)
+            HashSet<ObjetoAvatar> asignados,
+            out bool esCoincidenciaExacta)
         {
+            esCoincidenciaExacta = false;
             ObjetoAvatar avatarLocal = null;
 
             if (avatarServidor.Id > 0)
             {
                 avatarLocal = localesValidos
-                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id && !asignados.Contains(avatar));
+                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id);
+
+                if (avatarLocal != null)
+                {
+                    esCoincidenciaExacta = true;
+                    return avatarLocal;
+                }
             }
 
             if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.Nombre))
@@ -679,9 +691,11 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 string nombreNormalizado = NormalizarNombre(avatarServidor.Nombre);
 
                 if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out ObjetoAvatar coincidenciaNombre)
-                    && !asignados.Contains(coincidenciaNombre))
+                    && coincidenciaNombre != null)
                 {
                     avatarLocal = coincidenciaNombre;
+                    esCoincidenciaExacta = true;
+                    return avatarLocal;
                 }
             }
 
@@ -690,9 +704,11 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 string rutaNormalizada = AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatarServidor.RutaRelativa);
 
                 if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
-                    && !asignados.Contains(coincidenciaRuta))
+                    && coincidenciaRuta != null)
                 {
                     avatarLocal = coincidenciaRuta;
+                    esCoincidenciaExacta = true;
+                    return avatarLocal;
                 }
             }
 
