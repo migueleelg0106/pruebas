@@ -15,6 +15,27 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 {
     public class CrearCuenta : BaseVistaModelo
     {
+        [System.Flags]
+        public enum CampoEntrada
+        {
+            Ninguno = 0,
+            Usuario = 1 << 0,
+            Nombre = 1 << 1,
+            Apellido = 1 << 2,
+            Correo = 1 << 3,
+            Contrasena = 1 << 4
+        }
+
+        public sealed class ValidacionCamposEventArgs : EventArgs
+        {
+            public ValidacionCamposEventArgs(CampoEntrada camposInvalidos)
+            {
+                CamposInvalidos = camposInvalidos;
+            }
+
+            public CampoEntrada CamposInvalidos { get; }
+        }
+
         private readonly IDialogService _dialogService;
         private readonly ICodigoVerificacionService _codigoVerificacionService;
         private readonly IAvatarService _avatarService;
@@ -51,6 +72,8 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         }
 
         public event EventHandler SolicitarCerrar;
+
+        public event EventHandler<ValidacionCamposEventArgs> ValidacionCamposProcesada;
 
         public ICommand SeleccionarAvatarCommand { get; }
 
@@ -152,43 +175,48 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             ValidacionEntradaHelper.ResultadoValidacion resultadoUsuario = ValidacionEntradaHelper.ValidarUsuario(Usuario);
 
+            CampoEntrada camposInvalidos = CampoEntrada.Ninguno;
+
             if (!resultadoUsuario.EsValido)
             {
-                _dialogService.Aviso(resultadoUsuario.MensajeError);
-                return;
+                camposInvalidos |= CampoEntrada.Usuario;
             }
 
             ValidacionEntradaHelper.ResultadoValidacion resultadoNombre = ValidacionEntradaHelper.ValidarNombre(Nombre);
 
             if (!resultadoNombre.EsValido)
             {
-                _dialogService.Aviso(resultadoNombre.MensajeError);
-                return;
+                camposInvalidos |= CampoEntrada.Nombre;
             }
 
             ValidacionEntradaHelper.ResultadoValidacion resultadoApellido = ValidacionEntradaHelper.ValidarApellido(Apellido);
 
             if (!resultadoApellido.EsValido)
             {
-                _dialogService.Aviso(resultadoApellido.MensajeError);
-                return;
+                camposInvalidos |= CampoEntrada.Apellido;
             }
 
             ValidacionEntradaHelper.ResultadoValidacion resultadoCorreo = ValidacionEntradaHelper.ValidarCorreo(Correo);
 
             if (!resultadoCorreo.EsValido)
             {
-                _dialogService.Aviso(resultadoCorreo.MensajeError);
-                return;
+                camposInvalidos |= CampoEntrada.Correo;
             }
 
             ValidacionEntradaHelper.ResultadoValidacion resultadoContrasena = ValidacionEntradaHelper.ValidarContrasena(Contrasena);
 
             if (!resultadoContrasena.EsValido)
             {
-                _dialogService.Aviso(resultadoContrasena.MensajeError);
+                camposInvalidos |= CampoEntrada.Contrasena;
+            }
+
+            if (camposInvalidos != CampoEntrada.Ninguno)
+            {
+                NotificarValidacionCampos(camposInvalidos);
                 return;
             }
+
+            NotificarValidacionCampos(CampoEntrada.Ninguno);
 
             if (AvatarSeleccionado == null)
             {
@@ -229,6 +257,20 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 MostrarErrorUsuario = resultado.UsuarioYaRegistrado;
                 MostrarErrorCorreo = resultado.CorreoYaRegistrado;
 
+                CampoEntrada camposRegistro = CampoEntrada.Ninguno;
+
+                if (MostrarErrorUsuario)
+                {
+                    camposRegistro |= CampoEntrada.Usuario;
+                }
+
+                if (MostrarErrorCorreo)
+                {
+                    camposRegistro |= CampoEntrada.Correo;
+                }
+
+                NotificarValidacionCampos(camposRegistro);
+
                 if (!resultado.CodigoEnviado)
                 {
                     if (!MostrarErrorUsuario && !MostrarErrorCorreo)
@@ -250,6 +292,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 {
                     SolicitarCerrar?.Invoke(this, EventArgs.Empty);
                 }
+                else
+                {
+                    NotificarValidacionCampos(CampoEntrada.Ninguno);
+                }
             }
             catch (ServicioException ex)
             {
@@ -261,6 +307,11 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             {
                 EstaProcesando = false;
             }
+        }
+
+        private void NotificarValidacionCampos(CampoEntrada camposInvalidos)
+        {
+            ValidacionCamposProcesada?.Invoke(this, new ValidacionCamposEventArgs(camposInvalidos));
         }
     }
 }
