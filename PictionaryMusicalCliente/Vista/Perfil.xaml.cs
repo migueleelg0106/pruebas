@@ -1,686 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.ServiceModel;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Controls.Primitives;
-using System.Text;
-using PictionaryMusicalCliente.Modelo;
-using PictionaryMusicalCliente.Modelo.Catalogos;
-using PictionaryMusicalCliente.Sesiones;
-using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
+using System.Windows.Input;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
+using PictionaryMusicalCliente.Servicios.Wcf;
 using PictionaryMusicalCliente.Utilidades;
-using LangResources = PictionaryMusicalCliente.Properties.Langs;
-using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;
-using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
-using ReenvioSrv = PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion;
-using PerfilSrv = PictionaryMusicalCliente.PictionaryServidorServicioPerfil;
+using PictionaryMusicalCliente.VistaModelo.Cuentas;
 
 namespace PictionaryMusicalCliente
 {
-    /// <summary>
-    /// Lógica de interacción para Perfil.xaml
-    /// </summary>
     public partial class Perfil : Window
     {
-
-        private IReadOnlyList<ObjetoAvatar> _catalogoAvatares;
-        private UsuarioAutenticado _usuarioSesion;
-        private ObjetoAvatar _avatarActual;
-        private ObjetoAvatar _avatarSeleccionado;
-
-        public ObservableCollection<RedSocialPerfil> RedesSociales { get; } = new ObservableCollection<RedSocialPerfil>();
+        private readonly PerfilVistaModelo _vistaModelo;
 
         public Perfil()
         {
             InitializeComponent();
-            DataContext = this;
-            _catalogoAvatares = CatalogoAvataresLocales.ObtenerAvatares();
-            InicializarRedesSociales();
+
+            IDialogService dialogService = new DialogService();
+            IPerfilService perfilService = new PerfilService();
+            ISeleccionarAvatarService seleccionarAvatarService = new SeleccionarAvatarDialogService();
+            IRecuperacionCuentaDialogService recuperacionCuentaDialogService = new RecuperacionCuentaDialogService();
+
+            _vistaModelo = new PerfilVistaModelo(
+                dialogService,
+                perfilService,
+                seleccionarAvatarService,
+                recuperacionCuentaDialogService);
+
+            _vistaModelo.SolicitarCerrar += VistaModelo_SolicitarCerrar;
+            _vistaModelo.ValidacionCamposProcesada += VistaModelo_ValidacionCamposProcesada;
+
+            DataContext = _vistaModelo;
+
+            Closed += Perfil_Closed;
         }
 
         private async void Perfil_Loaded(object sender, RoutedEventArgs e)
         {
-            await CargarPerfilAsync();
-        }
-
-        private async Task CargarPerfilAsync()
-        {
-            await CargarCatalogoAvataresAsync();
-
-            _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
-
-            if (_usuarioSesion == null)
+            if (_vistaModelo != null)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
-                Close();
-                return;
-            }
-
-            try
-            {
-                var cliente = new PerfilSrv.PerfilManejadorClient("BasicHttpBinding_IPerfilManejador");
-                PerfilSrv.UsuarioDTO perfilDto = await WcfClientHelper.UsarAsync(
-                    cliente,
-                    c => c.ObtenerPerfilAsync(_usuarioSesion.IdUsuario));
-
-                if (perfilDto != null)
-                {
-                    UsuarioAutenticado perfilActualizado = UsuarioMapper.CrearDesde(perfilDto);
-                    if (perfilActualizado != null)
-                    {
-                        SesionUsuarioActual.Instancia.EstablecerUsuario(perfilActualizado);
-                        _usuarioSesion = perfilActualizado;
-                    }
-                }
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorObtenerPerfil);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.avisoTextoComunicacionServidorSesion);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.avisoTextoServidorTiempoSesion);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.avisoTextoComunicacionServidorSesion);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoPerfilActualizarInformacion);
-            }
-
-            _avatarActual = ObtenerAvatarPorId(_usuarioSesion.AvatarId);
-            if (_avatarActual == null)
-            {
-                _avatarActual = _catalogoAvatares?.FirstOrDefault();
-            }
-            _avatarSeleccionado = _avatarActual;
-
-            ActualizarCampos();
-        }
-
-        private async Task CargarCatalogoAvataresAsync()
-        {
-            IReadOnlyList<ObjetoAvatar> avataresLocales = CatalogoAvataresLocales.ObtenerAvatares();
-
-            try
-            {
-                var cliente = new AvataresSrv.CatalogoAvataresClient("BasicHttpBinding_ICatalogoAvatares");
-                AvataresSrv.AvatarDTO[] avataresServidor = await WcfClientHelper.UsarAsync(
-                    cliente,
-                    c => c.ObtenerAvataresDisponiblesAsync());
-
-                IReadOnlyList<ObjetoAvatar> avataresRemotos = AvatarServicioHelper.Convertir(avataresServidor);
-
-                if (avataresRemotos != null && avataresRemotos.Count > 0)
-                {
-                    IReadOnlyList<ObjetoAvatar> avataresSincronizados = SincronizarCatalogoLocal(avataresRemotos, avataresLocales);
-
-                    if (avataresSincronizados != null && avataresSincronizados.Count > 0)
-                    {
-                        _catalogoAvatares = avataresSincronizados;
-                        return;
-                    }
-                }
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorNoDisponible);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
-            }
-
-            _catalogoAvatares = avataresLocales;
-        }
-
-        private static IReadOnlyList<ObjetoAvatar> SincronizarCatalogoLocal(
-            IEnumerable<ObjetoAvatar> avataresServidor,
-            IReadOnlyList<ObjetoAvatar> avataresLocales)
-        {
-            if (avataresServidor == null)
-            {
-                return avataresLocales;
-            }
-
-            if (avataresLocales == null || avataresLocales.Count == 0)
-            {
-                return avataresServidor.ToList();
-            }
-
-            var localesValidos = avataresLocales
-                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.RutaRelativa))
-                .ToList();
-
-            if (localesValidos.Count == 0)
-            {
-                return avataresLocales;
-            }
-
-            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado = localesValidos
-                .Where(avatar => !string.IsNullOrWhiteSpace(avatar.Nombre))
-                .GroupBy(avatar => NormalizarNombre(avatar.Nombre))
-                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
-
-            Dictionary<string, ObjetoAvatar> localesPorRuta = localesValidos
-                .GroupBy(avatar => AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatar.RutaRelativa))
-                .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
-
-            var asignados = new HashSet<ObjetoAvatar>();
-            var resultado = new List<ObjetoAvatar>();
-
-            foreach (ObjetoAvatar avatarServidor in avataresServidor)
-            {
-                if (avatarServidor == null)
-                {
-                    continue;
-                }
-
-                ObjetoAvatar avatarLocal = BuscarCoincidenciaLocal(avatarServidor, localesValidos, localesPorNombreNormalizado, localesPorRuta, asignados);
-
-                if (avatarLocal == null)
-                {
-                    continue;
-                }
-
-                asignados.Add(avatarLocal);
-
-                resultado.Add(new ObjetoAvatar
-                {
-                    Id = avatarServidor.Id,
-                    Nombre = string.IsNullOrWhiteSpace(avatarServidor.Nombre) ? avatarLocal.Nombre : avatarServidor.Nombre,
-                    RutaRelativa = avatarLocal.RutaRelativa,
-                    ImagenUriAbsoluta = null
-                });
-            }
-
-            return resultado.Count > 0 ? resultado : avataresLocales;
-        }
-
-        private static ObjetoAvatar BuscarCoincidenciaLocal(
-            ObjetoAvatar avatarServidor,
-            List<ObjetoAvatar> localesValidos,
-            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado,
-            Dictionary<string, ObjetoAvatar> localesPorRuta,
-            HashSet<ObjetoAvatar> asignados)
-        {
-            ObjetoAvatar avatarLocal = null;
-
-            if (avatarServidor.Id > 0)
-            {
-                avatarLocal = localesValidos
-                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id && !asignados.Contains(avatar));
-            }
-
-            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.Nombre))
-            {
-                string nombreNormalizado = NormalizarNombre(avatarServidor.Nombre);
-
-                if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out ObjetoAvatar coincidenciaNombre)
-                    && !asignados.Contains(coincidenciaNombre))
-                {
-                    avatarLocal = coincidenciaNombre;
-                }
-            }
-
-            if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.RutaRelativa))
-            {
-                string rutaNormalizada = AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatarServidor.RutaRelativa);
-
-                if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
-                    && !asignados.Contains(coincidenciaRuta))
-                {
-                    avatarLocal = coincidenciaRuta;
-                }
-            }
-
-            if (avatarLocal == null)
-            {
-                avatarLocal = localesValidos.FirstOrDefault(avatar => !asignados.Contains(avatar));
-            }
-
-            return avatarLocal;
-        }
-
-        private static string NormalizarNombre(string nombre)
-        {
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                return string.Empty;
-            }
-
-            string descompuesto = nombre.Normalize(NormalizationForm.FormD);
-            var builder = new StringBuilder(descompuesto.Length);
-
-            foreach (char caracter in descompuesto)
-            {
-                UnicodeCategory categoria = CharUnicodeInfo.GetUnicodeCategory(caracter);
-
-                if (categoria == UnicodeCategory.NonSpacingMark)
-                {
-                    continue;
-                }
-
-                if (char.IsLetterOrDigit(caracter))
-                {
-                    builder.Append(char.ToLowerInvariant(caracter));
-                }
-            }
-
-            return builder.ToString();
-        }
-
-        private void InicializarRedesSociales()
-        {
-            RedesSociales.Clear();
-
-            IReadOnlyList<RedSocialPerfil> redes = CatalogoImagenesPerfilLocales.ObtenerRedesSociales();
-
-            if (redes == null || redes.Count == 0)
-            {
-                return;
-            }
-
-            foreach (RedSocialPerfil red in redes)
-            {
-                RedesSociales.Add(red);
+                await _vistaModelo.InicializarAsync();
             }
         }
 
-        private void ActualizarCampos()
-        {
-            bloqueTextoUsuario.Text = _usuarioSesion?.NombreUsuario ?? string.Empty;
-            bloqueTextoNombre.Text = _usuarioSesion?.Nombre ?? string.Empty;
-            bloqueTextoApellido.Text = _usuarioSesion?.Apellido ?? string.Empty;
-            bloqueTextoCorreo.Text = _usuarioSesion?.Correo ?? string.Empty;
-
-            ActualizarVistaAvatares();
-            ActualizarRedesSocialesDesdeSesion();
-        }
-
-        private void ActualizarVistaAvatares()
-        {
-            ObjetoAvatar avatarNuevo = _avatarSeleccionado ?? _avatarActual ?? _catalogoAvatares?.FirstOrDefault();
-
-            if (avatarNuevo == null)
-            {
-                imagenAvatarNuevo.ImageSource = null;
-                textoNombreAvatarNuevo.Text = string.Empty;
-                return;
-            }
-
-            imagenAvatarNuevo.ImageSource = AvatarImagenHelper.CrearImagen(avatarNuevo);
-            textoNombreAvatarNuevo.Text = avatarNuevo.Nombre ?? string.Empty;
-        }
-
-
-        private ObjetoAvatar ObtenerAvatarPorId(int avatarId)
-        {
-            return _catalogoAvatares?.FirstOrDefault(a => a.Id == avatarId);
-        }
-
-        private async void BotonGuardarCambios(object sender, RoutedEventArgs e)
-        {
-            if (_usuarioSesion == null)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
-                Close();
-                return;
-            }
-
-            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
-            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
-
-            ValidacionEntradaHelper.ResultadoValidacion resultadoNombre = ValidacionEntradaHelper.ValidarNombre(bloqueTextoNombre.Text);
-
-            if (!resultadoNombre.EsValido)
-            {
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
-                AvisoHelper.Mostrar(resultadoNombre.MensajeError);
-                bloqueTextoNombre.Focus();
-                return;
-            }
-
-            string nombre = resultadoNombre.ValorNormalizado;
-
-            ValidacionEntradaHelper.ResultadoValidacion resultadoApellido = ValidacionEntradaHelper.ValidarApellido(bloqueTextoApellido.Text);
-
-            if (!resultadoApellido.EsValido)
-            {
-                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
-                AvisoHelper.Mostrar(resultadoApellido.MensajeError);
-                bloqueTextoApellido.Focus();
-                return;
-            }
-
-            string apellido = resultadoApellido.ValorNormalizado;
-
-            ObjetoAvatar avatar = _avatarSeleccionado ?? _avatarActual;
-
-            if (avatar == null || avatar.Id <= 0)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoSeleccionAvatarValido);
-                return;
-            }
-
-            if (!TryObtenerRedesSocialesParaSolicitud(out string instagram, out string facebook, out string x, out string discord, out string mensajeError))
-            {
-                if (!string.IsNullOrWhiteSpace(mensajeError))
-                {
-                    AvisoHelper.Mostrar(mensajeError);
-                }
-                return;
-            }
-
-            var solicitud = new PerfilSrv.ActualizarPerfilDTO
-            {
-                UsuarioId = _usuarioSesion.IdUsuario,
-                Nombre = nombre,
-                Apellido = apellido,
-                AvatarId = avatar.Id,
-                Instagram = instagram,
-                Facebook = facebook,
-                X = x,
-                Discord = discord
-            };
-
-            Button boton = sender as Button;
-            if (boton != null)
-            {
-                boton.IsEnabled = false;
-            }
-
-            Mouse.OverrideCursor = Cursors.Wait;
-
-            try
-            {
-                var cliente = new PerfilSrv.PerfilManejadorClient("BasicHttpBinding_IPerfilManejador");
-                PerfilSrv.ResultadoOperacionDTO resultado = await WcfClientHelper.UsarAsync(
-                    cliente,
-                    c => c.ActualizarPerfilAsync(solicitud));
-
-                if (resultado == null)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoActualizarPerfil);
-                    return;
-                }
-
-                if (resultado.OperacionExitosa)
-                {
-                    SesionUsuarioActual.Instancia.ActualizarDatosPersonales(nombre, apellido, solicitud.AvatarId, instagram, facebook, x, discord);
-                    _usuarioSesion = SesionUsuarioActual.Instancia.Usuario;
-                    _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? avatar;
-                    _avatarSeleccionado = _avatarActual;
-                    ActualizarCampos();
-
-                    string mensaje = MensajeServidorHelper.Localizar(
-                        resultado.Mensaje,
-                        LangResources.Lang.avisoTextoPerfilActualizado);
-                    AvisoHelper.Mostrar(mensaje);
-                    return;
-                }
-
-                string mensajeFinal = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.errorTextoActualizarPerfil);
-                AvisoHelper.Mostrar(mensajeFinal);
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorActualizarPerfil);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
-            }
-            finally
-            {
-                if (boton != null)
-                {
-                    boton.IsEnabled = true;
-                }
-
-                Mouse.OverrideCursor = null;
-            }
-        }
-
-        private async void BotonCambiarContraseña(object sender, RoutedEventArgs e)
-        {
-            _usuarioSesion = _usuarioSesion ?? SesionUsuarioActual.Instancia.Usuario;
-
-            if (_usuarioSesion == null)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
-                Close();
-                return;
-            }
-
-            string identificador = !string.IsNullOrWhiteSpace(_usuarioSesion.Correo)
-                ? _usuarioSesion.Correo
-                : _usuarioSesion.NombreUsuario;
-
-            if (string.IsNullOrWhiteSpace(identificador))
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoDeterminarUsuarioCambioContrasena);
-                return;
-            }
-
-            Button boton = sender as Button;
-            if (boton != null)
-            {
-                boton.IsEnabled = false;
-            }
-
-            Mouse.OverrideCursor = Cursors.Wait;
-
-            try
-            {
-                CambioContrasenaContexto contexto = await SolicitarCambioContrasenaAsync(identificador);
-
-                if (contexto == null)
-                {
-                    return;
-                }
-
-                Mouse.OverrideCursor = null;
-
-                bool contrasenaActualizada = await EjecutarDialogosCambioContrasenaAsync(contexto, identificador);
-
-                if (contrasenaActualizada)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.avisoTextoContrasenaActualizada);
-                }
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorSolicitudCambioContrasena);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
-            }
-            finally
-            {
-                if (boton != null)
-                {
-                    boton.IsEnabled = true;
-                }
-
-                Mouse.OverrideCursor = null;
-            }
-        }
-
-        private async Task<CambioContrasenaContexto> SolicitarCambioContrasenaAsync(string identificador)
-        {
-            CodigoVerificacionSrv.ResultadoSolicitudRecuperacionDTO resultado = await CodigoVerificacionServicioHelper.SolicitarCodigoRecuperacionAsync(identificador);
-
-            if (resultado == null)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoIniciarCambioContrasena);
-                return null;
-            }
-
-            if (!resultado.CuentaEncontrada)
-            {
-                string mensajeCuenta = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.errorTextoCuentaNoEncontradaSesion);
-                AvisoHelper.Mostrar(mensajeCuenta);
-                return null;
-            }
-
-            if (!resultado.CodigoEnviado || string.IsNullOrWhiteSpace(resultado.TokenCodigo))
-            {
-                string mensajeCodigo = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.errorTextoEnvioCodigoVerificacionMasTarde);
-                AvisoHelper.Mostrar(mensajeCodigo);
-                return null;
-            }
-
-            return new CambioContrasenaContexto(resultado.TokenCodigo, resultado.CorreoDestino);
-        }
-
-        private async Task<bool> EjecutarDialogosCambioContrasenaAsync(CambioContrasenaContexto contexto, string identificador)
-        {
-            if (contexto == null)
-            {
-                return false;
-            }
-
-            string tokenCodigo = contexto.TokenCodigo;
-            string correoDestino = contexto.CorreoDestino;
-
-            async Task<VerificarCodigo.ConfirmacionResultado> ConfirmarCodigoAsync(string codigo)
-            {
-                CodigoVerificacionSrv.ResultadoOperacionDTO resultadoConfirmacion = await CodigoVerificacionServicioHelper.ConfirmarCodigoRecuperacionAsync(
-                    tokenCodigo,
-                    codigo);
-
-                if (resultadoConfirmacion == null)
-                {
-                    return null;
-                }
-
-                return new VerificarCodigo.ConfirmacionResultado(
-                    resultadoConfirmacion.OperacionExitosa,
-                    resultadoConfirmacion.Mensaje);
-            }
-
-            async Task<VerificarCodigo.ReenvioResultado> ReenviarCodigoAsync()
-            {
-                ReenvioSrv.ResultadoSolicitudCodigoDTO resultadoReenvio = await CodigoVerificacionServicioHelper.ReenviarCodigoRecuperacionAsync(tokenCodigo);
-
-                if (resultadoReenvio != null && !string.IsNullOrWhiteSpace(resultadoReenvio.TokenCodigo))
-                {
-                    tokenCodigo = resultadoReenvio.TokenCodigo;
-                }
-
-                return resultadoReenvio == null
-                    ? null
-                    : new VerificarCodigo.ReenvioResultado(
-                        resultadoReenvio.CodigoEnviado,
-                        resultadoReenvio.Mensaje,
-                        resultadoReenvio.TokenCodigo);
-            }
-
-            var ventanaVerificacion = new VerificarCodigo(
-                tokenCodigo,
-                correoDestino,
-                ConfirmarCodigoAsync,
-                ReenviarCodigoAsync,
-                LangResources.Lang.avisoTextoCodigoDescripcionCambio);
-
-            ventanaVerificacion.ShowDialog();
-
-            if (!ventanaVerificacion.OperacionCompletada)
-            {
-                return false;
-            }
-
-            var ventanaCambio = new CambioContrasena(tokenCodigo, identificador);
-            bool? resultadoCambio = ventanaCambio.ShowDialog();
-
-            return ventanaCambio.ContrasenaActualizada || resultadoCambio == true;
-        }
-
-        private void BotonRegresar(object sender, RoutedEventArgs e)
+        private void VistaModelo_SolicitarCerrar(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void EtiquetaSeleccionarAvatar(object sender, MouseButtonEventArgs e)
+        private void VistaModelo_ValidacionCamposProcesada(object sender, PerfilVistaModelo.ValidacionCamposEventArgs e)
         {
-            IReadOnlyCollection<ObjetoAvatar> catalogo = _catalogoAvatares ?? CatalogoAvataresLocales.ObtenerAvatares();
-            var ventanaSeleccion = new SeleccionarAvatar(catalogo);
-            bool? resultado = ventanaSeleccion.ShowDialog();
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoApellido);
 
-            if (resultado == true && ventanaSeleccion.AvatarSeleccionado != null)
+            if (e == null)
             {
-                _avatarSeleccionado = ventanaSeleccion.AvatarSeleccionado;
-                imagenAvatarNuevo.ImageSource = ventanaSeleccion.AvatarSeleccionadoImagen
-                    ?? AvatarImagenHelper.CrearImagen(_avatarSeleccionado);
-                textoNombreAvatarNuevo.Text = _avatarSeleccionado?.Nombre ?? string.Empty;
+                return;
+            }
+
+            if (e.CamposInvalidos.HasFlag(PerfilVistaModelo.CampoEntrada.Nombre))
+            {
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
+            }
+
+            if (e.CamposInvalidos.HasFlag(PerfilVistaModelo.CampoEntrada.Apellido))
+            {
+                ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
             }
         }
 
@@ -706,6 +94,7 @@ namespace PictionaryMusicalCliente
                 {
                     return;
                 }
+
                 toggle.IsChecked = false;
                 e.Handled = true;
             }
@@ -721,126 +110,13 @@ namespace PictionaryMusicalCliente
             return null;
         }
 
-        private void ActualizarRedesSocialesDesdeSesion()
+        private void Perfil_Closed(object sender, EventArgs e)
         {
-            if (RedesSociales == null || RedesSociales.Count == 0)
+            if (_vistaModelo != null)
             {
-                return;
-            }
-
-            foreach (RedSocialPerfil red in RedesSociales)
-            {
-                if (red == null)
-                {
-                    continue;
-                }
-
-                string valor = ObtenerValorRedSocialDesdeSesion(red.Clave);
-                red.Identificador = string.IsNullOrWhiteSpace(valor) ? "@" : valor;
+                _vistaModelo.SolicitarCerrar -= VistaModelo_SolicitarCerrar;
+                _vistaModelo.ValidacionCamposProcesada -= VistaModelo_ValidacionCamposProcesada;
             }
         }
-
-        private string ObtenerValorRedSocialDesdeSesion(string clave)
-        {
-            if (_usuarioSesion == null || string.IsNullOrWhiteSpace(clave))
-            {
-                return null;
-            }
-
-            switch (clave.ToLowerInvariant())
-            {
-                case "instagram":
-                    return _usuarioSesion.Instagram;
-                case "facebook":
-                    return _usuarioSesion.Facebook;
-                case "x":
-                    return _usuarioSesion.X;
-                case "discord":
-                    return _usuarioSesion.Discord;
-                default:
-                    return null;
-            }
-        }
-
-        private bool TryObtenerRedesSocialesParaSolicitud(
-            out string instagram,
-            out string facebook,
-            out string x,
-            out string discord,
-            out string mensajeError)
-        {
-            instagram = null;
-            facebook = null;
-            x = null;
-            discord = null;
-            mensajeError = null;
-
-            if (RedesSociales == null)
-            {
-                return true;
-            }
-
-            foreach (RedSocialPerfil red in RedesSociales)
-            {
-                if (red == null)
-                {
-                    continue;
-                }
-
-                string valor = PrepararValorRedSocial(red.Identificador, red.Nombre, out string error);
-
-                if (!string.IsNullOrWhiteSpace(error))
-                {
-                    mensajeError = error;
-                    return false;
-                }
-
-                switch (red.Clave?.ToLowerInvariant())
-                {
-                    case "instagram":
-                        instagram = valor;
-                        break;
-                    case "facebook":
-                        facebook = valor;
-                        break;
-                    case "x":
-                        x = valor;
-                        break;
-                    case "discord":
-                        discord = valor;
-                        break;
-                }
-            }
-
-            return true;
-        }
-
-        private static string PrepararValorRedSocial(string identificador, string nombreRed, out string mensajeError)
-        {
-            ValidacionEntradaHelper.ResultadoValidacion resultado = ValidacionEntradaHelper.ValidarRedSocial(identificador, nombreRed);
-
-            if (!resultado.EsValido)
-            {
-                mensajeError = resultado.MensajeError;
-                return null;
-            }
-
-            mensajeError = null;
-            return resultado.ValorNormalizado;
-        }
-
-        private sealed class CambioContrasenaContexto
-        {
-            public CambioContrasenaContexto(string tokenCodigo, string correoDestino)
-            {
-                TokenCodigo = tokenCodigo;
-                CorreoDestino = correoDestino;
-            }
-
-            public string TokenCodigo { get; }
-
-            public string CorreoDestino { get; }
-        }
-
     }
 }

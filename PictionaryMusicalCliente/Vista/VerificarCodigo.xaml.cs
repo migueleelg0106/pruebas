@@ -1,35 +1,24 @@
-﻿using System;
-using System.ServiceModel;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
-using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
-using PictionaryMusicalCliente.Utilidades;
+using PictionaryMusicalCliente.Modelo.Cuentas;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
+using PictionaryMusicalCliente.Servicios.Wcf;
+using PictionaryMusicalCliente.VistaModelo.Cuentas;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
-using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
-using ReenvioSrv = PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion;
 
 namespace PictionaryMusicalCliente
 {
     public partial class VerificarCodigo : Window
     {
-        private string _tokenCodigo;
-        private readonly string _correoDestino;
-        private readonly string _textoOriginalReenviar;
-        private readonly DispatcherTimer _temporizador;
-        private readonly Func<string, Task<ConfirmacionResultado>> _confirmarCodigoFunc;
-        private readonly Func<Task<ReenvioResultado>> _solicitarReenvioFunc;
-        private readonly string _descripcionPersonalizada;
-        private DateTime _siguienteReenvioPermitido;
-
-        public bool OperacionCompletada { get; private set; }
-        public bool RegistroCompletado => OperacionCompletada;
+        private readonly VerificarCodigoVistaModelo _vistaModelo;
 
         public VerificarCodigo(
             string tokenCodigo,
             string correoDestino,
-            Func<string, Task<ConfirmacionResultado>> confirmarCodigoAsync = null,
-            Func<Task<ReenvioResultado>> reenviarCodigoAsync = null,
+            Func<string, Task<ConfirmacionCodigoResultado>> confirmarCodigoAsync = null,
+            Func<Task<ReenvioCodigoResultado>> reenviarCodigoAsync = null,
             string descripcionPersonalizada = null)
         {
             if (string.IsNullOrWhiteSpace(tokenCodigo))
@@ -39,290 +28,42 @@ namespace PictionaryMusicalCliente
 
             InitializeComponent();
 
-            _tokenCodigo = tokenCodigo;
-            _correoDestino = correoDestino ?? string.Empty;
-            _textoOriginalReenviar = botonReenviarCodigo.Content?.ToString() ?? LangResources.Lang.cambiarContrasenaTextoReenviarCodigo;
-            _temporizador = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-            _temporizador.Tick += TemporizadorTick;
+            IDialogService dialogService = new DialogService();
+            IVerificarCodigoService verificarCodigoService = new VerificarCodigoService();
 
-            _confirmarCodigoFunc = confirmarCodigoAsync ?? ConfirmarCodigoRegistroAsync;
-            _solicitarReenvioFunc = reenviarCodigoAsync ?? ReenviarCodigoRegistroAsync;
-            _descripcionPersonalizada = descripcionPersonalizada;
-            OperacionCompletada = false;
-            _siguienteReenvioPermitido = DateTime.UtcNow.AddMinutes(1);
+            _vistaModelo = new VerificarCodigoVistaModelo(
+                dialogService,
+                verificarCodigoService,
+                tokenCodigo,
+                correoDestino,
+                confirmarCodigoAsync,
+                reenviarCodigoAsync,
+                descripcionPersonalizada);
 
-            if (!string.IsNullOrWhiteSpace(_descripcionPersonalizada))
-            {
-                textoDescripcion.Text = _descripcionPersonalizada;
-            }
-            else
-            {
-                textoDescripcion.Text = string.IsNullOrWhiteSpace(_correoDestino)
-                    ? LangResources.Lang.avisoTextoCodigoDescripcionGenerica
-                    : string.Format(LangResources.Lang.avisoTextoCodigoDescripcionCorreo, _correoDestino);
-            }
+            _vistaModelo.SolicitarCerrar += VistaModelo_SolicitarCerrar;
 
-            if (_solicitarReenvioFunc == null)
-            {
-                botonReenviarCodigo.Visibility = Visibility.Collapsed;
-            }
+            DataContext = _vistaModelo;
 
-            ActualizarEstadoReenvio();
+            Closed += VerificarCodigo_Closed;
         }
 
-        private async void BotonVerificarCodigo(object sender, RoutedEventArgs e)
+        public bool OperacionCompletada => _vistaModelo?.OperacionCompletada ?? false;
+
+        public bool RegistroCompletado => OperacionCompletada;
+
+        private void VistaModelo_SolicitarCerrar(object sender, EventArgs e)
         {
-            string codigoIngresado = bloqueTextoCodigoVerificacion.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(codigoIngresado))
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoCodigoVerificacionRequerido);
-                bloqueTextoCodigoVerificacion.Focus();
-                return;
-            }
-
-            botonVerificarCodigo.IsEnabled = false;
-
-            try
-            {
-                if (_confirmarCodigoFunc == null)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoValidacionCodigoNoDisponible);
-                    return;
-                }
-
-                ConfirmacionResultado resultado = await _confirmarCodigoFunc(codigoIngresado);
-
-                if (resultado == null)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoVerificarCodigo);
-                    return;
-                }
-
-                if (resultado.OperacionExitosa)
-                {
-                    string mensaje = MensajeServidorHelper.Localizar(
-                        resultado.Mensaje,
-                        LangResources.Lang.avisoTextoCodigoVerificadoCorrecto);
-                    AvisoHelper.Mostrar(mensaje);
-                    OperacionCompletada = true;
-                    Close();
-                    return;
-                }
-
-                string mensajeError = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.errorTextoCodigoIncorrectoExpirado);
-
-                AvisoHelper.Mostrar(mensajeError);
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorValidarCodigo);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoSolicitudVerificacionInvalida);
-            }
-            finally
-            {
-                if (!OperacionCompletada)
-                {
-                    botonVerificarCodigo.IsEnabled = true;
-                }
-            }
-        }
-
-        private async void BotonReenviarCodigo(object sender, RoutedEventArgs e)
-        {
-            await ManejarReenvioCodigoAsync();
-        }
-
-        private void BotonCancelarCodigo(object sender, RoutedEventArgs e)
-        {
+            DialogResult = OperacionCompletada;
             Close();
         }
 
-        private async Task<ConfirmacionResultado> ConfirmarCodigoRegistroAsync(string codigo)
+        private void VerificarCodigo_Closed(object sender, EventArgs e)
         {
-            CodigoVerificacionSrv.ResultadoRegistroCuentaDTO resultado = await CodigoVerificacionServicioHelper.ConfirmarCodigoRegistroAsync(
-                _tokenCodigo,
-                codigo);
-
-            if (resultado == null)
+            if (_vistaModelo != null)
             {
-                return null;
+                _vistaModelo.SolicitarCerrar -= VistaModelo_SolicitarCerrar;
+                _vistaModelo.Dispose();
             }
-
-            return new ConfirmacionResultado(
-                resultado.RegistroExitoso,
-                resultado.Mensaje);
-        }
-
-        private async Task<ReenvioResultado> ReenviarCodigoRegistroAsync()
-        {
-            ReenvioSrv.ResultadoSolicitudCodigoDTO resultado = await CodigoVerificacionServicioHelper.ReenviarCodigoRegistroAsync(_tokenCodigo);
-
-            if (resultado == null)
-            {
-                return null;
-            }
-
-            return new ReenvioResultado(
-                resultado.CodigoEnviado,
-                resultado.Mensaje,
-                resultado.TokenCodigo);
-        }
-
-        private async Task ManejarReenvioCodigoAsync()
-        {
-            if (!botonReenviarCodigo.IsEnabled || _solicitarReenvioFunc == null)
-            {
-                return;
-            }
-
-            botonReenviarCodigo.IsEnabled = false;
-
-            try
-            {
-                ReenvioResultado resultado = await _solicitarReenvioFunc();
-
-                if (resultado == null)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoSolicitarNuevoCodigo);
-                    return;
-                }
-
-                if (resultado.CodigoEnviado)
-                {
-                    if (!string.IsNullOrWhiteSpace(resultado.TokenCodigo))
-                    {
-                        _tokenCodigo = resultado.TokenCodigo;
-                    }
-
-                    _siguienteReenvioPermitido = DateTime.UtcNow.AddMinutes(1);
-                    string mensaje = MensajeServidorHelper.Localizar(
-                        resultado.Mensaje,
-                        LangResources.Lang.avisoTextoCodigoReenviado);
-                    AvisoHelper.Mostrar(mensaje);
-                    return;
-                }
-
-                string mensajeError = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.avisoTextoReenvioCodigoNoDisponible);
-
-                AvisoHelper.Mostrar(mensajeError);
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorReenviarCodigo);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoErrorProcesarSolicitud);
-            }
-            finally
-            {
-                ActualizarEstadoReenvio();
-            }
-        }
-
-        private void TemporizadorTick(object sender, EventArgs e)
-        {
-            ActualizarEstadoReenvio();
-        }
-
-        private void ActualizarEstadoReenvio()
-        {
-            if (_solicitarReenvioFunc == null)
-            {
-                botonReenviarCodigo.IsEnabled = false;
-                botonReenviarCodigo.Content = _textoOriginalReenviar;
-                if (_temporizador.IsEnabled)
-                {
-                    _temporizador.Stop();
-                }
-                return;
-            }
-
-            DateTime ahora = DateTime.UtcNow;
-            if (ahora >= _siguienteReenvioPermitido)
-            {
-                botonReenviarCodigo.IsEnabled = true;
-                botonReenviarCodigo.Content = _textoOriginalReenviar;
-                if (_temporizador.IsEnabled)
-                {
-                    _temporizador.Stop();
-                }
-                return;
-            }
-
-            TimeSpan restante = _siguienteReenvioPermitido - ahora;
-            int segundos = Math.Max(1, (int)Math.Ceiling(restante.TotalSeconds));
-            botonReenviarCodigo.IsEnabled = false;
-            botonReenviarCodigo.Content = $"{_textoOriginalReenviar} ({segundos}s)";
-
-            if (!_temporizador.IsEnabled)
-            {
-                _temporizador.Start();
-            }
-        }
-
-        public sealed class ConfirmacionResultado
-        {
-            public ConfirmacionResultado(bool operacionExitosa, string mensaje)
-            {
-                OperacionExitosa = operacionExitosa;
-                Mensaje = mensaje;
-            }
-
-            public bool OperacionExitosa { get; }
-            public string Mensaje { get; }
-        }
-
-        public sealed class ReenvioResultado
-        {
-            public ReenvioResultado(bool codigoEnviado, string mensaje, string tokenCodigo)
-            {
-                CodigoEnviado = codigoEnviado;
-                Mensaje = mensaje;
-                TokenCodigo = tokenCodigo;
-            }
-
-            public bool CodigoEnviado { get; }
-            public string Mensaje { get; }
-            public string TokenCodigo { get; }
         }
     }
 }

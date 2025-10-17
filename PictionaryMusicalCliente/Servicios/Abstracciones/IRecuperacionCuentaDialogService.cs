@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using PictionaryMusicalCliente.Modelo.Cuentas;
 
 namespace PictionaryMusicalCliente.Servicios.Abstracciones
 {
@@ -17,16 +18,16 @@ namespace PictionaryMusicalCliente.Servicios.Abstracciones
     public sealed class FuncionesVerificarCodigo
     {
         public FuncionesVerificarCodigo(
-            Func<string, Task<global::PictionaryMusicalCliente.VerificarCodigo.ConfirmacionResultado>> confirmarCodigo,
-            Func<Task<global::PictionaryMusicalCliente.VerificarCodigo.ReenvioResultado>> reenviarCodigo)
+            Func<string, Task<PictionaryMusicalCliente.Modelo.Cuentas.ConfirmacionCodigoResultado>> confirmarCodigo,
+            Func<Task<PictionaryMusicalCliente.Modelo.Cuentas.ReenvioCodigoResultado>> reenviarCodigo)
         {
             ConfirmarCodigo = confirmarCodigo;
             ReenviarCodigo = reenviarCodigo;
         }
 
-        public Func<string, Task<global::PictionaryMusicalCliente.VerificarCodigo.ConfirmacionResultado>> ConfirmarCodigo { get; }
+        public Func<string, Task<ConfirmacionCodigoResultado>> ConfirmarCodigo { get; }
 
-        public Func<Task<global::PictionaryMusicalCliente.VerificarCodigo.ReenvioResultado>> ReenviarCodigo { get; }
+        public Func<Task<ReenvioCodigoResultado>> ReenviarCodigo { get; }
     }
 
     public sealed class ResultadoCambioContrasena
