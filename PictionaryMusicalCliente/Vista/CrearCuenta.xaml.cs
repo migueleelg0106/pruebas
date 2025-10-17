@@ -9,7 +9,7 @@ namespace PictionaryMusicalCliente
 {
     public partial class CrearCuenta : Window
     {
-        private readonly VistaModelo.Cuentas.CrearCuenta _vistaModelo;
+        private readonly VistaModelo.Cuentas.CrearCuentaVistaModelo _vistaModelo;
 
         public CrearCuenta()
         {
@@ -21,7 +21,7 @@ namespace PictionaryMusicalCliente
             ISeleccionarAvatarService seleccionarAvatarService = new SeleccionarAvatarDialogService();
             IVerificarCodigoDialogService verificarCodigoDialogService = new VerificarCodigoDialogService();
 
-            _vistaModelo = new VistaModelo.Cuentas.CrearCuenta(
+            _vistaModelo = new VistaModelo.Cuentas.CrearCuentaVistaModelo(
                 dialogService,
                 codigoVerificacionService,
                 avatarService,
@@ -43,7 +43,7 @@ namespace PictionaryMusicalCliente
             }
         }
 
-        private void VistaModelo_ValidacionCamposProcesada(object sender, VistaModelo.Cuentas.CrearCuenta.ValidacionCamposEventArgs e)
+        private void VistaModelo_ValidacionCamposProcesada(object sender, VistaModelo.Cuentas.CrearCuentaVistaModelo.ValidacionCamposEventArgs e)
         {
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoUsuario);
             ControlVisualHelper.RestablecerEstadoCampo(bloqueTextoNombre);
@@ -56,29 +56,29 @@ namespace PictionaryMusicalCliente
                 return;
             }
 
-            VistaModelo.Cuentas.CrearCuenta.CampoEntrada camposInvalidos = e.CamposInvalidos;
+            VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada camposInvalidos = e.CamposInvalidos;
 
-            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuenta.CampoEntrada.Usuario))
+            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada.Usuario))
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoUsuario);
             }
 
-            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuenta.CampoEntrada.Nombre))
+            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada.Nombre))
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoNombre);
             }
 
-            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuenta.CampoEntrada.Apellido))
+            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada.Apellido))
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoApellido);
             }
 
-            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuenta.CampoEntrada.Correo))
+            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada.Correo))
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueTextoCorreo);
             }
 
-            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuenta.CampoEntrada.Contrasena))
+            if (camposInvalidos.HasFlag(VistaModelo.Cuentas.CrearCuentaVistaModelo.CampoEntrada.Contrasena))
             {
                 ControlVisualHelper.MarcarCampoInvalido(bloqueContrasena);
             }
