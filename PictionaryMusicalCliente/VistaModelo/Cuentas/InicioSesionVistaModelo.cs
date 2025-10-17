@@ -173,7 +173,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         public int ObtenerIndiceIdiomaSeleccionado()
         {
-            return _idiomasDisponibles.IndexOf(IdiomaSeleccionado);
+            return _idiomasDisponibles
+            .Select((idioma, index) => new { idioma, index })
+            .FirstOrDefault(x => Equals(x.idioma, IdiomaSeleccionado))?.index ?? -1;
+
         }
 
         public void EstablecerIdiomaPorIndice(int indice)
