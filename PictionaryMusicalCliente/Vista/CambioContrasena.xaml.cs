@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Windows;
 using System.Windows.Input;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
 using CambioContrasenaSrv = PictionaryMusicalCliente.PictionaryServidorServicioCambioContrasena;

@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
 using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;

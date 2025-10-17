@@ -13,6 +13,7 @@ using System.Text;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Modelo.Catalogos;
 using PictionaryMusicalCliente.Sesiones;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
 using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;

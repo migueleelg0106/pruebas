@@ -50,7 +50,7 @@ namespace PictionaryMusicalCliente.Comandos
         /// <inheritdoc />
         public async void Execute(object parameter)
         {
-            await EjecutarAsync(parameter).ConfigureAwait(false);
+            await EjecutarAsync(parameter);
         }
 
         /// <inheritdoc />
@@ -65,7 +65,7 @@ namespace PictionaryMusicalCliente.Comandos
             {
                 _estaEjecutando = true;
                 NotificarPuedeEjecutar();
-                await _ejecutarAsync(parametro).ConfigureAwait(false);
+                await _ejecutarAsync(parametro).ConfigureAwait(true);
             }
             finally
             {

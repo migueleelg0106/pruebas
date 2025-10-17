@@ -4,7 +4,7 @@ using System.Linq;
 using PictionaryMusicalCliente.Modelo;
 using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;
 
-namespace PictionaryMusicalCliente.Utilidades
+namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
 {
     internal static class AvatarServicioHelper
     {

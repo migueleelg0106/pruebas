@@ -3,7 +3,7 @@ using System.Reflection;
 using System.ServiceModel;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
 
-namespace PictionaryMusicalCliente.Utilidades
+namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
 {
     public static class ErrorServicioHelper
     {

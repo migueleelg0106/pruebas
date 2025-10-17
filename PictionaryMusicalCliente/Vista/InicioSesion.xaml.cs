@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using PictionaryMusicalCliente.Modelo;
 using PictionaryMusicalCliente.Sesiones;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using PictionaryMusicalCliente.Utilidades;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
 using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
