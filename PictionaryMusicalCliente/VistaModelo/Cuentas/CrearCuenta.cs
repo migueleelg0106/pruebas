@@ -12,7 +12,7 @@ using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 {
-    public class CrearCuentaViewModel : BaseVistaModelo
+    public class CrearCuenta : BaseVistaModelo
     {
         private readonly IDialogService _dialogService;
         private readonly ICodigoVerificacionService _codigoVerificacionService;
@@ -31,7 +31,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private bool _mostrarErrorCorreo;
         private bool _estaProcesando;
 
-        public CrearCuentaViewModel(
+        public CrearCuenta(
             IDialogService dialogService,
             ICodigoVerificacionService codigoVerificacionService,
             IAvatarService avatarService,
