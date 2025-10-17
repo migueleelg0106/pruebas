@@ -64,7 +64,7 @@
                     <StackPanel Grid.Column="0" Margin="10,0">
                         <Label Content="{x:Static language:Lang.globalTextoUsuario}"
                                ContentStringFormat="{}{0}:" FontWeight="Bold" FontFamily="Comic Sans MS"/>
-                        <TextBox Height="25" FontFamily="Comic Sans MS"
+                        <TextBox x:Name="bloqueTextoUsuario" Height="25" FontFamily="Comic Sans MS"
                                  Text="{Binding Usuario, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="{x:Static language:Lang.errorTextoUsuarioEnUso}" Foreground="Red"
                                Visibility="{Binding MostrarErrorUsuario, Converter={StaticResource BooleanoVisibilidadConverter}}"/>
@@ -73,7 +73,7 @@
                     <StackPanel Grid.Column="1" Margin="10,0">
                         <Label Content="{x:Static language:Lang.globalTextoNombre}"
                                ContentStringFormat="{}{0}:" FontWeight="Bold" FontFamily="Comic Sans MS"/>
-                        <TextBox Height="25" FontFamily="Comic Sans MS"
+                        <TextBox x:Name="bloqueTextoNombre" Height="25" FontFamily="Comic Sans MS"
                                  Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </Grid>
@@ -87,14 +87,14 @@
                     <StackPanel Grid.Column="0" Margin="10,0">
                         <Label Content="{x:Static language:Lang.globalTextoApellido}"
                                ContentStringFormat="{}{0}:" FontWeight="Bold" FontFamily="Comic Sans MS"/>
-                        <TextBox Height="25" FontFamily="Comic Sans MS"
+                        <TextBox x:Name="bloqueTextoApellido" Height="25" FontFamily="Comic Sans MS"
                                  Text="{Binding Apellido, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="10,0">
                         <Label Content="{x:Static language:Lang.globalTextoCorreo}"
                                ContentStringFormat="{}{0}:" FontWeight="Bold" FontFamily="Comic Sans MS"/>
-                        <TextBox Height="25" FontFamily="Comic Sans MS"
+                        <TextBox x:Name="bloqueTextoCorreo" Height="25" FontFamily="Comic Sans MS"
                                  Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="{x:Static language:Lang.errorTextoCorreoEnUso}" Foreground="Red"
                                Visibility="{Binding MostrarErrorCorreo, Converter={StaticResource BooleanoVisibilidadConverter}}"/>
