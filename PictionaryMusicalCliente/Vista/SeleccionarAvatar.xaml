@@ -1,12 +1,12 @@
-﻿<Window x:Class="PictionaryMusicalCliente.SeleccionarAvatar"
+<Window x:Class="PictionaryMusicalCliente.SeleccionarAvatar"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:language="clr-namespace:PictionaryMusicalCliente.Properties.Langs"
         Title="{x:Static language:Lang.globalTextoSeleccionarAvatar}"
         Height="450" Width="420"
         WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True" WindowStyle="None" 
-        Background="Transparent" Cursor="">
+        AllowsTransparency="True" WindowStyle="None"
+        Background="Transparent">
 
     <Grid>
         <Border Background="White" BorderBrush="Gray" BorderThickness="2"
@@ -15,7 +15,10 @@
                 <!-- ===== Avatares en 4x4 ===== -->
                 <ListBox x:Name="listaAvatares"
                          BorderThickness="0"
-                         SelectionMode="Single">
+                         SelectionMode="Single"
+                         ItemsSource="{Binding Avatares}"
+                         SelectedItem="{Binding AvatarSeleccionado, Mode=TwoWay}"
+                         HorizontalContentAlignment="Stretch">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <!-- 4 columnas × 4 filas -->
@@ -23,25 +26,16 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
 
-                    <!-- Avatares (64x64) -->
-                    <ListBox.Items>
-                        <Image Source="/Recursos/ACDC.jpg"            Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Aleks_Syntek.jpg"     Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Anuel_AA.jpg"        Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Bad_Bunny.jpg"       Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Britney_Spears.jpg"  Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Bruno_Mars.jpg"      Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Drake.jpg"           Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Guns_N_Roses.jpg"    Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/J_Balvin.jpg"        Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Jose_Jose.jpg"       Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Kanye_West.jpg"      Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Luis_Miguel.jpg"     Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Mariah_Carey.jpg"    Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Taylor_Swift.jpg"    Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/The_Weeknd.jpg"      Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                        <Image Source="/Recursos/Travis_Scott.jpg"    Width="64" Height="64" Margin="5" Cursor="Hand"/>
-                    </ListBox.Items>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Imagen}"
+                                   Width="64"
+                                   Height="64"
+                                   Margin="5"
+                                   Cursor="Hand"
+                                   ToolTip="{Binding Nombre}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
 
                 <!-- Botón Aceptar -->
@@ -51,10 +45,8 @@
                         HorizontalAlignment="Center"
                         FontFamily="Comic Sans MS" FontWeight="Bold"
                         Background="White" BorderBrush="Black"
-                        Click="BotonAceptarSeleccionAvatar"/>
+                        Command="{Binding ConfirmarSeleccionCommand}"/>
             </StackPanel>
         </Border>
     </Grid>
 </Window>
-
-
