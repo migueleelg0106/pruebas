@@ -505,15 +505,37 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             Apellido = usuario?.Apellido ?? string.Empty;
             Correo = usuario?.Correo ?? string.Empty;
 
-            _avatarActual = ObtenerAvatarPorId(usuario?.AvatarId ?? 0);
-            _avatarSeleccionado = _avatarActual ?? _catalogoAvatares?.FirstOrDefault();
-            ActualizarAvatarSeleccionado(_avatarSeleccionado);
+            int avatarId = usuario?.AvatarId ?? 0;
+            ObjetoAvatar avatarActual = ObtenerAvatarPorId(avatarId);
+
+            if (avatarActual != null)
+            {
+                _avatarActual = avatarActual;
+            }
+            else if (_avatarActual?.Id != avatarId && avatarId > 0)
+            {
+                // Si no encontramos el avatar en el catálogo sincronizado,
+                // conservamos la última referencia válida para evitar que la
+                // previsualización desaparezca.
+                _avatarActual = _avatarSeleccionado?.Id == avatarId
+                    ? _avatarSeleccionado
+                    : _avatarActual;
+            }
+
+            ObjetoAvatar avatarParaMostrar = _avatarActual
+                ?? (_avatarSeleccionado?.Id == avatarId ? _avatarSeleccionado : null)
+                ?? _catalogoAvatares?.FirstOrDefault();
+
+            _avatarSeleccionado = avatarParaMostrar;
+            ActualizarAvatarSeleccionado(avatarParaMostrar);
             ActualizarRedesSocialesDesdeSesion(usuario);
         }
 
         private void ActualizarAvatarSeleccionado(ObjetoAvatar avatar)
         {
-            AvatarSeleccionadoImagen = AvatarImagenHelper.CrearImagen(avatar);
+            ImageSource imagen = AvatarImagenHelper.CrearImagen(avatar) ?? AvatarSeleccionadoImagen;
+
+            AvatarSeleccionadoImagen = imagen;
             AvatarSeleccionadoNombre = avatar?.Nombre ?? string.Empty;
         }
 
