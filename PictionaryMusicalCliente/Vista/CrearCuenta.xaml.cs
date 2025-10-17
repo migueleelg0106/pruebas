@@ -8,7 +8,7 @@ namespace PictionaryMusicalCliente
 {
     public partial class CrearCuenta : Window
     {
-        private readonly VistaModelo.Cuentas.CrearCuenta _vistaModelo;
+        private readonly CrearCuentaViewModel _vistaModelo;
 
         public CrearCuenta()
         {
@@ -20,7 +20,7 @@ namespace PictionaryMusicalCliente
             ISeleccionarAvatarService seleccionarAvatarService = new SeleccionarAvatarDialogService();
             IVerificarCodigoDialogService verificarCodigoDialogService = new VerificarCodigoDialogService();
 
-            _vistaModelo = new VistaModelo.Cuentas.CrearCuenta(
+            _vistaModelo = new CrearCuentaViewModel(
                 dialogService,
                 codigoVerificacionService,
                 avatarService,

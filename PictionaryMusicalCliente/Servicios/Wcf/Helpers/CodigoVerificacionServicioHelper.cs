@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
 using ReenvioSrv = PictionaryMusicalCliente.PictionaryServidorServicioReenvioCodigoVerificacion;
 
-namespace PictionaryMusicalCliente.Utilidades
+namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
 {
     internal static class CodigoVerificacionServicioHelper
     {

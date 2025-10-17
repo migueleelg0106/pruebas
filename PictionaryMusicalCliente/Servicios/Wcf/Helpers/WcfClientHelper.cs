@@ -2,7 +2,7 @@ using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace PictionaryMusicalCliente.Utilidades
+namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
 {
     internal static class WcfClientHelper
     {

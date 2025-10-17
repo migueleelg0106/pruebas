@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Servicios.Abstracciones;
-using PictionaryMusicalCliente.Utilidades;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using AvataresSrv = PictionaryMusicalCliente.PictionaryServidorServicioAvatares;
 
 namespace PictionaryMusicalCliente.Servicios.Wcf

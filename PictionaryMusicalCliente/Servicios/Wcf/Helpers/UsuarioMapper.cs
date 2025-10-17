@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using PictionaryMusicalCliente.Modelo;
 
-namespace PictionaryMusicalCliente.Utilidades
+namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
 {
     internal static class UsuarioMapper
     {

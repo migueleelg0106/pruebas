@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using PictionaryMusicalCliente.Modelo.Cuentas;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Servicios.Abstracciones;
-using PictionaryMusicalCliente.Utilidades;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using CodigoVerificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioCodigoVerificacion;
 
 namespace PictionaryMusicalCliente.Servicios.Wcf
