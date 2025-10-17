@@ -337,7 +337,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             }
             catch (ServicioException ex)
             {
-                string mensajeError = string.IsNullOrWhiteSpace(ex.Message)
+                mensajeError = string.IsNullOrWhiteSpace(ex.Message)
                     ? Lang.errorTextoActualizarPerfil
                     : ex.Message;
                 _dialogService.Aviso(mensajeError);

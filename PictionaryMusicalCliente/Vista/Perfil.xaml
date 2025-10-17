@@ -86,7 +86,7 @@
                     <!-- Usuario y Nombre -->
                     <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoUsuario}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox x:Name="bloqueTextoUsuario" Text="{Binding Usuario}" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
+                        <TextBox x:Name="bloqueTextoUsuario" Text="{Binding Usuario, Mode=OneWay}" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoNombre}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
@@ -100,7 +100,7 @@
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,0,10">
                         <TextBlock Text="{x:Static language:Lang.globalTextoCorreo}" FontFamily="Comic Sans MS" FontWeight="Bold"/>
-                        <TextBox x:Name="bloqueTextoCorreo" Text="{Binding Correo}" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
+                        <TextBox x:Name="bloqueTextoCorreo" Text="{Binding Correo, Mode=OneWay}" IsReadOnly="True" Height="25" FontFamily="Comic Sans MS"/>
                     </StackPanel>
 
                     <!-- Redes Sociales y Cambiar Contraseña -->
