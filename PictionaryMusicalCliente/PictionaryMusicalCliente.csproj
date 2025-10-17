@@ -100,7 +100,19 @@
     <Compile Include="Modelo\RedSocialPerfil.cs" />
     <Compile Include="Modelo\ObjetoAvatar.cs" />
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
-    <Compile Include="Servicios\DialogService.cs" />
+    <Compile Include="Modelo\Cuentas\ResultadoSolicitudCodigo.cs" />
+    <Compile Include="Modelo\Cuentas\SolicitudRegistroCuenta.cs" />
+    <Compile Include="Servicios\Abstracciones\IAvatarService.cs" />
+    <Compile Include="Servicios\Abstracciones\ICodigoVerificacionService.cs" />
+    <Compile Include="Servicios\Abstracciones\IDialogService.cs" />
+    <Compile Include="Servicios\Abstracciones\ISeleccionarAvatarService.cs" />
+    <Compile Include="Servicios\Abstracciones\IVerificarCodigoDialogService.cs" />
+    <Compile Include="Servicios\Dialogos\DialogService.cs" />
+    <Compile Include="Servicios\Dialogos\SeleccionarAvatarDialogService.cs" />
+    <Compile Include="Servicios\Dialogos\VerificarCodigoDialogService.cs" />
+    <Compile Include="Servicios\ServicioException.cs" />
+    <Compile Include="Servicios\Wcf\AvatarService.cs" />
+    <Compile Include="Servicios\Wcf\CodigoVerificacionService.cs" />
     <Compile Include="Sesiones\SesionUsuarioActual.cs" />
     <Compile Include="Utilidades\AvatarImagenHelper.cs" />
     <Compile Include="Utilidades\AvatarRutaHelper.cs" />
@@ -113,7 +125,8 @@
     <Compile Include="Utilidades\UsuarioMapper.cs" />
     <Compile Include="Utilidades\ValidacionEntradaHelper.cs" />
     <Compile Include="Utilidades\WcfClientHelper.cs" />
-    <Compile Include="VistaModelo\CrearCuenta.cs" />
+    <Compile Include="VistaModelo\BaseVistaModelo.cs" />
+    <Compile Include="VistaModelo\Cuentas\CrearCuentaViewModel.cs" />
     <Compile Include="Connected Services\PictionaryServidorServicioAvatares\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
