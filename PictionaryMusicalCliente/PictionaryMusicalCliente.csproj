@@ -57,6 +57,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Comandos\Comando.cs" />
+    <Compile Include="Comandos\ComandoAsincrono.cs" />
+    <Compile Include="Comandos\ComandoDelegado.cs" />
+    <Compile Include="Comandos\IComandoAsincrono.cs" />
+    <Compile Include="Comandos\IComandoNotificable.cs" />
     <Compile Include="Connected Services\PictionaryServidorServicioCambioContrasena\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,10 +92,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Comandos\ComandoAsincrono.cs" />
-    <Compile Include="Comandos\ComandoDelegado.cs" />
-    <Compile Include="Comandos\IComandoAsincrono.cs" />
-    <Compile Include="Comandos\IComandoNotificable.cs" />
     <Compile Include="Convertidores\ConvertidorBooleanoInverso.cs" />
     <Compile Include="Convertidores\ConvertidorBooleanoVisibilidad.cs" />
     <Compile Include="Convertidores\ConvertidorCadenaVaciaVisibilidad.cs" />
@@ -592,5 +593,6 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
