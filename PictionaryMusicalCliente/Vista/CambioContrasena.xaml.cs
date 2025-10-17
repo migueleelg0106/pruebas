@@ -1,18 +1,17 @@
-﻿using System;
-using System.ServiceModel;
+using System;
 using System.Windows;
-using System.Windows.Input;
-using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
+using PictionaryMusicalCliente.Servicios.Wcf;
 using PictionaryMusicalCliente.Utilidades;
+using PictionaryMusicalCliente.VistaModelo.Cuentas;
 using LangResources = PictionaryMusicalCliente.Properties.Langs;
-using CambioContrasenaSrv = PictionaryMusicalCliente.PictionaryServidorServicioCambioContrasena;
 
 namespace PictionaryMusicalCliente
 {
     public partial class CambioContrasena : Window
     {
-        private readonly string _tokenCodigo;
-        public bool ContrasenaActualizada { get; private set; }
+        private readonly CambioContrasenaVistaModelo _vistaModelo;
 
         public CambioContrasena(string tokenCodigo, string identificador)
         {
@@ -21,122 +20,105 @@ namespace PictionaryMusicalCliente
                 throw new ArgumentException(LangResources.Lang.errorTextoTokenCodigoObligatorio, nameof(tokenCodigo));
             }
 
+            _ = identificador;
+
             InitializeComponent();
-            _tokenCodigo = tokenCodigo;
-            ContrasenaActualizada = false;
+
+            IDialogService dialogService = new DialogService();
+            ICambioContrasenaService cambioContrasenaService = new CambioContrasenaService();
+
+            _vistaModelo = new CambioContrasenaVistaModelo(
+                dialogService,
+                cambioContrasenaService,
+                tokenCodigo);
+
+            _vistaModelo.SolicitarCerrar += VistaModelo_SolicitarCerrar;
+            _vistaModelo.ContrasenaActualizacionCompletada += VistaModelo_ContrasenaActualizacionCompletada;
+            _vistaModelo.ValidacionCamposProcesada += VistaModelo_ValidacionCamposProcesada;
+
+            DataContext = _vistaModelo;
+
+            Closed += CambioContrasena_Closed;
         }
 
-        private async void BotonConfirmarContrasena(object sender, RoutedEventArgs e)
+        public bool ContrasenaActualizada => _vistaModelo?.ContrasenaActualizada ?? false;
+
+        private void ContrasenaNuevaPasswordChanged(object sender, RoutedEventArgs e)
         {
-            string nuevaContrasena = bloqueContrasenaNueva.Password;
-            string confirmacion = bloqueContrasenaConfirmacion.Password;
-
-            if (string.IsNullOrWhiteSpace(nuevaContrasena) || string.IsNullOrWhiteSpace(confirmacion))
+            if (_vistaModelo != null)
             {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoConfirmacionContrasenaRequerida);
-                return;
-            }
-
-            if (!string.Equals(nuevaContrasena, confirmacion, StringComparison.Ordinal))
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoContrasenasNoCoinciden);
-                bloqueContrasenaNueva.Clear();
-                bloqueContrasenaConfirmacion.Clear();
-                bloqueContrasenaNueva.Focus();
-                return;
-            }
-
-            ValidacionEntradaHelper.ResultadoValidacion resultadoContrasena = ValidacionEntradaHelper.ValidarContrasena(nuevaContrasena);
-
-            if (!resultadoContrasena.EsValido)
-            {
-                AvisoHelper.Mostrar(resultadoContrasena.MensajeError);
-                bloqueContrasenaNueva.Focus();
-                return;
-            }
-
-            nuevaContrasena = resultadoContrasena.ValorNormalizado;
-
-            botonConfirmarContrasena.IsEnabled = false;
-            Mouse.OverrideCursor = Cursors.Wait;
-
-            try
-            {
-                var solicitud = new CambioContrasenaSrv.ActualizarContrasenaDTO
-                {
-                    TokenCodigo = _tokenCodigo,
-                    NuevaContrasena = nuevaContrasena
-                };
-
-                var cliente = new CambioContrasenaSrv.CambiarContrasenaManejadorClient(
-                    "BasicHttpBinding_ICambiarContrasenaManejador");
-
-                CambioContrasenaSrv.ResultadoOperacionDTO resultado = await WcfClientHelper.UsarAsync(
-                    cliente,
-                    c => c.ActualizarContrasenaAsync(solicitud));
-
-                if (resultado == null)
-                {
-                    AvisoHelper.Mostrar(LangResources.Lang.errorTextoActualizarContrasena);
-                    return;
-                }
-
-                if (resultado.OperacionExitosa)
-                {
-                    ContrasenaActualizada = true;
-                    string mensaje = MensajeServidorHelper.Localizar(
-                        resultado.Mensaje,
-                        LangResources.Lang.avisoTextoContrasenaActualizada);
-                    AvisoHelper.Mostrar(mensaje);
-                    DialogResult = true;
-                    Close();
-                    return;
-                }
-
-                string mensajeError = MensajeServidorHelper.Localizar(
-                    resultado.Mensaje,
-                    LangResources.Lang.errorTextoActualizarContrasena);
-
-                AvisoHelper.Mostrar(mensajeError);
-            }
-            catch (FaultException ex)
-            {
-                string mensaje = ErrorServicioHelper.ObtenerMensaje(
-                    ex,
-                    LangResources.Lang.errorTextoServidorActualizarContrasena);
-                AvisoHelper.Mostrar(mensaje);
-            }
-            catch (EndpointNotFoundException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (TimeoutException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorTiempoAgotado);
-            }
-            catch (CommunicationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoServidorNoDisponible);
-            }
-            catch (InvalidOperationException)
-            {
-                AvisoHelper.Mostrar(LangResources.Lang.errorTextoPrepararSolicitudCambioContrasena);
-            }
-            finally
-            {
-                if (!ContrasenaActualizada)
-                {
-                    botonConfirmarContrasena.IsEnabled = true;
-                }
-
-                Mouse.OverrideCursor = null;
+                _vistaModelo.NuevaContrasena = bloqueContrasenaNueva.Password;
             }
         }
 
-        private void BotonCancelarContrasena(object sender, RoutedEventArgs e)
+        private void ContrasenaConfirmacionPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (_vistaModelo != null)
+            {
+                _vistaModelo.ConfirmacionContrasena = bloqueContrasenaConfirmacion.Password;
+            }
+        }
+
+        private void VistaModelo_ValidacionCamposProcesada(object sender, CambioContrasenaVistaModelo.ValidacionCamposEventArgs e)
+        {
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaNueva);
+            ControlVisualHelper.RestablecerEstadoCampo(bloqueContrasenaConfirmacion);
+
+            if (e == null)
+            {
+                return;
+            }
+
+            if (e.CamposLimpiar.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.NuevaContrasena))
+            {
+                bloqueContrasenaNueva.Clear();
+            }
+
+            if (e.CamposLimpiar.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.ConfirmacionContrasena))
+            {
+                bloqueContrasenaConfirmacion.Clear();
+            }
+
+            if (e.CamposInvalidos.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.NuevaContrasena))
+            {
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaNueva);
+            }
+
+            if (e.CamposInvalidos.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.ConfirmacionContrasena))
+            {
+                ControlVisualHelper.MarcarCampoInvalido(bloqueContrasenaConfirmacion);
+            }
+
+            if (e.CampoEnfoque.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.NuevaContrasena))
+            {
+                bloqueContrasenaNueva.Focus();
+            }
+            else if (e.CampoEnfoque.HasFlag(CambioContrasenaVistaModelo.CampoEntrada.ConfirmacionContrasena))
+            {
+                bloqueContrasenaConfirmacion.Focus();
+            }
+        }
+
+        private void VistaModelo_SolicitarCerrar(object sender, EventArgs e)
         {
             DialogResult = false;
             Close();
+        }
+
+        private void VistaModelo_ContrasenaActualizacionCompletada(object sender, EventArgs e)
+        {
+            DialogResult = true;
+            Close();
+        }
+
+        private void CambioContrasena_Closed(object sender, EventArgs e)
+        {
+            if (_vistaModelo != null)
+            {
+                _vistaModelo.SolicitarCerrar -= VistaModelo_SolicitarCerrar;
+                _vistaModelo.ContrasenaActualizacionCompletada -= VistaModelo_ContrasenaActualizacionCompletada;
+                _vistaModelo.ValidacionCamposProcesada -= VistaModelo_ValidacionCamposProcesada;
+            }
         }
     }
 }
