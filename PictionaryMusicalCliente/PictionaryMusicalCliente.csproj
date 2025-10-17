@@ -99,6 +99,7 @@
     <Compile Include="Utilidades\AvatarServicioHelper.cs" />
     <Compile Include="Utilidades\AvisoHelper.cs" />
     <Compile Include="Utilidades\CodigoVerificacionServicioHelper.cs" />
+    <Compile Include="Utilidades\ControlVisualHelper.cs" />
     <Compile Include="Utilidades\ErrorServicioHelper.cs" />
     <Compile Include="Utilidades\MensajeServidorHelper.cs" />
     <Compile Include="Utilidades\UsuarioMapper.cs" />
