@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using PictionaryMusicalCliente.Comandos;
 using PictionaryMusicalCliente.Modelo;
+using PictionaryMusicalCliente.Modelo.Cuentas;
 using PictionaryMusicalCliente.Properties.Langs;
 using PictionaryMusicalCliente.Servicios.Abstracciones;
 using PictionaryMusicalCliente.Servicios;
@@ -359,7 +360,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                             return null;
                         }
 
-                        return new global::PictionaryMusicalCliente.VerificarCodigo.ConfirmacionResultado(
+                        return new ConfirmacionCodigoResultado(
                             resultadoConfirmacion.OperacionExitosa,
                             resultadoConfirmacion.Mensaje);
                     },
@@ -377,7 +378,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                             return null;
                         }
 
-                        return new global::PictionaryMusicalCliente.VerificarCodigo.ReenvioResultado(
+                        return new ReenvioCodigoResultado(
                             resultadoReenvio.CodigoEnviado,
                             resultadoReenvio.Mensaje,
                             resultadoReenvio.TokenCodigo);
