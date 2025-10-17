@@ -210,7 +210,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             var avatar = await _seleccionarAvatarService.SeleccionarAsync().ConfigureAwait(true);
             if (avatar != null)
             {
-                _avatarSeleccionado = avatar;
+                _avatarSeleccionado = SincronizarAvatarSeleccionado(avatar) ?? avatar;
                 ActualizarAvatarSeleccionado(_avatarSeleccionado);
             }
         }
@@ -249,7 +249,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 return;
             }
 
-            var avatar = _avatarSeleccionado ?? _avatarActual;
+            var avatar = SincronizarAvatarSeleccionado(_avatarSeleccionado ?? _avatarActual);
             if (avatar == null)
             {
                 _dialogService.Aviso(Lang.errorTextoSeleccionAvatarValido);
@@ -272,6 +272,17 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     return;
                 }
                 avatarId = avatarIdSrv.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+            {
+                int? avatarIdSrv = await _avatarService
+                    .ObtenerIdPorRutaAsync(avatar.RutaRelativa)
+                    .ConfigureAwait(true);
+
+                if (avatarIdSrv.HasValue)
+                {
+                    avatarId = avatarIdSrv.Value;
+                }
             }
 
             var usuarioSesion = _sesionUsuarioActual.Usuario;
@@ -327,7 +338,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
                 var usuarioActualizado = _sesionUsuarioActual.Usuario;
 
-                _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? _avatarSeleccionado;
+                _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId)
+                    ?? SincronizarAvatarSeleccionado(_avatarSeleccionado)
+                    ?? _avatarSeleccionado;
                 if (_avatarActual != null) _avatarActual.Id = solicitud.AvatarId;
                 _avatarSeleccionado = _avatarActual;
 
@@ -738,6 +751,56 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private void NotificarValidacionCampos(CampoEntrada camposInvalidos)
         {
             ValidacionCamposProcesada?.Invoke(this, new ValidacionCamposEventArgs(camposInvalidos));
+        }
+
+        private ObjetoAvatar SincronizarAvatarSeleccionado(ObjetoAvatar avatar)
+        {
+            if (avatar == null)
+            {
+                return null;
+            }
+
+            if (_catalogoAvatares == null || _catalogoAvatares.Count == 0)
+            {
+                return avatar;
+            }
+
+            if (avatar.Id > 0)
+            {
+                var coincidenciaId = _catalogoAvatares.FirstOrDefault(a => a?.Id == avatar.Id);
+                if (coincidenciaId != null)
+                {
+                    return coincidenciaId;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+            {
+                string rutaNormalizada = AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatar.RutaRelativa);
+                var coincidenciaRuta = _catalogoAvatares.FirstOrDefault(a =>
+                    !string.IsNullOrWhiteSpace(a?.RutaRelativa)
+                    && AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(a.RutaRelativa) == rutaNormalizada);
+
+                if (coincidenciaRuta != null)
+                {
+                    return coincidenciaRuta;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(avatar.Nombre))
+            {
+                string nombreNormalizado = NormalizarNombre(avatar.Nombre);
+                var coincidenciaNombre = _catalogoAvatares.FirstOrDefault(a =>
+                    !string.IsNullOrWhiteSpace(a?.Nombre)
+                    && NormalizarNombre(a.Nombre) == nombreNormalizado);
+
+                if (coincidenciaNombre != null)
+                {
+                    return coincidenciaNombre;
+                }
+            }
+
+            return avatar;
         }
     }
 }
