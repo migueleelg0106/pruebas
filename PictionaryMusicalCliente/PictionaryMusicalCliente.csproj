@@ -104,6 +104,7 @@
     <Compile Include="Modelo\Cuentas\SolicitudRegistroCuenta.cs" />
     <Compile Include="Servicios\Abstracciones\IAvatarService.cs" />
     <Compile Include="Servicios\Abstracciones\ICodigoVerificacionService.cs" />
+    <Compile Include="Servicios\Abstracciones\IClasificacionService.cs" />
     <Compile Include="Servicios\Abstracciones\IDialogService.cs" />
     <Compile Include="Servicios\Abstracciones\ISeleccionarAvatarService.cs" />
     <Compile Include="Servicios\Abstracciones\IVerificarCodigoDialogService.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Servicios\Dialogos\VerificarCodigoDialogService.cs" />
     <Compile Include="Servicios\ServicioException.cs" />
     <Compile Include="Servicios\Wcf\AvatarService.cs" />
+    <Compile Include="Servicios\Wcf\ClasificacionService.cs" />
     <Compile Include="Servicios\Wcf\CodigoVerificacionService.cs" />
     <Compile Include="Sesiones\SesionUsuarioActual.cs" />
     <Compile Include="Utilidades\AvatarImagenHelper.cs" />
