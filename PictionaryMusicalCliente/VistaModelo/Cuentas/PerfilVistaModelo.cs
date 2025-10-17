@@ -208,11 +208,12 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private async Task SeleccionarAvatarAsync()
         {
             var avatar = await _seleccionarAvatarService.SeleccionarAsync().ConfigureAwait(true);
-            if (avatar != null)
-            {
-                _avatarSeleccionado = SincronizarAvatarSeleccionado(avatar) ?? avatar;
-                ActualizarAvatarSeleccionado(_avatarSeleccionado);
-            }
+            if (avatar == null) return;
+
+            var sync = SincronizarAvatarSeleccionado(avatar) ?? avatar;
+            _avatarSeleccionado = sync;
+            _avatarActual = sync;
+            ActualizarAvatarSeleccionado(sync);
         }
 
         private async Task GuardarCambiosAsync()
@@ -338,11 +339,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
                 var usuarioActualizado = _sesionUsuarioActual.Usuario;
 
-                _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId)
-                    ?? SincronizarAvatarSeleccionado(_avatarSeleccionado)
-                    ?? _avatarSeleccionado;
-                if (_avatarActual != null) _avatarActual.Id = solicitud.AvatarId;
-                _avatarSeleccionado = _avatarActual;
+                var avatarRefresco = ResolverAvatarParaMostrar(solicitud.AvatarId, _avatarSeleccionado);
+                _avatarActual = avatarRefresco;
+                _avatarSeleccionado = avatarRefresco;
+                ActualizarAvatarSeleccionado(avatarRefresco);
 
                 EstablecerDatosUsuario(usuarioActualizado);
                 NotificarValidacionCampos(CampoEntrada.Ninguno);
@@ -498,24 +498,12 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             Correo = usuario?.Correo ?? string.Empty;
 
             int avatarId = usuario?.AvatarId ?? 0;
-            var avatarActual = ObtenerAvatarPorId(avatarId);
 
-            if (avatarActual != null)
-            {
-                _avatarActual = avatarActual;
-            }
-            else if (_avatarActual?.Id != avatarId && avatarId > 0)
-            {
-                _avatarActual = _avatarSeleccionado?.Id == avatarId
-                    ? _avatarSeleccionado
-                    : _avatarActual;
-            }
+            var avatarParaMostrar = ResolverAvatarParaMostrar(avatarId);
 
-            var avatarParaMostrar = _avatarActual
-                ?? (_avatarSeleccionado?.Id == avatarId ? _avatarSeleccionado : null)
-                ?? _catalogoAvatares?.FirstOrDefault();
-
+            _avatarActual = avatarParaMostrar;
             _avatarSeleccionado = avatarParaMostrar;
+
             ActualizarAvatarSeleccionado(avatarParaMostrar);
             ActualizarRedesSocialesDesdeSesion(usuario);
         }
@@ -752,26 +740,34 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         {
             ValidacionCamposProcesada?.Invoke(this, new ValidacionCamposEventArgs(camposInvalidos));
         }
+        private ObjetoAvatar ResolverAvatarParaMostrar(int avatarId, ObjetoAvatar preferido = null)
+        {
+            if (avatarId > 0)
+            {
+                var porId = ObtenerAvatarPorId(avatarId);
+                if (porId != null) return porId;
+            }
 
+            var syncPreferido = SincronizarAvatarSeleccionado(preferido);
+            if (syncPreferido != null) return syncPreferido;
+
+            var syncActual = SincronizarAvatarSeleccionado(_avatarActual);
+            if (syncActual != null) return syncActual;
+
+            var syncSel = SincronizarAvatarSeleccionado(_avatarSeleccionado);
+            if (syncSel != null) return syncSel;
+
+            return _catalogoAvatares?.FirstOrDefault();
+        }
         private ObjetoAvatar SincronizarAvatarSeleccionado(ObjetoAvatar avatar)
         {
-            if (avatar == null)
-            {
-                return null;
-            }
-
-            if (_catalogoAvatares == null || _catalogoAvatares.Count == 0)
-            {
-                return avatar;
-            }
+            if (avatar == null) return null;
+            if (_catalogoAvatares == null || _catalogoAvatares.Count == 0) return avatar;
 
             if (avatar.Id > 0)
             {
                 var coincidenciaId = _catalogoAvatares.FirstOrDefault(a => a?.Id == avatar.Id);
-                if (coincidenciaId != null)
-                {
-                    return coincidenciaId;
-                }
+                if (coincidenciaId != null) return coincidenciaId;
             }
 
             if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
@@ -781,10 +777,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     !string.IsNullOrWhiteSpace(a?.RutaRelativa)
                     && AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(a.RutaRelativa) == rutaNormalizada);
 
-                if (coincidenciaRuta != null)
-                {
-                    return coincidenciaRuta;
-                }
+                if (coincidenciaRuta != null) return coincidenciaRuta;
             }
 
             if (!string.IsNullOrWhiteSpace(avatar.Nombre))
@@ -794,10 +787,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     !string.IsNullOrWhiteSpace(a?.Nombre)
                     && NormalizarNombre(a.Nombre) == nombreNormalizado);
 
-                if (coincidenciaNombre != null)
-                {
-                    return coincidenciaNombre;
-                }
+                if (coincidenciaNombre != null) return coincidenciaNombre;
             }
 
             return avatar;
