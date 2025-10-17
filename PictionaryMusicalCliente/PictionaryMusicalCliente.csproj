@@ -87,6 +87,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Comandos\ComandoAsincrono.cs" />
+    <Compile Include="Comandos\ComandoDelegado.cs" />
+    <Compile Include="Comandos\IComandoAsincrono.cs" />
+    <Compile Include="Comandos\IComandoNotificable.cs" />
+    <Compile Include="Convertidores\ConvertidorBooleanoInverso.cs" />
+    <Compile Include="Convertidores\ConvertidorBooleanoVisibilidad.cs" />
+    <Compile Include="Convertidores\ConvertidorCadenaVaciaVisibilidad.cs" />
     <Compile Include="Modelo\Catalogos\CatalogoAvataresLocales.cs" />
     <Compile Include="Modelo\Catalogos\CatalogoImagenesPerfilLocales.cs" />
     <Compile Include="Modelo\RedSocialPerfil.cs" />
