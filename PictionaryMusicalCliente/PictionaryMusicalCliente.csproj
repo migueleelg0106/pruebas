@@ -126,7 +126,7 @@
     <Compile Include="Servicios\Wcf\Helpers\UsuarioMapper.cs" />
     <Compile Include="Servicios\Wcf\Helpers\WcfClientHelper.cs" />
     <Compile Include="VistaModelo\BaseVistaModelo.cs" />
-    <Compile Include="VistaModelo\Cuentas\CrearCuentaViewModel.cs" />
+    <Compile Include="VistaModelo\Cuentas\CrearCuenta.cs" />
     <Compile Include="Connected Services\PictionaryServidorServicioAvatares\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

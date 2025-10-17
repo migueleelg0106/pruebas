@@ -8,6 +8,8 @@ using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 using PictionaryMusicalCliente.Utilidades;
 using ClasificacionSrv = PictionaryMusicalCliente.PictionaryServidorServicioClasificacion;
 using PictionaryMusicalCliente.Servicios;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
 
 namespace PictionaryMusicalCliente
 {
