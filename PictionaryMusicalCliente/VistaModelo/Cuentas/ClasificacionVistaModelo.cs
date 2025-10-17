@@ -30,7 +30,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             _ordenarPorRondasCommand = new Comando(OrdenarPorRondas, PuedeOrdenarClasificacion);
             _ordenarPorPuntosCommand = new Comando(OrdenarPorPuntos, PuedeOrdenarClasificacion);
-            _cargarClasificacionCommand = new ComandoAsincrono(_ => CargarClasificacionAsync(), () => !EstaCargando);
+            _cargarClasificacionCommand = new ComandoAsincrono(() => CargarClasificacionAsync(), () => !EstaCargando);
             CerrarCommand = new Comando(() => SolicitarCerrar?.Invoke(this, EventArgs.Empty));
         }
 
