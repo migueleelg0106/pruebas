@@ -133,7 +133,7 @@
                                HorizontalAlignment="Center"
                                FontWeight="Bold" FontSize="18" FontFamily="Comic Sans MS"/>
 
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,10,0,10">
+                    <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="0,41,0,0">
                         <StackPanel Margin="0,5">
                             <TextBlock Text="{x:Static language:Lang.principalTextoNumeroRondas}"
                                        FontFamily="Comic Sans MS" Margin="0,0,0,5"/>
@@ -172,12 +172,12 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Button Grid.Row="2"
+                    <Button Grid.Row="1"
                             Content="{x:Static language:Lang.principalTextoJugar}"
                             FontFamily="Comic Sans MS" FontWeight="Bold"
                             Background="White" BorderBrush="Black"
-                            Margin="0,10,0,0"
-                            Command="{Binding IniciarJuegoCommand}"/>
+                            Margin="0,297,0,0"
+                            Command="{Binding IniciarJuegoCommand}" Grid.RowSpan="2"/>
                 </Grid>
             </Border>
 
@@ -188,7 +188,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Background="White" BorderBrush="Black" BorderThickness="2" Padding="15" CornerRadius="3">
+                <Border Grid.Row="0" Background="White" BorderBrush="Black" BorderThickness="2" Padding="15" CornerRadius="3">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
