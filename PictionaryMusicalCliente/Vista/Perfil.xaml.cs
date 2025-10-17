@@ -23,12 +23,14 @@ namespace PictionaryMusicalCliente
             IPerfilService perfilService = new PerfilService();
             ISeleccionarAvatarService seleccionarAvatarService = new SeleccionarAvatarDialogService();
             IRecuperacionCuentaDialogService recuperacionCuentaDialogService = new RecuperacionCuentaDialogService();
+            IAvatarService avatarService = new AvatarService();
 
             _vistaModelo = new PerfilVistaModelo(
                 dialogService,
                 perfilService,
                 seleccionarAvatarService,
-                recuperacionCuentaDialogService);
+                recuperacionCuentaDialogService,
+                avatarService);
 
             _vistaModelo.SolicitarCerrar += VistaModelo_SolicitarCerrar;
             _vistaModelo.ValidacionCamposProcesada += VistaModelo_ValidacionCamposProcesada;

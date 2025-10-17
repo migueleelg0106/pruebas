@@ -39,7 +39,6 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             {
                 CamposInvalidos = camposInvalidos;
             }
-
             public CampoEntrada CamposInvalidos { get; }
         }
 
@@ -47,7 +46,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private readonly IPerfilService _perfilService;
         private readonly ISeleccionarAvatarService _seleccionarAvatarService;
         private readonly IRecuperacionCuentaDialogService _recuperacionCuentaDialogService;
+        private readonly IAvatarService _avatarService;
         private readonly SesionUsuarioActual _sesionUsuarioActual;
+
         private readonly ObservableCollection<RedSocialPerfil> _redesSociales;
         private readonly ComandoAsincrono _guardarCambiosCommand;
         private readonly ComandoAsincrono _cambiarContrasenaCommand;
@@ -70,12 +71,14 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             IPerfilService perfilService,
             ISeleccionarAvatarService seleccionarAvatarService,
             IRecuperacionCuentaDialogService recuperacionCuentaDialogService,
+            IAvatarService avatarService,
             SesionUsuarioActual sesionUsuarioActual = null)
         {
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
             _perfilService = perfilService ?? throw new ArgumentNullException(nameof(perfilService));
             _seleccionarAvatarService = seleccionarAvatarService ?? throw new ArgumentNullException(nameof(seleccionarAvatarService));
             _recuperacionCuentaDialogService = recuperacionCuentaDialogService ?? throw new ArgumentNullException(nameof(recuperacionCuentaDialogService));
+            _avatarService = avatarService ?? throw new ArgumentNullException(nameof(avatarService));
             _sesionUsuarioActual = sesionUsuarioActual ?? SesionUsuarioActual.Instancia;
 
             _redesSociales = new ObservableCollection<RedSocialPerfil>();
@@ -89,17 +92,12 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         }
 
         public event EventHandler SolicitarCerrar;
-
         public event EventHandler<ValidacionCamposEventArgs> ValidacionCamposProcesada;
 
         public ICommand SeleccionarAvatarCommand { get; }
-
         public IComandoAsincrono GuardarCambiosCommand => _guardarCambiosCommand;
-
         public IComandoAsincrono CambiarContrasenaCommand => _cambiarContrasenaCommand;
-
         public ICommand CerrarCommand { get; }
-
         public IEnumerable<RedSocialPerfil> RedesSociales => _redesSociales;
 
         public string Usuario
@@ -164,19 +162,14 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         public async Task InicializarAsync()
         {
-            if (EstaProcesando)
-            {
-                return;
-            }
+            if (EstaProcesando) return;
 
             EstaProcesando = true;
-
             try
             {
                 await CargarCatalogoAvataresAsync().ConfigureAwait(true);
 
                 UsuarioAutenticado usuarioSesion = _sesionUsuarioActual.Usuario;
-
                 if (usuarioSesion == null)
                 {
                     _dialogService.Aviso(Lang.errorTextoCuentaNoEncontradaSesion);
@@ -186,7 +179,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
                 try
                 {
-                    UsuarioAutenticado perfilActualizado = await _perfilService
+                    var perfilActualizado = await _perfilService
                         .ObtenerPerfilAsync(usuarioSesion.IdUsuario)
                         .ConfigureAwait(true);
 
@@ -198,7 +191,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 }
                 catch (ServicioException ex)
                 {
-                    string mensajeError = string.IsNullOrWhiteSpace(ex.Message)
+                    var mensajeError = string.IsNullOrWhiteSpace(ex.Message)
                         ? Lang.errorTextoPerfilActualizarInformacion
                         : ex.Message;
                     _dialogService.Aviso(mensajeError);
@@ -214,8 +207,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private async Task SeleccionarAvatarAsync()
         {
-            ObjetoAvatar avatar = await _seleccionarAvatarService.SeleccionarAsync().ConfigureAwait(true);
-
+            var avatar = await _seleccionarAvatarService.SeleccionarAsync().ConfigureAwait(true);
             if (avatar != null)
             {
                 _avatarSeleccionado = avatar;
@@ -225,15 +217,11 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private async Task GuardarCambiosAsync()
         {
-            if (EstaProcesando)
-            {
-                return;
-            }
+            if (EstaProcesando) return;
 
             NotificarValidacionCampos(CampoEntrada.Ninguno);
 
-            ValidacionEntradaHelper.ResultadoValidacion resultadoNombre = ValidacionEntradaHelper.ValidarNombre(Nombre);
-
+            var resultadoNombre = ValidacionEntradaHelper.ValidarNombre(Nombre);
             if (!resultadoNombre.EsValido)
             {
                 NotificarValidacionCampos(CampoEntrada.Nombre);
@@ -241,8 +229,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 return;
             }
 
-            ValidacionEntradaHelper.ResultadoValidacion resultadoApellido = ValidacionEntradaHelper.ValidarApellido(Apellido);
-
+            var resultadoApellido = ValidacionEntradaHelper.ValidarApellido(Apellido);
             if (!resultadoApellido.EsValido)
             {
                 NotificarValidacionCampos(CampoEntrada.Apellido);
@@ -251,30 +238,43 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             }
 
             if (!TryObtenerRedesSocialesParaSolicitud(
-                out string instagram,
-                out string facebook,
-                out string x,
-                out string discord,
-                out string mensajeError))
+                    out string instagram,
+                    out string facebook,
+                    out string x,
+                    out string discord,
+                    out string mensajeErrorRedes))
             {
-                if (!string.IsNullOrWhiteSpace(mensajeError))
-                {
-                    _dialogService.Aviso(mensajeError);
-                }
-
+                if (!string.IsNullOrWhiteSpace(mensajeErrorRedes))
+                    _dialogService.Aviso(mensajeErrorRedes);
                 return;
             }
 
-            ObjetoAvatar avatar = _avatarSeleccionado ?? _avatarActual;
-
-            if (avatar == null || avatar.Id <= 0)
+            var avatar = _avatarSeleccionado ?? _avatarActual;
+            if (avatar == null)
             {
                 _dialogService.Aviso(Lang.errorTextoSeleccionAvatarValido);
                 return;
             }
 
-            UsuarioAutenticado usuarioSesion = _sesionUsuarioActual.Usuario;
+            int avatarId = avatar.Id;
+            if (avatarId <= 0)
+            {
+                if (string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+                {
+                    _dialogService.Aviso(Lang.errorTextoSeleccionAvatarValido);
+                    return;
+                }
 
+                int? avatarIdSrv = await _avatarService.ObtenerIdPorRutaAsync(avatar.RutaRelativa).ConfigureAwait(true);
+                if (!avatarIdSrv.HasValue)
+                {
+                    _dialogService.Aviso(Lang.errorTextoIdentificarAvatar);
+                    return;
+                }
+                avatarId = avatarIdSrv.Value;
+            }
+
+            var usuarioSesion = _sesionUsuarioActual.Usuario;
             if (usuarioSesion == null)
             {
                 _dialogService.Aviso(Lang.errorTextoCuentaNoEncontradaSesion);
@@ -287,7 +287,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 UsuarioId = usuarioSesion.IdUsuario,
                 Nombre = resultadoNombre.ValorNormalizado,
                 Apellido = resultadoApellido.ValorNormalizado,
-                AvatarId = avatar.Id,
+                AvatarId = avatarId,
                 Instagram = instagram,
                 Facebook = facebook,
                 X = x,
@@ -295,10 +295,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             };
 
             EstaProcesando = true;
-
             try
             {
-                ResultadoOperacion resultado = await _perfilService
+                var resultado = await _perfilService
                     .ActualizarPerfilAsync(solicitud)
                     .ConfigureAwait(true);
 
@@ -315,10 +314,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 string mensaje = MensajeServidorHelper.Localizar(resultado.Mensaje, mensajePredeterminado);
                 _dialogService.Aviso(mensaje);
 
-                if (!resultado.OperacionExitosa)
-                {
-                    return;
-                }
+                if (!resultado.OperacionExitosa) return;
 
                 _sesionUsuarioActual.ActualizarDatosPersonales(
                     solicitud.Nombre,
@@ -329,18 +325,21 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     solicitud.X,
                     solicitud.Discord);
 
-                UsuarioAutenticado usuarioActualizado = _sesionUsuarioActual.Usuario;
-                _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? avatar;
+                var usuarioActualizado = _sesionUsuarioActual.Usuario;
+
+                _avatarActual = ObtenerAvatarPorId(solicitud.AvatarId) ?? _avatarSeleccionado;
+                if (_avatarActual != null) _avatarActual.Id = solicitud.AvatarId;
                 _avatarSeleccionado = _avatarActual;
+
                 EstablecerDatosUsuario(usuarioActualizado);
                 NotificarValidacionCampos(CampoEntrada.Ninguno);
             }
             catch (ServicioException ex)
             {
-                mensajeError = string.IsNullOrWhiteSpace(ex.Message)
+                var msg = string.IsNullOrWhiteSpace(ex.Message)
                     ? Lang.errorTextoActualizarPerfil
                     : ex.Message;
-                _dialogService.Aviso(mensajeError);
+                _dialogService.Aviso(msg);
             }
             finally
             {
@@ -350,13 +349,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private async Task CambiarContrasenaAsync()
         {
-            if (EstaCambiandoContrasena)
-            {
-                return;
-            }
+            if (EstaCambiandoContrasena) return;
 
-            UsuarioAutenticado usuarioSesion = _sesionUsuarioActual.Usuario;
-
+            var usuarioSesion = _sesionUsuarioActual.Usuario;
             if (usuarioSesion == null)
             {
                 _dialogService.Aviso(Lang.errorTextoCuentaNoEncontradaSesion);
@@ -378,7 +373,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             try
             {
-                CodigoVerificacionSrv.ResultadoSolicitudRecuperacionDTO resultado = await CodigoVerificacionServicioHelper
+                var resultado = await CodigoVerificacionServicioHelper
                     .SolicitarCodigoRecuperacionAsync(identificador)
                     .ConfigureAwait(true);
 
@@ -412,33 +407,23 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 var funcionesVerificacion = new FuncionesVerificarCodigo(
                     async codigo =>
                     {
-                        CodigoVerificacionSrv.ResultadoOperacionDTO confirmacion = await CodigoVerificacionServicioHelper
+                        var confirmacion = await CodigoVerificacionServicioHelper
                             .ConfirmarCodigoRecuperacionAsync(tokenCodigo, codigo)
                             .ConfigureAwait(true);
 
-                        if (confirmacion == null)
-                        {
-                            return null;
-                        }
-
+                        if (confirmacion == null) return null;
                         return new ConfirmacionCodigoResultado(confirmacion.OperacionExitosa, confirmacion.Mensaje);
                     },
                     async () =>
                     {
-                        ReenvioSrv.ResultadoSolicitudCodigoDTO reenvio = await CodigoVerificacionServicioHelper
+                        var reenvio = await CodigoVerificacionServicioHelper
                             .ReenviarCodigoRecuperacionAsync(tokenCodigo)
                             .ConfigureAwait(true);
 
                         if (reenvio != null && !string.IsNullOrWhiteSpace(reenvio.TokenCodigo))
-                        {
                             tokenCodigo = reenvio.TokenCodigo;
-                        }
 
-                        if (reenvio == null)
-                        {
-                            return null;
-                        }
-
+                        if (reenvio == null) return null;
                         return new ReenvioCodigoResultado(reenvio.CodigoEnviado, reenvio.Mensaje, reenvio.TokenCodigo);
                     });
 
@@ -450,19 +435,13 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                         Lang.avisoTextoCodigoDescripcionCambio)
                     .ConfigureAwait(true);
 
-                if (!verificacionCompletada)
-                {
-                    return;
-                }
+                if (!verificacionCompletada) return;
 
-                ResultadoCambioContrasena resultadoCambio = await _recuperacionCuentaDialogService
+                var resultadoCambio = await _recuperacionCuentaDialogService
                     .MostrarDialogoCambioContrasenaAsync(tokenCodigo, identificador)
                     .ConfigureAwait(true);
 
-                if (resultadoCambio == null)
-                {
-                    return;
-                }
+                if (resultadoCambio == null) return;
 
                 if (resultadoCambio.ContrasenaActualizada || resultadoCambio.DialogResult == true)
                 {
@@ -506,7 +485,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             Correo = usuario?.Correo ?? string.Empty;
 
             int avatarId = usuario?.AvatarId ?? 0;
-            ObjetoAvatar avatarActual = ObtenerAvatarPorId(avatarId);
+            var avatarActual = ObtenerAvatarPorId(avatarId);
 
             if (avatarActual != null)
             {
@@ -514,15 +493,12 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             }
             else if (_avatarActual?.Id != avatarId && avatarId > 0)
             {
-                // Si no encontramos el avatar en el catálogo sincronizado,
-                // conservamos la última referencia válida para evitar que la
-                // previsualización desaparezca.
                 _avatarActual = _avatarSeleccionado?.Id == avatarId
                     ? _avatarSeleccionado
                     : _avatarActual;
             }
 
-            ObjetoAvatar avatarParaMostrar = _avatarActual
+            var avatarParaMostrar = _avatarActual
                 ?? (_avatarSeleccionado?.Id == avatarId ? _avatarSeleccionado : null)
                 ?? _catalogoAvatares?.FirstOrDefault();
 
@@ -534,7 +510,6 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private void ActualizarAvatarSeleccionado(ObjetoAvatar avatar)
         {
             ImageSource imagen = AvatarImagenHelper.CrearImagen(avatar) ?? AvatarSeleccionadoImagen;
-
             AvatarSeleccionadoImagen = imagen;
             AvatarSeleccionadoNombre = avatar?.Nombre ?? string.Empty;
         }
@@ -543,19 +518,12 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         {
             _redesSociales.Clear();
 
-            IReadOnlyList<RedSocialPerfil> redes = CatalogoImagenesPerfilLocales.ObtenerRedesSociales();
+            var redes = CatalogoImagenesPerfilLocales.ObtenerRedesSociales();
+            if (redes == null) return;
 
-            if (redes == null)
+            foreach (var red in redes)
             {
-                return;
-            }
-
-            foreach (RedSocialPerfil red in redes)
-            {
-                if (red != null)
-                {
-                    _redesSociales.Add(red);
-                }
+                if (red != null) _redesSociales.Add(red);
             }
         }
 
@@ -565,14 +533,13 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             try
             {
-                IReadOnlyList<ObjetoAvatar> avataresRemotos = await _perfilService
+                var avataresRemotos = await _perfilService
                     .ObtenerAvataresDisponiblesAsync()
                     .ConfigureAwait(true);
 
                 if (avataresRemotos != null && avataresRemotos.Count > 0)
                 {
-                    IReadOnlyList<ObjetoAvatar> sincronizados = SincronizarCatalogoLocal(avataresRemotos, avataresLocales);
-
+                    var sincronizados = SincronizarCatalogoLocal(avataresRemotos, avataresLocales);
                     if (sincronizados != null && sincronizados.Count > 0)
                     {
                         _catalogoAvatares = sincronizados;
@@ -582,7 +549,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             }
             catch (ServicioException ex)
             {
-                string mensaje = string.IsNullOrWhiteSpace(ex.Message)
+                var mensaje = string.IsNullOrWhiteSpace(ex.Message)
                     ? Lang.errorTextoServidorNoDisponible
                     : ex.Message;
                 _dialogService.Aviso(mensaje);
@@ -595,45 +562,33 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             IEnumerable<ObjetoAvatar> avataresServidor,
             IReadOnlyList<ObjetoAvatar> avataresLocales)
         {
-            if (avataresServidor == null)
-            {
-                return avataresLocales;
-            }
-
+            if (avataresServidor == null) return avataresLocales;
             if (avataresLocales == null || avataresLocales.Count == 0)
-            {
                 return avataresServidor.Where(avatar => avatar != null).ToList();
-            }
 
-            var localesValidos = avataresLocales
-                ?.Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+            var localesValidos = avataresLocales?
+                .Where(avatar => avatar != null && !string.IsNullOrWhiteSpace(avatar.RutaRelativa))
                 .ToList() ?? new List<ObjetoAvatar>();
 
-            if (localesValidos.Count == 0)
-            {
-                return avataresLocales;
-            }
+            if (localesValidos.Count == 0) return avataresLocales;
 
-            Dictionary<string, ObjetoAvatar> localesPorNombreNormalizado = localesValidos
+            var localesPorNombreNormalizado = localesValidos
                 .Where(avatar => !string.IsNullOrWhiteSpace(avatar.Nombre))
                 .GroupBy(avatar => NormalizarNombre(avatar.Nombre))
                 .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
-            Dictionary<string, ObjetoAvatar> localesPorRuta = localesValidos
+            var localesPorRuta = localesValidos
                 .GroupBy(avatar => AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatar.RutaRelativa))
                 .ToDictionary(grupo => grupo.Key, grupo => grupo.First());
 
             var asignados = new HashSet<ObjetoAvatar>();
             var resultado = new List<ObjetoAvatar>();
 
-            foreach (ObjetoAvatar avatarServidor in avataresServidor)
+            foreach (var avatarServidor in avataresServidor)
             {
-                if (avatarServidor == null)
-                {
-                    continue;
-                }
+                if (avatarServidor == null) continue;
 
-                ObjetoAvatar avatarLocal = BuscarCoincidenciaLocal(
+                var avatarLocal = BuscarCoincidenciaLocal(
                     avatarServidor,
                     localesValidos,
                     localesPorNombreNormalizado,
@@ -641,15 +596,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                     asignados,
                     out bool esCoincidenciaExacta);
 
-                if (avatarLocal == null)
-                {
-                    continue;
-                }
+                if (avatarLocal == null) continue;
 
-                if (!esCoincidenciaExacta)
-                {
-                    asignados.Add(avatarLocal);
-                }
+                if (!esCoincidenciaExacta) asignados.Add(avatarLocal);
 
                 resultado.Add(new ObjetoAvatar
                 {
@@ -676,56 +625,33 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             if (avatarServidor.Id > 0)
             {
-                avatarLocal = localesValidos
-                    .FirstOrDefault(avatar => avatar.Id == avatarServidor.Id);
-
-                if (avatarLocal != null)
-                {
-                    esCoincidenciaExacta = true;
-                    return avatarLocal;
-                }
+                avatarLocal = localesValidos.FirstOrDefault(avatar => avatar.Id == avatarServidor.Id);
+                if (avatarLocal != null) { esCoincidenciaExacta = true; return avatarLocal; }
             }
 
             if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.Nombre))
             {
                 string nombreNormalizado = NormalizarNombre(avatarServidor.Nombre);
-
-                if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out ObjetoAvatar coincidenciaNombre)
-                    && coincidenciaNombre != null)
-                {
-                    avatarLocal = coincidenciaNombre;
-                    esCoincidenciaExacta = true;
-                    return avatarLocal;
-                }
+                if (localesPorNombreNormalizado.TryGetValue(nombreNormalizado, out var coincidenciaNombre) && coincidenciaNombre != null)
+                { esCoincidenciaExacta = true; return coincidenciaNombre; }
             }
 
             if (avatarLocal == null && !string.IsNullOrWhiteSpace(avatarServidor.RutaRelativa))
             {
                 string rutaNormalizada = AvatarRutaHelper.NormalizarRutaParaClaveDiccionario(avatarServidor.RutaRelativa);
-
-                if (localesPorRuta.TryGetValue(rutaNormalizada, out ObjetoAvatar coincidenciaRuta)
-                    && coincidenciaRuta != null)
-                {
-                    avatarLocal = coincidenciaRuta;
-                    esCoincidenciaExacta = true;
-                    return avatarLocal;
-                }
+                if (localesPorRuta.TryGetValue(rutaNormalizada, out var coincidenciaRuta) && coincidenciaRuta != null)
+                { esCoincidenciaExacta = true; return coincidenciaRuta; }
             }
 
             if (avatarLocal == null)
-            {
                 avatarLocal = localesValidos.FirstOrDefault(avatar => !asignados.Contains(avatar));
-            }
 
             return avatarLocal;
         }
 
         private static string NormalizarNombre(string nombre)
         {
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                return string.Empty;
-            }
+            if (string.IsNullOrWhiteSpace(nombre)) return string.Empty;
 
             string descompuesto = nombre.Normalize(NormalizationForm.FormD);
             var builder = new StringBuilder(descompuesto.Length);
@@ -733,16 +659,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             foreach (char caracter in descompuesto)
             {
                 UnicodeCategory categoria = CharUnicodeInfo.GetUnicodeCategory(caracter);
-
-                if (categoria == UnicodeCategory.NonSpacingMark)
-                {
-                    continue;
-                }
+                if (categoria == UnicodeCategory.NonSpacingMark) continue;
 
                 if (char.IsLetterOrDigit(caracter))
-                {
                     builder.Append(char.ToLowerInvariant(caracter));
-                }
             }
 
             return builder.ToString();
@@ -750,17 +670,11 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private void ActualizarRedesSocialesDesdeSesion(UsuarioAutenticado usuario)
         {
-            if (_redesSociales == null || _redesSociales.Count == 0)
-            {
-                return;
-            }
+            if (_redesSociales == null || _redesSociales.Count == 0) return;
 
-            foreach (RedSocialPerfil red in _redesSociales)
+            foreach (var red in _redesSociales)
             {
-                if (red == null)
-                {
-                    continue;
-                }
+                if (red == null) continue;
 
                 string valor = ObtenerValorRedSocialDesdeSesion(usuario, red.Clave);
                 red.Identificador = string.IsNullOrWhiteSpace(valor) ? "@" : valor;
@@ -769,23 +683,15 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private static string ObtenerValorRedSocialDesdeSesion(UsuarioAutenticado usuario, string clave)
         {
-            if (usuario == null || string.IsNullOrWhiteSpace(clave))
-            {
-                return null;
-            }
+            if (usuario == null || string.IsNullOrWhiteSpace(clave)) return null;
 
             switch (clave.ToLowerInvariant())
             {
-                case "instagram":
-                    return usuario.Instagram;
-                case "facebook":
-                    return usuario.Facebook;
-                case "x":
-                    return usuario.X;
-                case "discord":
-                    return usuario.Discord;
-                default:
-                    return null;
+                case "instagram": return usuario.Instagram;
+                case "facebook": return usuario.Facebook;
+                case "x": return usuario.X;
+                case "discord": return usuario.Discord;
+                default: return null;
             }
         }
 
@@ -796,26 +702,15 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             out string discord,
             out string mensajeError)
         {
-            instagram = null;
-            facebook = null;
-            x = null;
-            discord = null;
-            mensajeError = null;
+            instagram = null; facebook = null; x = null; discord = null; mensajeError = null;
 
-            if (_redesSociales == null)
+            if (_redesSociales == null) return true;
+
+            foreach (var red in _redesSociales)
             {
-                return true;
-            }
+                if (red == null) continue;
 
-            foreach (RedSocialPerfil red in _redesSociales)
-            {
-                if (red == null)
-                {
-                    continue;
-                }
-
-                ValidacionEntradaHelper.ResultadoValidacion resultado = ValidacionEntradaHelper
-                    .ValidarRedSocial(red.Identificador, red.Nombre);
+                var resultado = ValidacionEntradaHelper.ValidarRedSocial(red.Identificador, red.Nombre);
 
                 if (!resultado.EsValido)
                 {
@@ -825,18 +720,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
                 switch (red.Clave?.ToLowerInvariant())
                 {
-                    case "instagram":
-                        instagram = resultado.ValorNormalizado;
-                        break;
-                    case "facebook":
-                        facebook = resultado.ValorNormalizado;
-                        break;
-                    case "x":
-                        x = resultado.ValorNormalizado;
-                        break;
-                    case "discord":
-                        discord = resultado.ValorNormalizado;
-                        break;
+                    case "instagram": instagram = resultado.ValorNormalizado; break;
+                    case "facebook": facebook = resultado.ValorNormalizado; break;
+                    case "x": x = resultado.ValorNormalizado; break;
+                    case "discord": discord = resultado.ValorNormalizado; break;
                 }
             }
 
