@@ -13,7 +13,7 @@ using PictionaryMusicalCliente.Utilidades;
 
 namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 {
-    public class CrearCuenta : BaseVistaModelo
+    public class CrearCuentaVistaModelo : BaseVistaModelo
     {
         [System.Flags]
         public enum CampoEntrada
@@ -53,7 +53,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private bool _mostrarErrorCorreo;
         private bool _estaProcesando;
 
-        public CrearCuenta(
+        public CrearCuentaVistaModelo(
             IDialogService dialogService,
             ICodigoVerificacionService codigoVerificacionService,
             IAvatarService avatarService,
