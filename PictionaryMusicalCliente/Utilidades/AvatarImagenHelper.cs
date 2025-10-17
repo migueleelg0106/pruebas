@@ -31,21 +31,51 @@ namespace PictionaryMusicalCliente.Utilidades
                 return null;
             }
 
-            string rutaNormalizada = avatar.RutaRelativa.TrimStart('/').Replace('\\', '/');
+            string rutaNormalizada = avatar.RutaRelativa
+                .TrimStart('/', '\\')
+                .Replace('\\', '/');
 
-            if (Uri.TryCreate($"pack://application:,,,/{rutaNormalizada}", UriKind.Absolute, out Uri uriRecurso))
+            ImageSource imagen = CrearImagenDesdePack(rutaNormalizada);
+            if (imagen != null)
             {
-                ImageSource imagenRecurso = CrearBitmap(uriRecurso);
-
-                if (imagenRecurso != null)
-                {
-                    return imagenRecurso;
-                }
+                return imagen;
             }
 
             if (Uri.TryCreate($"/{rutaNormalizada}", UriKind.Relative, out Uri uriRelativa))
             {
                 return CrearBitmap(uriRelativa);
+            }
+
+            return null;
+        }
+
+        private static ImageSource CrearImagenDesdePack(string rutaNormalizada)
+        {
+            if (string.IsNullOrWhiteSpace(rutaNormalizada))
+            {
+                return null;
+            }
+
+            // Primero intentamos con el nombre del ensamblado para asegurar la resolución del recurso
+            string nombreEnsamblado = typeof(AvatarImagenHelper).Assembly.GetName().Name;
+            if (!string.IsNullOrWhiteSpace(nombreEnsamblado))
+            {
+                string rutaConEnsamblado = $"pack://application:,,,/{nombreEnsamblado};component/{rutaNormalizada}";
+                if (Uri.TryCreate(rutaConEnsamblado, UriKind.Absolute, out Uri uriConEnsamblado))
+                {
+                    ImageSource imagenConEnsamblado = CrearBitmap(uriConEnsamblado);
+                    if (imagenConEnsamblado != null)
+                    {
+                        return imagenConEnsamblado;
+                    }
+                }
+            }
+
+            // Como alternativa se deja el formato original por compatibilidad
+            string rutaSinEnsamblado = $"pack://application:,,,/{rutaNormalizada}";
+            if (Uri.TryCreate(rutaSinEnsamblado, UriKind.Absolute, out Uri uriSinEnsamblado))
+            {
+                return CrearBitmap(uriSinEnsamblado);
             }
 
             return null;
