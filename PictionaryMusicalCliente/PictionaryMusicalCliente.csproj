@@ -99,10 +99,12 @@
     <Compile Include="Modelo\Catalogos\CatalogoImagenesPerfilLocales.cs" />
     <Compile Include="Modelo\RedSocialPerfil.cs" />
     <Compile Include="Modelo\ObjetoAvatar.cs" />
+    <Compile Include="Modelo\ResultadoOperacion.cs" />
     <Compile Include="Modelo\UsuarioAutenticado.cs" />
     <Compile Include="Modelo\Cuentas\ResultadoSolicitudCodigo.cs" />
     <Compile Include="Modelo\Cuentas\SolicitudRegistroCuenta.cs" />
     <Compile Include="Servicios\Abstracciones\IAvatarService.cs" />
+    <Compile Include="Servicios\Abstracciones\ICambioContrasenaService.cs" />
     <Compile Include="Servicios\Abstracciones\ICodigoVerificacionService.cs" />
     <Compile Include="Servicios\Abstracciones\IClasificacionService.cs" />
     <Compile Include="Servicios\Abstracciones\IDialogService.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Servicios\Dialogos\VerificarCodigoDialogService.cs" />
     <Compile Include="Servicios\ServicioException.cs" />
     <Compile Include="Servicios\Wcf\AvatarService.cs" />
+    <Compile Include="Servicios\Wcf\CambioContrasenaService.cs" />
     <Compile Include="Servicios\Wcf\ClasificacionService.cs" />
     <Compile Include="Servicios\Wcf\CodigoVerificacionService.cs" />
     <Compile Include="Servicios\Wcf\InicioSesionService.cs" />
