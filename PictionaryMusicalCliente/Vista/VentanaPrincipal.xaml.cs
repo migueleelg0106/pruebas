@@ -1,137 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using LangResources = PictionaryMusicalCliente.Properties.Langs;
-using PictionaryMusicalCliente.Sesiones;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
+using PictionaryMusicalCliente.VistaModelo.Cuentas;
 
 namespace PictionaryMusicalCliente
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
     public partial class VentanaPrincipal : Window
     {
+        private readonly VentanaPrincipalVistaModelo _vistaModelo;
+
         public VentanaPrincipal()
         {
             InitializeComponent();
-            Loaded += VentanaPrincipal_Loaded;
-            SesionUsuarioActual.Instancia.SesionActualizada += SesionActualizada;
+
+            IDialogService dialogService = new DialogService();
+
+            _vistaModelo = new VentanaPrincipalVistaModelo(dialogService);
+            _vistaModelo.SolicitarAbrirPerfil += VistaModelo_SolicitarAbrirPerfil;
+            _vistaModelo.SolicitarAbrirAjustes += VistaModelo_SolicitarAbrirAjustes;
+            _vistaModelo.SolicitarAbrirComoJugar += VistaModelo_SolicitarAbrirComoJugar;
+            _vistaModelo.SolicitarAbrirClasificacion += VistaModelo_SolicitarAbrirClasificacion;
+            _vistaModelo.SolicitarAbrirInvitaciones += VistaModelo_SolicitarAbrirInvitaciones;
+            _vistaModelo.SolicitarAbrirSolicitudes += VistaModelo_SolicitarAbrirSolicitudes;
+            _vistaModelo.SolicitarAbrirEliminarAmigo += VistaModelo_SolicitarAbrirEliminarAmigo;
+            _vistaModelo.SolicitarAbrirBuscarAmigo += VistaModelo_SolicitarAbrirBuscarAmigo;
+            _vistaModelo.SolicitarIniciarJuego += VistaModelo_SolicitarIniciarJuego;
+            _vistaModelo.SolicitarUnirseSala += VistaModelo_SolicitarUnirseSala;
+
+            DataContext = _vistaModelo;
+
+            Closed += VentanaPrincipal_Closed;
         }
 
-        private void VentanaPrincipal_Loaded(object sender, RoutedEventArgs e)
+        private void VistaModelo_SolicitarAbrirPerfil(object sender, EventArgs e)
         {
-            ActualizarNombreUsuario();
-        }
-
-        private void SesionActualizada(object sender, EventArgs e)
-        {
-            ActualizarNombreUsuario();
-        }
-
-        private void ActualizarNombreUsuario()
-        {
-            string nombreUsuario = SesionUsuarioActual.Instancia.Usuario?.NombreUsuario;
-            botonPerfilUsuario.Content = string.IsNullOrWhiteSpace(nombreUsuario)
-                ? LangResources.Lang.globalTextoUsuario
-                : nombreUsuario;
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            SesionUsuarioActual.Instancia.SesionActualizada -= SesionActualizada;
-            base.OnClosed(e);
-        }
-
-        private void BotonPerfil(object sender, RoutedEventArgs e)
-        {
-            Perfil perfil = new Perfil();
+            var perfil = new Perfil();
             perfil.ShowDialog();
         }
 
-        private void BotonUnirse(object sender, RoutedEventArgs e)
+        private void VistaModelo_SolicitarAbrirAjustes(object sender, EventArgs e)
         {
-
-        }
-
-        private void BotonComoJugar(object sender, RoutedEventArgs e)
-        {
-            ComoJugar comoJugar = new ComoJugar();
-            comoJugar.ShowDialog();
-        }
-
-        private void BotonClasificacion(object sender, RoutedEventArgs e)
-        {
-            Clasificacion clasificacion = new Clasificacion();
-            clasificacion.ShowDialog();
-        }
-
-        private void BotonJugar(object sender, RoutedEventArgs e)
-        {
-            VentanaJuego ventanaJuego = new VentanaJuego();
-            ventanaJuego.Show();
-            this.Close();
-        }
-
-        private void BotonInvitaciones(object sender, RoutedEventArgs e)
-        {
-            Invitaciones invitaciones = new Invitaciones();
-            invitaciones.ShowDialog();
-        }
-
-        private void BotonSolicitudes(object sender, RoutedEventArgs e)
-        {
-            Solicitudes solicitudes = new Solicitudes();
-            solicitudes.ShowDialog();
-        }
-
-        private void BotonEliminarAmigo(object sender, RoutedEventArgs e)
-        {
-            EliminarAmigo eliminarAmigo = new EliminarAmigo();
-            eliminarAmigo.ShowDialog();
-        }
-
-        private void BotonBuscarAmigo(object sender, RoutedEventArgs e)
-        {
-            BuscarAmigo buscarAmigo = new BuscarAmigo();
-            buscarAmigo.ShowDialog();
-        }
-
-        private void BotonAjustes(object sender, RoutedEventArgs e)
-        {
-            Ajustes ajustes = new Ajustes();
-            ajustes.Owner = this;
+            var ajustes = new Ajustes
+            {
+                Owner = this
+            };
             ajustes.ShowDialog();
         }
 
-        private void CuadroCombinadoSeleccionNumeroRondas(object sender, SelectionChangedEventArgs e)
+        private void VistaModelo_SolicitarAbrirComoJugar(object sender, EventArgs e)
         {
-
+            var comoJugar = new ComoJugar();
+            comoJugar.ShowDialog();
         }
 
-        private void CuadroCombinadoSeleccionTiempoRonda(object sender, SelectionChangedEventArgs e)
+        private void VistaModelo_SolicitarAbrirClasificacion(object sender, EventArgs e)
         {
-
+            var clasificacion = new Clasificacion();
+            clasificacion.ShowDialog();
         }
 
-        private void CuadroCombinadoSeleccionIdioma(object sender, SelectionChangedEventArgs e)
+        private void VistaModelo_SolicitarAbrirInvitaciones(object sender, EventArgs e)
         {
-
+            var invitaciones = new Invitaciones();
+            invitaciones.ShowDialog();
         }
 
-        private void CuadroCombinadoSeleccionDificultad(object sender, SelectionChangedEventArgs e)
+        private void VistaModelo_SolicitarAbrirSolicitudes(object sender, EventArgs e)
         {
+            var solicitudes = new Solicitudes();
+            solicitudes.ShowDialog();
+        }
 
+        private void VistaModelo_SolicitarAbrirEliminarAmigo(object sender, EventArgs e)
+        {
+            var eliminarAmigo = new EliminarAmigo();
+            eliminarAmigo.ShowDialog();
+        }
+
+        private void VistaModelo_SolicitarAbrirBuscarAmigo(object sender, EventArgs e)
+        {
+            var buscarAmigo = new BuscarAmigo();
+            buscarAmigo.ShowDialog();
+        }
+
+        private void VistaModelo_SolicitarIniciarJuego(object sender, VentanaPrincipalVistaModelo.IniciarJuegoEventArgs e)
+        {
+            var ventanaJuego = new VentanaJuego();
+            ventanaJuego.Show();
+            Close();
+        }
+
+        private void VistaModelo_SolicitarUnirseSala(object sender, VentanaPrincipalVistaModelo.UnirseSalaEventArgs e)
+        {
+            // La lógica para unirse a una sala se implementará posteriormente.
+        }
+
+        private void VentanaPrincipal_Closed(object sender, EventArgs e)
+        {
+            Closed -= VentanaPrincipal_Closed;
+
+            if (_vistaModelo != null)
+            {
+                _vistaModelo.SolicitarAbrirPerfil -= VistaModelo_SolicitarAbrirPerfil;
+                _vistaModelo.SolicitarAbrirAjustes -= VistaModelo_SolicitarAbrirAjustes;
+                _vistaModelo.SolicitarAbrirComoJugar -= VistaModelo_SolicitarAbrirComoJugar;
+                _vistaModelo.SolicitarAbrirClasificacion -= VistaModelo_SolicitarAbrirClasificacion;
+                _vistaModelo.SolicitarAbrirInvitaciones -= VistaModelo_SolicitarAbrirInvitaciones;
+                _vistaModelo.SolicitarAbrirSolicitudes -= VistaModelo_SolicitarAbrirSolicitudes;
+                _vistaModelo.SolicitarAbrirEliminarAmigo -= VistaModelo_SolicitarAbrirEliminarAmigo;
+                _vistaModelo.SolicitarAbrirBuscarAmigo -= VistaModelo_SolicitarAbrirBuscarAmigo;
+                _vistaModelo.SolicitarIniciarJuego -= VistaModelo_SolicitarIniciarJuego;
+                _vistaModelo.SolicitarUnirseSala -= VistaModelo_SolicitarUnirseSala;
+                _vistaModelo.Dispose();
+            }
         }
     }
 }

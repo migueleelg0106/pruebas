@@ -1,78 +1,58 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using PictionaryMusicalCliente.Modelo;
-using PictionaryMusicalCliente.Properties.Langs;
-using PictionaryMusicalCliente.Modelo.Catalogos;
-using PictionaryMusicalCliente.Utilidades;
+using PictionaryMusicalCliente.Servicios.Abstracciones;
+using PictionaryMusicalCliente.Servicios.Dialogos;
+using PictionaryMusicalCliente.VistaModelo.Cuentas;
 
 namespace PictionaryMusicalCliente
 {
     public partial class SeleccionarAvatar : Window
     {
-        private readonly IReadOnlyCollection<ObjetoAvatar> _avataresDisponibles;
-
-        public ObjetoAvatar AvatarSeleccionado { get; private set; }
-        public ImageSource AvatarSeleccionadoImagen { get; private set; }
+        private readonly SeleccionarAvatarVistaModelo _vistaModelo;
 
         public SeleccionarAvatar(IReadOnlyCollection<ObjetoAvatar> avatares = null)
         {
             InitializeComponent();
-            _avataresDisponibles = avatares;
-            Loaded += SeleccionarAvatar_Loaded;
+
+            IDialogService dialogService = new DialogService();
+
+            _vistaModelo = new SeleccionarAvatarVistaModelo(dialogService, avatares);
+            _vistaModelo.AvatarSeleccionadoConfirmado += VistaModelo_AvatarSeleccionadoConfirmado;
+            _vistaModelo.SolicitarCerrar += VistaModelo_SolicitarCerrar;
+
+            DataContext = _vistaModelo;
+
+            Closed += SeleccionarAvatar_Closed;
         }
 
-        private void SeleccionarAvatar_Loaded(object sender, RoutedEventArgs e) =>
-            MostrarAvataresEnLista(_avataresDisponibles ?? CatalogoAvataresLocales.ObtenerAvatares());
+        public ObjetoAvatar AvatarSeleccionado => _vistaModelo?.AvatarSeleccionadoModelo;
 
-        private void MostrarAvataresEnLista(IReadOnlyCollection<ObjetoAvatar> avatares)
+        public ImageSource AvatarSeleccionadoImagen => _vistaModelo?.AvatarSeleccionadoImagen;
+
+        private void VistaModelo_AvatarSeleccionadoConfirmado(object sender, SeleccionarAvatarVistaModelo.AvatarSeleccionadoEventArgs e)
         {
-            listaAvatares.Items.Clear();
-
-            if (avatares == null || avatares.Count == 0)
-            {
-                return;
-            }
-
-            foreach (ObjetoAvatar avatar in avatares)
-            {
-                ImageSource imagenAvatar = AvatarImagenHelper.CrearImagen(avatar);
-
-                var imagenControl = new Image
-                {
-                    Width = 72,
-                    Height = 72,
-                    Margin = new Thickness(5),
-                    Cursor = Cursors.Hand,
-                    Source = imagenAvatar
-                };
-
-                var itemLista = new ListBoxItem
-                {
-                    Content = imagenControl,
-                    Tag = avatar,
-                    ToolTip = avatar.Nombre
-                };
-
-                listaAvatares.Items.Add(itemLista);
-            }
+            DialogResult = true;
+            Close();
         }
 
-        private void BotonAceptarSeleccionAvatar(object sender, RoutedEventArgs e)
+        private void VistaModelo_SolicitarCerrar(object sender, EventArgs e)
         {
-            if (listaAvatares.SelectedItem is ListBoxItem itemSeleccionado && itemSeleccionado.Tag is ObjetoAvatar avatar)
+            DialogResult = false;
+            Close();
+        }
+
+        private void SeleccionarAvatar_Closed(object sender, EventArgs e)
+        {
+            if (_vistaModelo != null)
             {
-                AvatarSeleccionado = avatar;
-                AvatarSeleccionadoImagen = AvatarImagenHelper.CrearImagen(avatar);
-                DialogResult = true;
-                Close();
-                return;
+                _vistaModelo.AvatarSeleccionadoConfirmado -= VistaModelo_AvatarSeleccionadoConfirmado;
+                _vistaModelo.SolicitarCerrar -= VistaModelo_SolicitarCerrar;
             }
 
-            AvisoHelper.Mostrar(Lang.globalTextoSeleccionarAvatar);
+            Closed -= SeleccionarAvatar_Closed;
         }
     }
 }
