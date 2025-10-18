@@ -9,7 +9,10 @@ namespace PictionaryMusicalCliente.Servicios.Wcf.Helpers
                 return null;
             }
 
-            string rutaNormalizada = ruta.Trim().TrimStart('/').Replace('\\', '/');
+            string rutaNormalizada = ruta
+                .Trim()
+                .TrimStart('~', '/', '\\')
+                .Replace('\\', '/');
             return string.IsNullOrWhiteSpace(rutaNormalizada) ? null : rutaNormalizada;
         }
 

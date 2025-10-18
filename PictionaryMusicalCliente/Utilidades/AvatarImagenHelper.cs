@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PictionaryMusicalCliente.Modelo;
+using PictionaryMusicalCliente.Servicios.Wcf.Helpers;
 
 namespace PictionaryMusicalCliente.Utilidades
 {
@@ -26,14 +27,11 @@ namespace PictionaryMusicalCliente.Utilidades
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+            string rutaNormalizada = AvatarRutaHelper.NormalizarRutaRelativa(avatar.RutaRelativa);
+            if (string.IsNullOrWhiteSpace(rutaNormalizada))
             {
                 return null;
             }
-
-            string rutaNormalizada = avatar.RutaRelativa
-                .TrimStart('/', '\\')
-                .Replace('\\', '/');
 
             ImageSource imagen = CrearImagenDesdePack(rutaNormalizada);
             if (imagen != null)
