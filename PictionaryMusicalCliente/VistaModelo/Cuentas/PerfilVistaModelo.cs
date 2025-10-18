@@ -48,6 +48,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private readonly IRecuperacionCuentaDialogService _recuperacionCuentaDialogService;
         private readonly IAvatarService _avatarService;
         private readonly SesionUsuarioActual _sesionUsuarioActual;
+        private readonly AvatarSelection _avatarSel;
 
         private readonly ObservableCollection<RedSocialPerfil> _redesSociales;
         private readonly ComandoAsincrono _guardarCambiosCommand;
@@ -80,6 +81,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             _recuperacionCuentaDialogService = recuperacionCuentaDialogService ?? throw new ArgumentNullException(nameof(recuperacionCuentaDialogService));
             _avatarService = avatarService ?? throw new ArgumentNullException(nameof(avatarService));
             _sesionUsuarioActual = sesionUsuarioActual ?? SesionUsuarioActual.Instancia;
+            _avatarSel = new AvatarSelection(a => SincronizarAvatarSeleccionado(a) ?? a);
 
             _redesSociales = new ObservableCollection<RedSocialPerfil>();
             InicializarRedesSociales();
@@ -210,10 +212,10 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             var avatar = await _seleccionarAvatarService.SeleccionarAsync().ConfigureAwait(true);
             if (avatar == null) return;
 
-            var sync = SincronizarAvatarSeleccionado(avatar) ?? avatar;
-            _avatarSeleccionado = sync;
-            _avatarActual = sync;
-            ActualizarAvatarSeleccionado(sync);
+            ActualizarAvatarSeleccionado(avatar);
+            var avatarSeleccionado = _avatarSel.Avatar;
+            _avatarSeleccionado = avatarSeleccionado;
+            _avatarActual = avatarSeleccionado;
         }
 
         private async Task GuardarCambiosAsync()
@@ -250,40 +252,28 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 return;
             }
 
-            var avatar = SincronizarAvatarSeleccionado(_avatarSeleccionado ?? _avatarActual);
+            var avatar = _avatarSel.Avatar ?? SincronizarAvatarSeleccionado(_avatarSeleccionado ?? _avatarActual);
             if (avatar == null)
             {
                 _dialogService.Aviso(Lang.errorTextoSeleccionAvatarValido);
                 return;
             }
 
-            int avatarId = avatar.Id;
-            if (avatarId <= 0)
+            if (avatar.Id <= 0)
             {
-                if (string.IsNullOrWhiteSpace(avatar.RutaRelativa))
+                string rutaNormalizada = AvatarRutaHelper.NormalizarRutaRelativa(avatar.RutaRelativa);
+                if (string.IsNullOrWhiteSpace(rutaNormalizada))
                 {
                     _dialogService.Aviso(Lang.errorTextoSeleccionAvatarValido);
                     return;
                 }
-
-                int? avatarIdSrv = await _avatarService.ObtenerIdPorRutaAsync(avatar.RutaRelativa).ConfigureAwait(true);
-                if (!avatarIdSrv.HasValue)
-                {
-                    _dialogService.Aviso(Lang.errorTextoIdentificarAvatar);
-                    return;
-                }
-                avatarId = avatarIdSrv.Value;
             }
-            else if (!string.IsNullOrWhiteSpace(avatar.RutaRelativa))
-            {
-                int? avatarIdSrv = await _avatarService
-                    .ObtenerIdPorRutaAsync(avatar.RutaRelativa)
-                    .ConfigureAwait(true);
 
-                if (avatarIdSrv.HasValue)
-                {
-                    avatarId = avatarIdSrv.Value;
-                }
+            int? avatarId = await AvatarIdResolver.ResolverIdAsync(avatar, _avatarService).ConfigureAwait(true);
+            if (!avatarId.HasValue)
+            {
+                _dialogService.Aviso(Lang.errorTextoIdentificarAvatar);
+                return;
             }
 
             var usuarioSesion = _sesionUsuarioActual.Usuario;
@@ -299,7 +289,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
                 UsuarioId = usuarioSesion.IdUsuario,
                 Nombre = resultadoNombre.ValorNormalizado,
                 Apellido = resultadoApellido.ValorNormalizado,
-                AvatarId = avatarId,
+                AvatarId = avatarId.Value,
                 Instagram = instagram,
                 Facebook = facebook,
                 X = x,
@@ -339,7 +329,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
                 var usuarioActualizado = _sesionUsuarioActual.Usuario;
 
-                var avatarRefresco = ResolverAvatarParaMostrar(solicitud.AvatarId, _avatarSeleccionado);
+                var avatarRefresco = ResolverAvatarParaMostrar(solicitud.AvatarId, _avatarSel.Avatar ?? _avatarSeleccionado);
                 _avatarActual = avatarRefresco;
                 _avatarSeleccionado = avatarRefresco;
                 ActualizarAvatarSeleccionado(avatarRefresco);
@@ -510,9 +500,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
         private void ActualizarAvatarSeleccionado(ObjetoAvatar avatar)
         {
-            ImageSource imagen = AvatarImagenHelper.CrearImagen(avatar) ?? AvatarSeleccionadoImagen;
-            AvatarSeleccionadoImagen = imagen;
-            AvatarSeleccionadoNombre = avatar?.Nombre ?? string.Empty;
+            _avatarSel.Set(avatar);
+            AvatarSeleccionadoImagen = _avatarSel.Imagen ?? AvatarSeleccionadoImagen;
+            AvatarSeleccionadoNombre = _avatarSel.Nombre;
         }
 
         private void InicializarRedesSociales()

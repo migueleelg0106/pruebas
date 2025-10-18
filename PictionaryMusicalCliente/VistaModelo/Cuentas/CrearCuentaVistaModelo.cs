@@ -47,6 +47,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
         private string _apellido;
         private string _correo;
         private string _contrasena;
+        private readonly AvatarSelection _avatarSel = new AvatarSelection();
         private ObjetoAvatar _avatarSeleccionado;
         private ImageSource _avatarSeleccionadoImagen;
         private bool _mostrarErrorUsuario;
@@ -116,10 +117,9 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
             get => _avatarSeleccionado;
             private set
             {
-                if (EstablecerPropiedad(ref _avatarSeleccionado, value))
-                {
-                    AvatarSeleccionadoImagen = AvatarImagenHelper.CrearImagen(value);
-                }
+                _avatarSel.Set(value);
+                EstablecerPropiedad(ref _avatarSeleccionado, _avatarSel.Avatar);
+                AvatarSeleccionadoImagen = _avatarSel.Imagen;
             }
         }
 
@@ -228,7 +228,7 @@ namespace PictionaryMusicalCliente.VistaModelo.Cuentas
 
             try
             {
-                int? avatarId = await _avatarService.ObtenerIdPorRutaAsync(AvatarSeleccionado.RutaRelativa).ConfigureAwait(true);
+                int? avatarId = await _avatarSel.ObtenerIdAsync(_avatarService).ConfigureAwait(true);
 
                 if (!avatarId.HasValue)
                 {
